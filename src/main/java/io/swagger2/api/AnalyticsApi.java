@@ -74,9 +74,10 @@ public interface AnalyticsApi {
         @ApiResponse(code = 503, message = "Service Unavailable", response = ProblemDetails.class),
         @ApiResponse(code = 200, message = "Generic Error") })
     @RequestMapping(value = "/analytics",
-        produces = { "application/json", "application/problem+json" }, 
-        method = RequestMethod.GET,
-        consumes = "application/json")
+    	produces = { "application/json", "application/problem+json", "text/plain" },
+
+        method = RequestMethod.GET ,
+        consumes = {"application/json"})
     default ResponseEntity<AnalyticsData> getNWDAFAnalytics(@NotNull @ApiParam(value = "Identify the analytics.", required = true) @Valid @RequestParam(value = "event-id", required = true) EventId  eventId //String eventId 
 ,@ApiParam(value = "Identifies the analytics reporting requirement information.") @Valid @RequestParam(value = "ana-req", required = false)  EventReportingRequirement anaReq //String anaReq
 ,@ApiParam(value = "Identify the analytics.") @Valid @RequestParam(value = "event-filter", required = false)  EventFilter eventFilter //String eventFilter
