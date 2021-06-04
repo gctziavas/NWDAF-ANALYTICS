@@ -74,7 +74,7 @@ public interface AnalyticsApi {
         @ApiResponse(code = 503, message = "Service Unavailable", response = ProblemDetails.class),
         @ApiResponse(code = 200, message = "Generic Error") })
     @RequestMapping(value = "/analytics",
-    	produces = { "application/json", "application/problem+json", "text/plain" },
+    	produces = { "text/json", "application/json", "application/problem+json", "text/plain" },
 
         method = RequestMethod.GET ,
         consumes = {"application/json"})
