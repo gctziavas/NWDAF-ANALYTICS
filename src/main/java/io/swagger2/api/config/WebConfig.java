@@ -10,4 +10,5 @@ public class WebConfig implements WebMvcConfigurer {
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverter(new StringToEnumConverter());
     }
+    
 }

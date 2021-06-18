@@ -12,6 +12,7 @@ import javax.validation.constraints.*;
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-04T13:04:57.679821+03:00[Europe/Athens]")
 public class SupportedFeatures   {
 
+
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {
@@ -47,4 +48,6 @@ public class SupportedFeatures   {
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+
 }
