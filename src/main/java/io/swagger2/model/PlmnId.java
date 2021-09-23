@@ -1,5 +1,7 @@
 package io.swagger2.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -18,10 +20,10 @@ import javax.validation.constraints.*;
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-04T13:04:57.679821+03:00[Europe/Athens]")
 public class PlmnId   {
   @JsonProperty("mcc")
-  private TS29571CommonDataYamlcomponentsschemasMcc mcc = null;
+  private static TS29571CommonDataYamlcomponentsschemasMcc mcc = null;
 
   @JsonProperty("mnc")
-  private TS29571CommonDataYamlcomponentsschemasMnc mnc = null;
+  private static TS29571CommonDataYamlcomponentsschemasMnc mnc = null;
 
   public PlmnId mcc(TS29571CommonDataYamlcomponentsschemasMcc mcc) {
     this.mcc = mcc;
@@ -105,4 +107,20 @@ public class PlmnId   {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+
+  
+	public static List <PlmnId> PlmnIdList(TS29571CommonDataYamlcomponentsschemasMcc mcc2, TS29571CommonDataYamlcomponentsschemasMnc mnc2) {
+		  List list = new ArrayList<PlmnId>();
+		  
+		  if(mnc2 == null || mcc2 == null) {
+			  return null;
+		  }
+		  else {
+			  list.add(mcc2);
+			  list.add(mnc2);
+			  
+			  return list;
+		  }
+	  }
 }

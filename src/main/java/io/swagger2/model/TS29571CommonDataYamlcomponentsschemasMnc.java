@@ -12,8 +12,19 @@ import javax.validation.constraints.*;
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-04T13:04:57.679821+03:00[Europe/Athens]")
 
 public class TS29571CommonDataYamlcomponentsschemasMnc {
-	public class Mnc   {
-
+	public static class Mnc   {
+		
+		public Integer Mnc = null;
+				
+		public Mnc(Integer mnc) {
+			if(mnc==null) {
+				  return ;
+			  }
+			else {
+				Mnc = mnc;
+			}
+		}
+		
 		  @Override
 		  public boolean equals(java.lang.Object o) {
 		    if (this == o) {
@@ -49,5 +60,9 @@ public class TS29571CommonDataYamlcomponentsschemasMnc {
 		    }
 		    return o.toString().replace("\n", "\n    ");
 		  }
-		}
+	}
+	public static TS29571CommonDataYamlcomponentsschemasMnc Mnc(int parseInt) {
+		// TODO Auto-generated method stub
+		return Mnc(parseInt);
+	}
 }

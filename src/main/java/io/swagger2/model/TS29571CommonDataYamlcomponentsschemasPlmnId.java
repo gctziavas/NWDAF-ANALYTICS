@@ -1,11 +1,14 @@
 package io.swagger2.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger2.model.TS29571CommonDataYamlcomponentsschemasMcc;
+import io.swagger2.model.TS29571CommonDataYamlcomponentsschemasMcc.Mcc;
 import io.swagger2.model.TS29571CommonDataYamlcomponentsschemasMnc;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
@@ -29,7 +32,9 @@ public class TS29571CommonDataYamlcomponentsschemasPlmnId {
 		    this.mcc = mcc;
 		    return this;
 		  }
-
+		  
+		  
+		  
 		  /**
 		   * Get mcc
 		   * @return mcc
@@ -107,6 +112,65 @@ public class TS29571CommonDataYamlcomponentsschemasPlmnId {
 		    }
 		    return o.toString().replace("\n", "\n    ");
 		  }
-		}
+		  
+		  	  
+	}
+	
+	
+	TS29571CommonDataYamlcomponentsschemasMcc Mcc=null;
+	public TS29571CommonDataYamlcomponentsschemasMnc Mnc=null;
+	
+	public List <Object> PlmnId(TS29571CommonDataYamlcomponentsschemasMcc mcc2, TS29571CommonDataYamlcomponentsschemasMnc mnc2) {
+		  List<Object> list = new ArrayList<Object>();
+		  
+		  if(mnc2 == null || mcc2 == null) {
+			  return null;
+		  }
+		  else {
+			  list.add(mcc2);
+			  list.add(mnc2);
+			  
+			  return list;
+		  }
+	  }
+	  
+	public List<PlmnId> stringToPlmnIdList(String input ) {
+		  List <String> plmnIdStringList = new ArrayList<String>();
+		  List output = new ArrayList<PlmnId>();
+		  String str=input;
+		  String[] parts = str.split(",");
+		  int i,j;
+		  for(i=0; i<parts.length; i++) {
+			  
+			  plmnIdStringList.add(parts[i]);
+			  String[] parts2 = parts[i].split("-");
+			  //System.out.println("Sst="+parts2[0] + " Sd="+parts2[1] );
+			  Mcc = TS29571CommonDataYamlcomponentsschemasMcc.Mcc(Integer.parseInt(parts2[0]));
+			  Mnc = TS29571CommonDataYamlcomponentsschemasMnc.Mnc(Integer.parseInt(parts2[1]));
+			  
+			  output.add(PlmnId(Mcc,Mnc));
+			  
+			  }
+		  return output;
+	  }	
+	
+	public List<TS29571CommonDataYamlcomponentsschemasPlmnId> StringToPlmnId(String input){
+		  List <String> plmnIdStringList = new ArrayList<String>();
+		  List output = new ArrayList<TS29571CommonDataYamlcomponentsschemasPlmnId.PlmnId>();
+		  String str = input;
+		  String[] parts = str.split(",");
+		  int i, j;
+		  for(i = 0; i<parts.length; i++){
+			Mcc = null;
+			Mnc = null;
+			plmnIdStringList.add(parts[i]);
+			String[] parts2 = parts[i].split("-");
+			Mcc = TS29571CommonDataYamlcomponentsschemasMcc.Mcc(Integer.getInteger(parts[0]));
+			Mnc = TS29571CommonDataYamlcomponentsschemasMnc.Mnc(Integer.getInteger(parts[0]));
+			output.add(PlmnId(Mcc, Mnc));
+		  }
+		  
+		  return output;
+	  } 
 
 }

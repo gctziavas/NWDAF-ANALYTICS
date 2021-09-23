@@ -1,7 +1,14 @@
 package io.swagger2.model;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import org.springframework.validation.annotation.Validated;
+
+import io.swagger2.api.JsonToMap;
+import io.swagger2.api.StringToList;
+
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -22,7 +29,36 @@ public class Supi   {
     }
     return true;
   }
-
+  public Supi(String input) {
+	  List<String> inputString = new StringToList().stringToList(input);
+	  List<String> output = new ArrayList<String>();
+	  //Map<String, String> inputMap = new JsonToMap().MinusSignToMap(input);
+	  System.out.println(inputString);
+	  for(int i = 0; i < inputString.size(); i++) {
+		  Map<String, String> inputMap = new JsonToMap().MinusSignToMap(inputString.get(i));
+		  //System.out.println(inputMap);
+		  if(inputMap.get("imsi") != null) {
+			  if(inputMap.get("imsi").matches("[0-9]{5,15}")) {
+				  output.add(inputString.get(i));
+				  //System.out.println(inputMap);
+				  }
+			  }
+		  if(inputMap.get("nai") != null) {
+			  output.add(inputString.get(i));
+			  //System.out.println(inputMap);
+			  }
+		  if(inputMap.get("gci") != null) {
+			  output.add(inputString.get(i));
+			  //System.out.println(inputMap);
+			  }
+		  if(inputMap.get("gli") != null) {
+			  output.add(inputString.get(i));
+			  //System.out.println(inputMap);
+			  }
+		System.out.println(output);  
+	  }
+	  
+  }
   @Override
   public int hashCode() {
     return Objects.hash();

@@ -5,19 +5,32 @@
  */
 package io.swagger2.api;
 
+import io.swagger2.model.Accuracy;
 import io.swagger2.model.AnalyticsData;
 import io.swagger2.model.EventFilter;
 import io.swagger2.model.EventId;
 import io.swagger2.model.EventReportingRequirement;
+import io.swagger2.model.ExceptionId;
+import io.swagger2.model.ExpectedAnalyticsType;
+import io.swagger2.model.NFType;
+import io.swagger2.model.NetworkAreaInfo;
+import io.swagger2.model.NetworkPerfType;
+import io.swagger2.model.NfInstanceId;
+import io.swagger2.model.NsiIdInfo;
 import io.swagger2.model.ProblemDetails;
+import io.swagger2.model.Snssai;
+import io.swagger2.model.Supi;
 import io.swagger2.model.SupportedFeatures;
 import io.swagger2.model.TargetUeInformation;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationConfig;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+import java.util.regex.*;
+import java.util.regex.Pattern;
 
 import io.swagger.annotations.*;
 import org.slf4j.Logger;
@@ -41,9 +54,13 @@ import javax.validation.constraints.*;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-04T13:04:57.679821+03:00[Europe/Athens]")  
 @Api(value = "analytics", description = "the analytics API")
 
@@ -86,13 +103,13 @@ public interface AnalyticsApi {
 
         method = RequestMethod.GET )
     default ResponseEntity<AnalyticsData> getNWDAFAnalytics(@NotNull @ApiParam(value = "Identify the analytics.", required = true) @Valid @RequestParam(value = "event-id", required = true) EventId  eventId //String eventId 
-,@ApiParam(value = "Identifies the analytics reporting requirement information.") @Valid @RequestParam(value = "ana-req", required = false)  String anaReq //EventReportingRequirement anaReq
+,@ApiParam(value = "Identifies the analytics reporting requirement information.") @Valid @RequestParam(value = "ana-req", required = false)  String anaReq // EventReportingRequirement anaReq
 ,@ApiParam(value = "Identify the analytics.") @Valid @RequestParam(value = "event-filter", required = false)  String eventFilter //String eventFilter
 ,@ApiParam(value = "To filter irrelevant responses related to unsupported features") @Valid @RequestParam(value = "supported-features", required = false)  String supportedFeatures // SupportedFeatures supportedFeatures
 ,@ApiParam(value = "Identify the target UE information.") @Valid @RequestParam(value = "tgt-ue", required = false)  String tgtUe //String tgtUe
 ) {		
     	 
-    	 
+//----------------------------------------------------------------------------------------
 //    	 if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
 //    		 //getObjectMapper().enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
 //             if (getAcceptHeader().get().contains("application/json")) {
@@ -106,11 +123,113 @@ public interface AnalyticsApi {
 //         } else {
 //             log.warn("ObjectMapper or HttpServletRequest not configured in default AnalyticsApi interface so no example is generated");
 //         }
-              	
+//----------------------------------------------------------------------------------------   	
     	  if ( true ) {
-    		    String command = "curl http://192.168.2.6:9090/api/v1/query?query=node_disk_flush_requests_time_seconds_total -o /home/gctz/Desktop/Diplwmatikh/Multi_TS/Analytics_info/prometheus_yaml_files/test.json";
-    		    Process process;
-				try {
+    		  EventReportingRequirement analyticsReq = new EventReportingRequirement();
+  	  		  Map<String, String> anaMap = new JsonToMap().jsonToMap(anaReq);
+    		  
+  	  		  analyticsReq.setAccuracy(new Accuracy(anaMap.get("accuracy"))); 
+  	  		  OffsetDateTime startTs = null;
+  	  		  if(anaMap.get("startTs") != null) {
+  	  			startTs = OffsetDateTime.parse(anaMap.get("startTs"), DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+  	  		  }
+  	  		  analyticsReq.setStartTs(startTs);
+    		  
+    		  OffsetDateTime endTs = null;
+    		  if(anaMap.get("endTs") != null) {
+    			  endTs = OffsetDateTime.parse(anaMap.get("endTs"), DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+  	  		  }
+  	  		  analyticsReq.setEndTs(endTs);
+    		  
+    		  OffsetDateTime timeAnaNeeded = null;
+    		  if(anaMap.get("timeAnaNeeded") != null) {
+    			  timeAnaNeeded = OffsetDateTime.parse(anaMap.get("timeAnaNeeded"), DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+  	  		  }
+  	  		  analyticsReq.setTimeAnaNeeded(timeAnaNeeded);
+  	  		  
+    		  Integer sampRatio = null;
+    		  if(anaMap.get("sampRatio") != null) {
+    			  sampRatio = Integer.parseInt(anaMap.get("sampRatio"));
+    		  }
+    		  analyticsReq.setSampRatio(sampRatio);
+    		  
+    		  Integer maxObjectNbr = 1000000000;
+    		  if(anaMap.get("maxObjectNbr") != null) {
+    			  maxObjectNbr = Integer.parseInt(anaMap.get("maxObjectNbr"));
+    		  }
+    		  analyticsReq.setMaxObjectNbr(maxObjectNbr);
+    		  
+    		  Integer maxSupiNbr = 1000000000;
+    		  if(anaMap.get("maxSupiNbr") != null) {
+    			  maxSupiNbr = Integer.parseInt(anaMap.get("maxSupiNbr"));
+    		  }
+    		  analyticsReq.setMaxSupiNbr(maxSupiNbr);
+    		      		  
+    		  EventFilter eventFilt = new EventFilter();
+    		  Map<String, String> eventFilterMap = new JsonToMap().jsonToMap(eventFilter);
+    		  
+    		  List<String> appIdsList = null;
+    		  if(eventFilterMap.get("appIds") != null)	{ appIdsList = new StringToList().stringToList(eventFilterMap.get("appIds")); }
+    		  List<String> dnnsList = null;
+    		  if(eventFilterMap.get("dnns") != null)	{dnnsList = new StringToList().stringToList(eventFilterMap.get("dnns"));}
+    		  List<String> dnaisList = null;
+    		  if(eventFilterMap.get("dnais") != null)	{dnaisList = new StringToList().stringToList(eventFilterMap.get("dnais"));}    
+    		  List<String> nfSetIdsList = null;
+    		  if(eventFilterMap.get("nfSetIds") != null) {nfSetIdsList = new StringToList().stringToList(eventFilterMap.get("nfSetIds"));} 
+    		      		  
+    		  List<UUID> nfInstanceIds = null;
+    		  if(eventFilterMap.get("nfInstanceIds") != null) { nfInstanceIds = new StringToList().stringToUuidList(eventFilterMap.get("nfInstanceIds"));}
+    		  List<NFType> nfTypes = null;
+    		  if(eventFilterMap.get("nfTypes") != null)  {nfTypes = new StringToList().stringToNfTypeList(eventFilterMap.get("nfTypes"));}
+    		  // List<NetworkAreaInfo> networkAreaInfo = new StringToList().stringToNetworkAreaInfo(eventFilterMap.get("networkArea"));
+    		  //List<NsiIdInfo> nsiIdInfoList = new StringToList().stringToNsiIdInfo((eventFilterMap.get("nsiIdInfos")));
+    		  List <NetworkPerfType> nwPerfTypesList = null;
+    		  if(eventFilterMap.get("nwPerfTypes") != null) {nwPerfTypesList = new StringToList().stringToNetworkPerfType(eventFilterMap.get("nwPerfTypes"));}
+    		  List <ExceptionId> excepIdsList = null;
+    		  if(eventFilterMap.get("excepIds") != null)  {excepIdsList = new StringToList().stringToExceptionIds(eventFilterMap.get("excepIds"));}
+    		  List <ExpectedAnalyticsType> exptAnaTypeList = null;
+    		  if(eventFilterMap.get("exptAnaType") !=null) {exptAnaTypeList = new StringToList().stringToExptAnaType(eventFilterMap.get("exptAnaType"));}
+    		  
+    		  
+    		  // eventFilt.setNsiIdInfos(nsiIdInfoList);
+    		  // eventFilt.setNetworkArea(networkAreaInfo);
+    		  
+    		  eventFilt.setExcepIds(excepIdsList);
+    		  eventFilt.setNwPerfTypes(nwPerfTypesList);
+    		  eventFilt.setNfInstanceIds(nfInstanceIds);
+    		  eventFilt.setNfTypes(nfTypes);
+    		  List<Snssai> snssais = null;
+    		  if(eventFilterMap.get("snssais") != null) {snssais = Snssai.stringToSnssaiList(eventFilterMap.get("snssais"));}
+    		  eventFilt.setSnssais(snssais);
+    		  eventFilt.setAnySlice(Boolean.parseBoolean(eventFilterMap.get("anySlice")));    		  
+    		  eventFilt.setNfSetIds(nfSetIdsList);
+    		  eventFilt.setDnais(dnaisList);
+    		  eventFilt.setAppIds(appIdsList);
+    		  eventFilt.setDnns(dnnsList);
+    		  
+    		  SupportedFeatures supportedFeats = new SupportedFeatures(supportedFeatures);
+    		  
+    		  TargetUeInformation targetUe = new TargetUeInformation();
+    		  Map<String, String> targetUeMap = new JsonToMap().jsonToMap(tgtUe);
+    		  
+    		  
+    		  
+    		  targetUe.setAnyUe(Boolean.parseBoolean(targetUeMap.get("anyUe")));
+    		  Supi supi = new Supi(targetUeMap.get("supis"));
+    		  
+    		  
+    		  
+    		  String command = "curl http://192.168.1.4:9090/api/v1/query?query=node_disk_flush_requests_time_seconds_total -o /home/gctz/Desktop/Diplwmatikh/Multi_TS/Analytics_info/prometheus_yaml_files/test.json";
+    		  Process process;
+				
+				//EventReportingRequirement analyticsRec = new EventReportingRequirement();
+				//Accuracy acc = new Accuracy(anaReq);
+				
+				
+				
+				//analyticsRec.setAccuracy(acc);
+				//System.out.println(analyticsRec.getAccuracy());
+    		    try {
 					process = Runtime.getRuntime().exec(command);
 					process.getInputStream();
 				} catch (IOException e) {
@@ -118,13 +237,14 @@ public interface AnalyticsApi {
 					e.printStackTrace();
 				}
     		    ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-    		    mapper.findAndRegisterModules();
+   		        mapper.findAndRegisterModules();
     		    
     		    
     		    
                 AnalyticsData ad = new AnalyticsData();
                 ad.setSuppFeat("TEST");
                 ad.setTimeStampGen(OffsetDateTime.now());
+                ad.setStart(analyticsReq.getTimeAnaNeeded());
                 
                 
                 return new ResponseEntity<>(ad, HttpStatus.OK);

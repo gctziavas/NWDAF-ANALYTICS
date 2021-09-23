@@ -1,5 +1,8 @@
 package io.swagger2.model;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 import io.swagger.annotations.ApiModel;
 import org.springframework.validation.annotation.Validated;
@@ -13,7 +16,24 @@ import javax.validation.constraints.*;
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-04T13:04:57.679821+03:00[Europe/Athens]")
 public class ExpectedAnalyticsType  implements AnyOfExpectedAnalyticsType {
-
+	String ExpectedAnalyticsTypeString;
+	public ExpectedAnalyticsType(String input) {
+		  if(input==null) {
+			  return ;
+		  }
+		  input = input.toUpperCase();
+		  List<String> ExpectedAnalyticsTypeValues = new ArrayList<String>(
+					Arrays.asList("MOBILITY" , "COMMUN", "MOBILITY_AND_COMMUN"));
+		  if(ExpectedAnalyticsTypeValues.contains(input)) {
+			  ExpectedAnalyticsTypeString = input;
+			  
+		  }
+		  else{
+			  ExpectedAnalyticsTypeString = null;
+		  }
+	  }
+	
+	
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

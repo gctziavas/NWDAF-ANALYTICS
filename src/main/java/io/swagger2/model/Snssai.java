@@ -1,10 +1,17 @@
 package io.swagger2.model;
 
+import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger2.api.StringToList;
+
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -16,16 +23,36 @@ import javax.validation.constraints.*;
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-04T13:04:57.679821+03:00[Europe/Athens]")
 public class Snssai   {
   @JsonProperty("sst")
-  private Integer sst = null;
+  private static Integer sst = null;
 
   @JsonProperty("sd")
-  private String sd = null;
+  private static String sd = null;
 
   public Snssai sst(Integer sst) {
     this.sst = sst;
     return this;
   }
-
+  
+  public Snssai(Integer sst, String sd) {
+	  if(sst == null) {
+		  return ;
+	  }
+	  else {
+		  setSst(sst);
+		  setSd(sd);
+		  
+	  }
+  }
+  
+  public static List<String> snssai(Integer SST, String SD) {
+	  sst = SST;
+	  sd = SD;
+	  List<String> list = new ArrayList<String>();
+	  list.add(String.valueOf(sst));
+	  list.add(sd);
+	  	  
+	  return list;
+  }
   /**
    * Get sst
    * minimum: 0
@@ -35,12 +62,12 @@ public class Snssai   {
   @ApiModelProperty(required = true, value = "")
       @NotNull
 
-  @Min(0) @Max(255)   public Integer getSst() {
+  @Min(0) @Max(255)   public static Integer getSst() {
     return sst;
   }
 
-  public void setSst(Integer sst) {
-    this.sst = sst;
+  public static void setSst(Integer sst) {
+    sst = sst;
   }
 
   public Snssai sd(String sd) {
@@ -54,12 +81,12 @@ public class Snssai   {
   **/
   @ApiModelProperty(value = "")
   
-  @Pattern(regexp="^[A-Fa-f0-9]{6}$")   public String getSd() {
+  @Pattern(regexp="^[A-Fa-f0-9]{6}$")   public static String getSd() {
     return sd;
   }
 
-  public void setSd(String sd) {
-    this.sd = sd;
+  public static void setSd(String sd) {
+    sd = sd;
   }
 
 
@@ -101,5 +128,39 @@ public class Snssai   {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+  public static List<Snssai> stringToSnssaiList(String input) {
+	  List<String> snssaisStringList = new ArrayList<String>();
+	  List output = new ArrayList<Snssai>();
+	  String str=input;
+	  String[] parts = str.split(",");
+	  int i,j;
+	  for(i=0; i<parts.length; i++) {
+		  setSst(null);
+		  setSd(null);
+		  snssaisStringList.add(parts[i]);
+		  String[] parts2 = parts[i].split("-");
+		  //System.out.println("Sst="+parts2[0] + " Sd="+parts2[1] );
+		  setSst(Integer.parseInt(parts2[0]));
+		  sst = Integer.parseInt(parts2[0]);
+		  sd = (parts2[1]);
+
+		  output.add(snssai(sst, sd));
+		  
+		  }
+	  
+	  //System.out.println(output);
+	  return output;
+  }
+  public static Snssai stringToSnssai(String input) {
+	  String str = input;
+	  String[] parts = str.split("-");
+	  setSst(null);
+	  setSd(null);
+	  sst = Integer.parseInt(parts[0]);
+	  sd = (parts[1]);
+	  Snssai output = new Snssai(sst, sd);
+	  System.out.println("Snssai = "+ output);
+	  return output;
   }
 }

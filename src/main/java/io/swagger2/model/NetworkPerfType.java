@@ -1,5 +1,8 @@
 package io.swagger2.model;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 import io.swagger.annotations.ApiModel;
 import org.springframework.validation.annotation.Validated;
@@ -13,7 +16,27 @@ import javax.validation.constraints.*;
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-04T13:04:57.679821+03:00[Europe/Athens]")
 public class NetworkPerfType  implements AnyOfNetworkPerfType {
-
+	
+	String NetworkPerfTypeString;
+	public NetworkPerfType(String input) {
+		if (input==null) {
+			return;
+		}
+		else {
+			input = input.toUpperCase();
+			List <String> NetworkPerfTypeValues = new ArrayList<String>(
+					Arrays.asList("GNB_ACTIVE_RATIO", "GNB_COMPUTING_USAGE", "GNB_MEMORY_USAGE", "GNB_DISK_USAGE",
+							"NUM_OF_UE", "SESS_SUCC_RATIO", "HO_SUCC_RATIO" ));
+			if(NetworkPerfTypeValues.contains(input)) {
+				NetworkPerfTypeString = input;
+				
+			}
+			else{
+				NetworkPerfTypeString = null;
+			}
+		}
+	}
+	
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

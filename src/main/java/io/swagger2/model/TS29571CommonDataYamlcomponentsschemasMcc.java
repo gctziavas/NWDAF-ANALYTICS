@@ -1,9 +1,23 @@
 package io.swagger2.model;
 import java.util.Objects;
 
-public class TS29571CommonDataYamlcomponentsschemasMcc {
-	public class Mcc   {
 
+
+public class TS29571CommonDataYamlcomponentsschemasMcc {
+	public static class Mcc   {
+		public Integer Mcc = null;
+		
+		public Mcc(Integer mcc) {
+			if(mcc==null) {
+				  return ;
+			  }
+			else {
+				Mcc = mcc;
+			}
+		}
+			
+
+		
 		  @Override
 		  public boolean equals(java.lang.Object o) {
 		    if (this == o) {
@@ -40,4 +54,9 @@ public class TS29571CommonDataYamlcomponentsschemasMcc {
 		    return o.toString().replace("\n", "\n    ");
 		  }
 		}
+
+	public static TS29571CommonDataYamlcomponentsschemasMcc Mcc(int parseInt) {
+		return Mcc(parseInt);
+		
+	}
 }

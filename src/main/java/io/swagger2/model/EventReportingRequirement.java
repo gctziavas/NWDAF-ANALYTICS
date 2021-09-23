@@ -51,8 +51,13 @@ public class EventReportingRequirement   {
   
     @Valid
     public Accuracy getAccuracy() {
-    return accuracy;
+    
+	return accuracy;
   }
+  public String getStringAccuracy() {
+	    
+		return accuracy.stringAccuracy;
+	  }
 
   public void setAccuracy(Accuracy accuracy) {
     this.accuracy = accuracy;
@@ -114,7 +119,16 @@ public class EventReportingRequirement   {
   }
 
   public void setSampRatio(Integer sampRatio) {
-    this.sampRatio = sampRatio;
+	  if(sampRatio == null) {
+		  sampRatio = 0;
+	  }
+	  if(sampRatio<101 && sampRatio>0) {
+		  this.sampRatio = sampRatio;
+	  }
+	  else {
+		  this.sampRatio = null;
+	  }
+    
   }
 
   public EventReportingRequirement maxObjectNbr(Integer maxObjectNbr) {
@@ -133,12 +147,22 @@ public class EventReportingRequirement   {
   }
 
   public void setMaxObjectNbr(Integer maxObjectNbr) {
-    this.maxObjectNbr = maxObjectNbr;
+    if(maxObjectNbr > 0) {
+	  this.maxObjectNbr = maxObjectNbr;
+	  }
+    else {
+    	this.maxObjectNbr = null;
+    }
   }
 
   public EventReportingRequirement maxSupiNbr(Integer maxSupiNbr) {
-    this.maxSupiNbr = maxSupiNbr;
-    return this;
+	  if(maxSupiNbr > 0) {
+		  this.maxSupiNbr = maxSupiNbr;
+		  }
+	    else {
+	    	this.maxSupiNbr = null;
+	    }
+	  return this;
   }
 
   /**

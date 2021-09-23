@@ -2,6 +2,7 @@ package io.swagger2.model;
 
 import java.util.Objects;
 import org.springframework.validation.annotation.Validated;
+
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -11,6 +12,15 @@ import javax.validation.constraints.*;
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-04T13:04:57.679821+03:00[Europe/Athens]")
 public class Mnc   {
+	private Integer Mnc = null;
+	public Mnc(Integer mnc) {
+		if(mnc==null) {
+			  return ;
+		  }
+		else {
+			Mnc = mnc;
+		}
+	}
 
   @Override
   public boolean equals(java.lang.Object o) {
