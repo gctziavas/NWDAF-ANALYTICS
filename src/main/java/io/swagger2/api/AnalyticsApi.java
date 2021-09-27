@@ -12,6 +12,7 @@ import io.swagger2.model.EventId;
 import io.swagger2.model.EventReportingRequirement;
 import io.swagger2.model.ExceptionId;
 import io.swagger2.model.ExpectedAnalyticsType;
+import io.swagger2.model.GroupId;
 import io.swagger2.model.NFType;
 import io.swagger2.model.NetworkAreaInfo;
 import io.swagger2.model.NetworkPerfType;
@@ -211,13 +212,12 @@ public interface AnalyticsApi {
     		  
     		  TargetUeInformation targetUe = new TargetUeInformation();
     		  Map<String, String> targetUeMap = new JsonToMap().jsonToMap(tgtUe);
-    		  
-    		  
-    		  
     		  targetUe.setAnyUe(Boolean.parseBoolean(targetUeMap.get("anyUe")));
-    		  Supi supi = new Supi(targetUeMap.get("supis"));
-    		  
-    		  
+    		  List<String> supi = new Supi().stringToSupis(targetUeMap.get("supis"));
+    		  targetUe.setSupis(supi);
+    		  List<String> groupId = new GroupId().stringToGroupIds(targetUeMap.get("intGroupIds"));
+    		  targetUe.setIntGroupIds(groupId);
+    		  System.out.println(targetUe.getIntGroupIds());
     		  
     		  String command = "curl http://192.168.1.4:9090/api/v1/query?query=node_disk_flush_requests_time_seconds_total -o /home/gctz/Desktop/Diplwmatikh/Multi_TS/Analytics_info/prometheus_yaml_files/test.json";
     		  Process process;

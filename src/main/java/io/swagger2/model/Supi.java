@@ -29,11 +29,17 @@ public class Supi   {
     }
     return true;
   }
-  public Supi(String input) {
+  
+  public Supi() {
+	  return;
+	  
+  }
+  
+  public List<String> stringToSupis (String input) {
 	  List<String> inputString = new StringToList().stringToList(input);
 	  List<String> output = new ArrayList<String>();
 	  //Map<String, String> inputMap = new JsonToMap().MinusSignToMap(input);
-	  System.out.println(inputString);
+	  //System.out.println(inputString);
 	  for(int i = 0; i < inputString.size(); i++) {
 		  Map<String, String> inputMap = new JsonToMap().MinusSignToMap(inputString.get(i));
 		  //System.out.println(inputMap);
@@ -55,9 +61,9 @@ public class Supi   {
 			  output.add(inputString.get(i));
 			  //System.out.println(inputMap);
 			  }
-		System.out.println(output);  
+		//System.out.println(output);  
 	  }
-	  
+	return output;
   }
   @Override
   public int hashCode() {

@@ -69,6 +69,19 @@ public class StringToList {
 
 		return output;
 	}
+	public List<String> stringToListOnMinus(String input){
+		List<String> output = new ArrayList<String>();
+		String str=input;
+		String[] parts = str.split("-");
+		int i;
+		for(i=0; i<parts.length; i++) {
+			output.add(parts[i]);
+		}
+
+		return output;
+	}
+	
+	
 	public List<UUID> stringToUuidList(String input){
 		List<UUID> output = new ArrayList<UUID>();
 		String str=input;
