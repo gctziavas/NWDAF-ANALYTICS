@@ -35,6 +35,8 @@ import java.util.regex.*;
 import java.util.regex.Pattern;
 
 import io.swagger.annotations.*;
+
+import org.openjdk.jol.vm.VM;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -207,9 +209,10 @@ public interface AnalyticsApi {
     		  eventFilt.setNwPerfTypes(nwPerfTypesList);
     		  eventFilt.setNfInstanceIds(nfInstanceIds);
     		  eventFilt.setNfTypes(nfTypes);
-    		  List<Snssai> snssais = null;
+    		  ArrayList<Snssai> snssais = null;
     		  if(eventFilterMap.get("snssais") != null) {snssais = Snssai.stringToSnssaiList(eventFilterMap.get("snssais"));}
     		  eventFilt.setSnssais(snssais);
+    		  System.out.println("---->"+VM.current().addressOf(eventFilt.getSnssais().get(0).getSd()) + "------|" +VM.current().addressOf(eventFilt.getSnssais().get(1).getSd()));
     		  //System.out.println("Snssais = "+eventFilt.getSnssais());
     		  eventFilt.setAnySlice(Boolean.parseBoolean(eventFilterMap.get("anySlice")));    		  
     		  eventFilt.setNfSetIds(nfSetIdsList);

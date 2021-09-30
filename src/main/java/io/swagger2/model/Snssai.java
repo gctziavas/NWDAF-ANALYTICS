@@ -36,13 +36,29 @@ public class Snssai   {
   
   public Snssai(Integer sst, String sd) {
 	  if(sst == null) {
-		  return ;
+		  return;
 	  }
 	  else {
-		  setSst(sst);
-		  setSd(sd);
+		  //setSst(sst);
+		  //setSd(sd);
+		  this.sst = sst;
+		  this.sd = sd;
+	  }
+  }
+  
+  public Snssai getSnssai() {
+	  if(sst == null) {
+		  return null;
+	  }
+	  else {
+		  //setSst(sst);
+		  //setSd(sd);
+		  this.sst = sst;
+		  this.sd = sd;
+		  return this;
 		  
 	  }
+	  
   }
   
   public static List<String> snssai(Integer SST, String SD) {
@@ -51,7 +67,6 @@ public class Snssai   {
 	  List<String> list = new ArrayList<String>();
 	  list.add(String.valueOf(sst));
 	  list.add(sd);
-	  	  
 	  return list;
   }
   
@@ -173,25 +188,27 @@ public class Snssai   {
       }	  
   }
   
-  public static List<Snssai> stringToSnssaiList(String input) {
-	  List<String> snssaisStringList = new ArrayList<String>();
-	  List output = new ArrayList<Snssai>();
+  public static ArrayList<Snssai> stringToSnssaiList(String input) {
+	  ArrayList output = new ArrayList<Snssai>();
 	  String str=input;
 	  String[] parts = str.split(",");
-	  int i,j;
-	  for(i=0; i<parts.length; i++) {
-		  setSst(null);
-		  setSd(null);
-		  snssaisStringList.add(parts[i]);
-		  String[] parts2 = {parts[i], null};
+	  
+	  for(int i=0; i<parts.length; i++) {
+		  String[] currentSnssai = {parts[i], null};
 		  if(parts[i].contains("-")) {
-			  parts2 = parts[i].split("-");
+			  currentSnssai = parts[i].split("-");
 		  }
 		  //System.out.println("Sst="+parts2[0] + " Sd="+parts2[1] );
-		  setSst(Integer.parseInt(parts2[0]));
-		  sst = Integer.parseInt(parts2[0]);
-		  sd = (parts2[1]);
-		  output.add(snssai(sst, sd));
+		  //setSst(Integer.parseInt(parts2[0]));
+		  
+		  //sst = Integer.parseInt(currentSnssai[0]);
+		  System.out.println(Arrays.toString(currentSnssai) );
+		  //System.out.println(getSd());
+		  //sd = (currentSnssai[1]);
+		  //output.add(snssai(sst, sd));
+		  Snssai s = new Snssai(Integer.parseInt(currentSnssai[0]), (currentSnssai[1]));
+		  output.add(s);
+		  System.out.println(s.getSd());
 		  
 		  }
 	  

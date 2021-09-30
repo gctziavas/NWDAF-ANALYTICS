@@ -129,7 +129,7 @@ public class EventFilter   {
     return snssais;
   }
 
-  public void setSnssais(List<Snssai> snssais) {
+  public void setSnssais(ArrayList<Snssai> snssais) {
     this.snssais = snssais;
   }
 
