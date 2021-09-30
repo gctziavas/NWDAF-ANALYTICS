@@ -43,8 +43,9 @@ public class AnalyticsData   {
 
   @JsonProperty("nsiLoadLevelInfos")
   @Valid
-  private List<NsiLoadLevelInfo> nsiLoadLevelInfos = null;
-
+  //private List<NsiLoadLevelInfo> nsiLoadLevelInfos = null;
+  private List<String[]> nsiLoadLevelInfos = null;
+  
   @JsonProperty("nfLoadLevelInfos")
   @Valid
   private List<NfLoadLevelInformation> nfLoadLevelInfos = null;
@@ -166,12 +167,17 @@ public class AnalyticsData   {
   public void setSliceLoadLevelInfos(List<SliceLoadLevelInformation> sliceLoadLevelInfos) {
     this.sliceLoadLevelInfos = sliceLoadLevelInfos;
   }
-
+/*
   public AnalyticsData nsiLoadLevelInfos(List<NsiLoadLevelInfo> nsiLoadLevelInfos) {
     this.nsiLoadLevelInfos = nsiLoadLevelInfos;
     return this;
   }
-
+*/
+  public AnalyticsData nsiLoadLevelInfos(@Valid List<String[]> nsiLoadLevelInfos) {
+	    this.nsiLoadLevelInfos = nsiLoadLevelInfos;
+	    return this;
+	  }
+  /*
   public AnalyticsData addNsiLoadLevelInfosItem(NsiLoadLevelInfo nsiLoadLevelInfosItem) {
     if (this.nsiLoadLevelInfos == null) {
       this.nsiLoadLevelInfos = new ArrayList<>();
@@ -179,20 +185,33 @@ public class AnalyticsData   {
     this.nsiLoadLevelInfos.add(nsiLoadLevelInfosItem);
     return this;
   }
-
+*/
+  public AnalyticsData addNsiLoadLevelInfosItem(String[] nsiLoadLevelInfosItem) {
+	    if (this.nsiLoadLevelInfos == null) {
+	      this.nsiLoadLevelInfos = new ArrayList<>();
+	    }
+	    this.nsiLoadLevelInfos.add(nsiLoadLevelInfosItem);
+	    return this;
+	  }
   /**
    * Get nsiLoadLevelInfos
    * @return nsiLoadLevelInfos
   **/
   @ApiModelProperty(value = "")
       @Valid
-  @Size(min=1)   public List<NsiLoadLevelInfo> getNsiLoadLevelInfos() {
+  @Size(min=1)   public  List<String[]> getNsiLoadLevelInfos() {
     return nsiLoadLevelInfos;
   }
-
+/*
   public void setNsiLoadLevelInfos(List<NsiLoadLevelInfo> nsiLoadLevelInfos) {
     this.nsiLoadLevelInfos = nsiLoadLevelInfos;
   }
+  */
+  public void setNsiLoadLevelInfos(List<String[]> nsiLoadLevelInfos2) {
+	    this.nsiLoadLevelInfos = nsiLoadLevelInfos2;
+	  }
+  
+  
 
   public AnalyticsData nfLoadLevelInfos(List<NfLoadLevelInformation> nfLoadLevelInfos) {
     this.nfLoadLevelInfos = nfLoadLevelInfos;

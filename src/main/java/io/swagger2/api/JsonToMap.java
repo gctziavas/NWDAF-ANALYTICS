@@ -15,7 +15,7 @@ public class JsonToMap {
 		Matcher m = r.matcher(str);
 
 		while (m.find()) {
-		      System.out.println("Found a key/value: (" + m.group(1) + ", " + m.group(2) + ")");
+		      //System.out.println("Found a key/value: (" + m.group(1) + ", " + m.group(2) + ")");
 		      map.put(m.group(1), m.group(2));
 		  }
 		return map;
@@ -25,6 +25,20 @@ public class JsonToMap {
 		Map<String, String> map = new HashMap<>();
 		String str=inputString;
 		String pattern = "\\b([^\\s]+)-([^\\s]+)\\b";
+		Pattern r = Pattern.compile(pattern);
+		Matcher m = r.matcher(str);
+
+		while (m.find()) {
+		      //System.out.println("Found a key/value: (" + m.group(1) + ", " + m.group(2) + ")");
+		      map.put(m.group(1), m.group(2));
+		  }
+		return map;
+	}
+public Map<String, String> ColonToMap(String inputString){
+		
+		Map<String, String> map = new HashMap<>();
+		String str=inputString;
+		String pattern = "\\b([^\\s]+):([^\\s]+)\\b";
 		Pattern r = Pattern.compile(pattern);
 		Matcher m = r.matcher(str);
 

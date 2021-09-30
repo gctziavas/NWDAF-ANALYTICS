@@ -15,7 +15,8 @@ import io.swagger2.api.StringToList;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
-
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 /**
  * Snssai
  */
@@ -53,6 +54,16 @@ public class Snssai   {
 	  	  
 	  return list;
   }
+  
+  /*public String snssaiToString(Snssai input) {
+	  
+	  String inp = input.toString();
+	  String inputString = String.valueOf(inp);
+	  
+	  return output;
+  }
+  */
+  
   /**
    * Get sst
    * minimum: 0
@@ -81,7 +92,7 @@ public class Snssai   {
   **/
   @ApiModelProperty(value = "")
   
-  @Pattern(regexp="^[A-Fa-f0-9]{6}$")   public static String getSd() {
+    public static String getSd() {
     return sd;
   }
 
@@ -108,7 +119,8 @@ public class Snssai   {
     return Objects.hash(sst, sd);
   }
 
-  @Override
+//  @Override
+  /*
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Snssai {\n");
@@ -118,17 +130,49 @@ public class Snssai   {
     sb.append("}");
     return sb.toString();
   }
-
+*/
   /**
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+ /* private String toIndentedString(java.lang.Object o) {
     if (o == null) {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
   }
+  */
+  //CHECKS IF A GIVEN SNSSAI IS VALID ACCORDING TO TS 29.571 AT CLAUSE 5.4.4.2
+  public static String checkSnssai(String input) { 
+	  String[] parts = {input , "000000"};
+	  if(input.contains("-")) {
+		  parts = input.split("-");
+	    }
+	  String sdCheck = null;
+	  Integer sstCheck = Integer.parseInt(parts[0]);
+	  String addedZeros = "";
+	  if (parts[1].length() < 6) {
+		  int dif = 6 - parts[1].length();
+		  for(int i=0; i<dif; i++) {
+			  addedZeros+="0";
+		  } 
+		  parts[1] = addedZeros+ parts[1];
+	  }
+	  sdCheck = parts[1];
+	  
+	  
+	  
+	  String pattern = "^[A-Fa-f0-9]{6}$";
+	  Pattern r = Pattern.compile(pattern);
+	  Matcher m = r.matcher(sdCheck);
+	  if(sstCheck >= 0 && sstCheck <= 255 && m.matches()) {
+		  return input;
+	  }
+	  else {
+		  return null;
+      }	  
+  }
+  
   public static List<Snssai> stringToSnssaiList(String input) {
 	  List<String> snssaisStringList = new ArrayList<String>();
 	  List output = new ArrayList<Snssai>();
@@ -139,12 +183,14 @@ public class Snssai   {
 		  setSst(null);
 		  setSd(null);
 		  snssaisStringList.add(parts[i]);
-		  String[] parts2 = parts[i].split("-");
+		  String[] parts2 = {parts[i], null};
+		  if(parts[i].contains("-")) {
+			  parts2 = parts[i].split("-");
+		  }
 		  //System.out.println("Sst="+parts2[0] + " Sd="+parts2[1] );
 		  setSst(Integer.parseInt(parts2[0]));
 		  sst = Integer.parseInt(parts2[0]);
 		  sd = (parts2[1]);
-
 		  output.add(snssai(sst, sd));
 		  
 		  }

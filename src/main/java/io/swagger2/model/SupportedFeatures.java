@@ -13,87 +13,87 @@ import javax.validation.constraints.*;
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-04T13:04:57.679821+03:00[Europe/Athens]")
 public class SupportedFeatures   {
 	
-	private Boolean serviceExperience = null;
-	private Boolean ueMobility = null;
-	private Boolean ueCommunication  = null;
-	private Boolean  qoSSustainability = null;
-	private Boolean abnormalBehaviour = null;
-	private Boolean userDataCongestion = null;
-	private Boolean nfLoad = null;
-	private Boolean networkPerformance = null;
-	private Boolean nsiLoad  = null;
+	private String serviceExperience = null;
+	private String ueMobility = null;
+	private String ueCommunication  = null;
+	private String  qoSSustainability = null;
+	private String abnormalBehaviour = null;
+	private String userDataCongestion = null;
+	private String nfLoad = null;
+	private String networkPerformance = null;
+	private String nsiLoad  = null;
 	
 	
 
-  public Boolean getServiceExperience() {
+  public String getServiceExperience() {
 		return serviceExperience;
 	}
 
-	public void setServiceExperience(Boolean serviceExperience) {
+	public void setServiceExperience(String serviceExperience) {
 		this.serviceExperience = serviceExperience;
 	}
 
-	public Boolean getUeMobility() {
+	public String getUeMobility() {
 		return ueMobility;
 	}
 
-	public void setUeMobility(Boolean ueMobility) {
+	public void setUeMobility(String ueMobility) {
 		this.ueMobility = ueMobility;
 	}
 
-	public Boolean getUeCommunication() {
+	public String getUeCommunication() {
 		return ueCommunication;
 	}
 
-	public void setUeCommunication(Boolean ueCommunication) {
+	public void setUeCommunication(String ueCommunication) {
 		this.ueCommunication = ueCommunication;
 	}
 
-	public Boolean getQoSSustainability() {
+	public String getQoSSustainability() {
 		return qoSSustainability;
 	}
 
-	public void setQoSSustainability(Boolean qoSSustainability) {
+	public void setQoSSustainability(String qoSSustainability) {
 		this.qoSSustainability = qoSSustainability;
 	}
 
-	public Boolean getAbnormalBehaviour() {
+	public String getAbnormalBehaviour() {
 		return abnormalBehaviour;
 	}
 
-	public void setAbnormalBehaviour(Boolean abnormalBehaviour) {
+	public void setAbnormalBehaviour(String abnormalBehaviour) {
 		this.abnormalBehaviour = abnormalBehaviour;
 	}
 
-	public Boolean getUserDataCongestion() {
+	public String getUserDataCongestion() {
 		return userDataCongestion;
 	}
 
-	public void setUserDataCongestion(Boolean userDataCongestion) {
+	public void setUserDataCongestion(String userDataCongestion) {
 		this.userDataCongestion = userDataCongestion;
 	}
 
-	public Boolean getNfLoad() {
+	public String getNfLoad() {
 		return nfLoad;
 	}
 
-	public void setNfLoad(Boolean nfLoad) {
+	public void setNfLoad(String nfLoad) {
 		this.nfLoad = nfLoad;
 	}
 
-	public Boolean getNetworkPerformance() {
+	public String getNetworkPerformance() {
 		return networkPerformance;
 	}
 
-	public void setNetworkPerformance(Boolean networkPerformance) {
+	public void setNetworkPerformance(String networkPerformance) {
 		this.networkPerformance = networkPerformance;
 	}
 
-	public Boolean getNsiLoad() {
+	public String getNsiLoad() {
 		return nsiLoad;
 	}
 
-	public void setNsiLoad(Boolean nsiLoad) {
+	public void setNsiLoad(String nsiLoad) {
 		this.nsiLoad = nsiLoad;
 	}
 
@@ -116,21 +116,21 @@ public class SupportedFeatures   {
 			//System.out.println("eachSupportedFeature["+i+"]"+ ": " + eachSupportedFeature[i]);
 		}
 		
-		if(eachSupportedFeature[8] == '0') { setAbnormalBehaviour(false);} else { setAbnormalBehaviour(true); }
-		if(eachSupportedFeature[7] == '0') { setNetworkPerformance(false); } else { setNetworkPerformance(true); }
-		if(eachSupportedFeature[6] == '0') { setNfLoad(false); } else { setNfLoad(true); }
-		if(eachSupportedFeature[5] == '0') { setNsiLoad(false); } else { setNsiLoad(true); }
-		if(eachSupportedFeature[4] == '0') { setQoSSustainability(false); } else { setQoSSustainability(true); }
-		if(eachSupportedFeature[3] == '0') { setServiceExperience(false); } else { setServiceExperience(true); }
-		if(eachSupportedFeature[2] == '0') { setUeCommunication(false); } else { setUeCommunication(true); }
-		if(eachSupportedFeature[1] == '0') { setUeMobility(false); } else { setUeMobility(true); }
-		if(eachSupportedFeature[0] == '0') { setUserDataCongestion(false); } else { setUserDataCongestion(true); }
+		if(eachSupportedFeature[8] == '0') { setAbnormalBehaviour("NOT SUPPORTED");} else { setAbnormalBehaviour("SUPPORTED"); }
+		if(eachSupportedFeature[7] == '0') { setNetworkPerformance("NOT SUPPORTED"); } else { setNetworkPerformance("SUPPORTED"); }
+		if(eachSupportedFeature[6] == '0') { setNfLoad("NOT SUPPORTED"); } else { setNfLoad("SUPPORTED"); }
+		if(eachSupportedFeature[5] == '0') { setNsiLoad("NOT SUPPORTED"); } else { setNsiLoad("SUPPORTED"); }
+		if(eachSupportedFeature[4] == '0') { setQoSSustainability("NOT SUPPORTED"); } else { setQoSSustainability("SUPPORTED"); }
+		if(eachSupportedFeature[3] == '0') { setServiceExperience("NOT SUPPORTED"); } else { setServiceExperience("SUPPORTED"); }
+		if(eachSupportedFeature[2] == '0') { setUeCommunication("NOT SUPPORTED"); } else { setUeCommunication("SUPPORTED"); }
+		if(eachSupportedFeature[1] == '0') { setUeMobility("NOT SUPPORTED"); } else { setUeMobility("SUPPORTED"); }
+		if(eachSupportedFeature[0] == '0') { setUserDataCongestion("NOT SUPPORTED"); } else { setUserDataCongestion("SUPPORTED"); }
 		
 		//System.out.println(getAbnormalBehaviour());
 		//System.out.println(getNetworkPerformance());
 		//System.out.println(getNfLoad());
 		//System.out.println(getNsiLoad());
-				
+		
 	}
 	
 	

@@ -1,6 +1,10 @@
 package io.swagger2.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import java.util.Random;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
@@ -71,7 +75,27 @@ public class NsiLoadLevelInfo   {
     this.nsiId = nsiId;
     return this;
   }
-
+  
+  //CHECKS THE CORRESPONDING VALUE FOR A GIVEN SNSSAI
+  public static Integer nsiLoadLevelInfo(String givenSnssai) {
+	  
+	  Random r = new Random();
+	  int loadLevelInfo = r.nextInt(100) + 1;
+	  
+	  return loadLevelInfo;
+	  
+  }
+/*  
+  public static List<String> nsiLoadLevelInfo(Snssai givenSnssai) {
+	  snssai = givenSnssai;
+	  
+	  List<String> list = new ArrayList<String>();
+	  list.add(String.valueOf(sst));
+	  list.add(sd);
+	  	  
+	  return list;
+	}
+*/	
   /**
    * Get nsiId
    * @return nsiId

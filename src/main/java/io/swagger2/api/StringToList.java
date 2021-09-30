@@ -134,6 +134,32 @@ public class StringToList {
 //		return output;
 //	}
 
+	public List<ArrayList<String>> stringToNsiIdInfos(String input) {
+		List<ArrayList<String>> output = new ArrayList<ArrayList<String> >();
+		if(input.contains("},")) {
+			String[] parts = input.split("},");
+			
+			for(int i = 0; i<parts.length; i++) {
+				String[] pairs = parts[i].split(";");
+				Map<String, String> snssaiPart = new JsonToMap().ColonToMap(pairs[0]);
+				Map<String, String> idPart = new JsonToMap().ColonToMap(pairs[1]);
+				String snssai = snssaiPart.get("snssai");
+				String[] nsiIds = idPart.get("nsiIds").split(",");
+				//System.out.println("SNSSAI = "+snssai + " Corresponding nsiIds = "+Arrays.toString(nsiIds));
+				
+				if (Snssai.checkSnssai(snssai)!=null) {
+					ArrayList<String> pair = new ArrayList<String>();
+					pair.add(snssai);
+					for (int j = 0; j < nsiIds.length; j++) {
+						pair.add(nsiIds[j]);
+					}
+					output.add(pair);
+				}
+			}
+		}
+		return output;
+	}
+
 //	public List<NsiIdInfo> stringToNsiIdInfo(String input) {
 //		Map<String, String> inputMap = new JsonToMap().jsonToMap(input);
 //		List<NsiIdInfo> output = new ArrayList<NsiIdInfo>();
