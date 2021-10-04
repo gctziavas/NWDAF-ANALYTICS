@@ -198,7 +198,7 @@ public interface AnalyticsApi {
     		  List <NsiIdInfo> nsiIdInfosList = null;
     		  if (eventFilterMap.get("nsiIdInfos") != null) {
     			  List<ArrayList<String>> nsiIdInfosListTest = new StringToList().stringToNsiIdInfos(eventFilterMap.get("nsiIdInfos"));
-    			  System.out.println(nsiIdInfosListTest.get(0).get(0));
+    			  //System.out.println(nsiIdInfosListTest.get(0).get(0));
     		  };
     		  
     		  
@@ -212,27 +212,35 @@ public interface AnalyticsApi {
     		  ArrayList<Snssai> snssais = null;
     		  if(eventFilterMap.get("snssais") != null) {snssais = Snssai.stringToSnssaiList(eventFilterMap.get("snssais"));}
     		  eventFilt.setSnssais(snssais);
-    		  System.out.println("---->"+VM.current().addressOf(eventFilt.getSnssais().get(0).getSd()) + "------|" +VM.current().addressOf(eventFilt.getSnssais().get(1).getSd()));
-    		  //System.out.println("Snssais = "+eventFilt.getSnssais());
+    		  //System.out.println("---->"+VM.current().addressOf(eventFilt.getSnssais().get(0).getSd()) + "------|" +VM.current().addressOf(eventFilt.getSnssais().get(1).getSd()));
+    		  Snssai testSnssai = snssais.get(0);
+    		  String testString = testSnssai.toString();
+    		  System.out.println( testString );
     		  eventFilt.setAnySlice(Boolean.parseBoolean(eventFilterMap.get("anySlice")));    		  
     		  eventFilt.setNfSetIds(nfSetIdsList);
     		  eventFilt.setDnais(dnaisList);
     		  eventFilt.setAppIds(appIdsList);
     		  eventFilt.setDnns(dnnsList);
 //-------------------------------------------supported-features---------------------------------------------------------------------
-    		  SupportedFeatures supportedFeats = new SupportedFeatures(supportedFeatures);
+    		SupportedFeatures supportedFeats = new SupportedFeatures(supportedFeatures);
     		  
 //------------------------------------------------tgt-ue----------------------------------------------------------------------------
-    		  TargetUeInformation targetUe = new TargetUeInformation();
-    		  Map<String, String> targetUeMap = new JsonToMap().jsonToMap(tgtUe);
-    		  targetUe.setAnyUe(Boolean.parseBoolean(targetUeMap.get("anyUe")));
-    		  List<String> supi = new Supi().stringToSupis(targetUeMap.get("supis"));
-    		  targetUe.setSupis(supi);
-    		  List<String> groupId = new GroupId().stringToGroupIds(targetUeMap.get("intGroupIds"));
-    		  targetUe.setIntGroupIds(groupId);
-    		  //System.out.println(targetUe.getIntGroupIds());
+    		TargetUeInformation targetUe = new TargetUeInformation();
+    		Map<String, String> targetUeMap = new JsonToMap().jsonToMap(tgtUe);
     		  
-    		  String command = "curl http://192.168.1.4:9090/api/v1/query?query=node_disk_flush_requests_time_seconds_total -o /home/gctz/Desktop/Diplwmatikh/Multi_TS/Analytics_info/prometheus_yaml_files/test.json";
+    		if (targetUeMap.get("anyUe") != null) {
+				targetUe.setAnyUe(Boolean.parseBoolean(targetUeMap.get("anyUe")));
+			}
+			if (targetUeMap.get("supis")!= null) {
+				List<String> supi = new Supi().stringToSupis(targetUeMap.get("supis"));
+				targetUe.setSupis(supi);
+			}
+			if (targetUeMap.get("intGroupIds")!=null) {
+				List<String> groupId = new GroupId().stringToGroupIds(targetUeMap.get("intGroupIds"));
+				targetUe.setIntGroupIds(groupId);
+				//System.out.println(targetUe.getIntGroupIds());
+			}
+			String command = "curl http://192.168.1.4:9090/api/v1/query?query=node_disk_flush_requests_time_seconds_total -o /home/gctz/Desktop/Diplwmatikh/Multi_TS/Analytics_info/prometheus_yaml_files/test.json";
     		  Process process;
 				
 				//EventReportingRequirement analyticsRec = new EventReportingRequirement();
@@ -274,13 +282,15 @@ public interface AnalyticsApi {
                 	//nsiLoadLevelInfos.add(null)
                 	String givenSnssais = eventFilterMap.get("snssais");                	
                 	//System.out.println("givenSnssais = "+givenSnssais);
-//------------------------------------------------------------------------------------------------------                	
+//------------------------------------------------------------------------------------------------------         
+                	//System.out.println("-->");
                 	String[] parts = givenSnssais.split(",");
+                	//System.out.println("<-->");
                 	List<String> snssaisStringList = new ArrayList<String>();
 	              	int i,j;
 	              	String[] eachLoadLevelInfos = new String[3];
 	              	for(i=0; i<parts.length; i++) {
-	              		//System.out.println(Snssai.checkSnssai(parts[i]));
+	              		//System.out.println("-->"+Snssai.checkSnssai(parts[i]));
 	              		if(Snssai.checkSnssai(parts[i]) != null) {
 	              			String currentNsiId = null;
 	              			String currentSnssai = parts[i];
@@ -289,7 +299,7 @@ public interface AnalyticsApi {
 	              			eachLoadLevelInfos[0] =  "loadLevelInformation: "+currentLoadLevel;
 	              			eachLoadLevelInfos[1] = "nsiId: "+currentNsiId;
 	              			eachLoadLevelInfos[2] =  "snssai: "+currentSnssai;
-	              				              			
+	              			//System.out.println(eachLoadLevelInfos);	              			
 	              			nsiLoadLevelInfos.add(eachLoadLevelInfos);
 	              		}
 	              	

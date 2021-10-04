@@ -24,10 +24,10 @@ import java.util.regex.Pattern;
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-04T13:04:57.679821+03:00[Europe/Athens]")
 public class Snssai   {
   @JsonProperty("sst")
-  private static Integer sst = null;
+  private Integer sst = null;
 
   @JsonProperty("sd")
-  private static String sd = null;
+  private String sd = null;
 
   public Snssai sst(Integer sst) {
     this.sst = sst;
@@ -39,12 +39,29 @@ public class Snssai   {
 		  return;
 	  }
 	  else {
-		  //setSst(sst);
-		  //setSd(sd);
-		  this.sst = sst;
-		  this.sd = sd;
+		  Integer sstCheck = Integer.parseInt(String.valueOf(sst));
+		  String sdCheck = null;
+		  String addedZeros = "";
+		  if (sd.length() < 6) {
+			  int dif = 6 - sd.length();
+			  for(int i=0; i<dif; i++) {
+				  addedZeros+="0";
+			  } 
+			  sd = addedZeros+ sd;
+		  }
+		  sdCheck = sd;
+		  String pattern = "^[A-Fa-f0-9]{6}$";
+		  Pattern r = Pattern.compile(pattern);
+		  Matcher m = r.matcher(sdCheck);
+		  if(sstCheck >= 0 && sstCheck <= 255 && m.matches()) {
+			  //setSst(sst);
+			  //setSd(sd);
+			  this.sst = sst;
+			  this.sd = sd;
+		  }
+		  else {return;}	  
 	  }
-  }
+  }    
   
   public Snssai getSnssai() {
 	  if(sst == null) {
@@ -60,7 +77,7 @@ public class Snssai   {
 	  }
 	  
   }
-  
+  /*
   public static List<String> snssai(Integer SST, String SD) {
 	  sst = SST;
 	  sd = SD;
@@ -69,14 +86,14 @@ public class Snssai   {
 	  list.add(sd);
 	  return list;
   }
-  
-  /*public String snssaiToString(Snssai input) {
-	  
+  */
+  /*
+  public String snssaiToString(Snssai input) {
 	  String inp = input.toString();
 	  String inputString = String.valueOf(inp);
 	  
 	  return output;
-  }
+	}
   */
   
   /**
@@ -88,12 +105,12 @@ public class Snssai   {
   @ApiModelProperty(required = true, value = "")
       @NotNull
 
-  @Min(0) @Max(255)   public static Integer getSst() {
-    return sst;
+  @Min(0) @Max(255)   public Integer getSst() {
+	  return sst;
   }
 
-  public static void setSst(Integer sst) {
-    sst = sst;
+  public void setSst(Integer sst) {
+    this.sst = sst;
   }
 
   public Snssai sd(String sd) {
@@ -107,12 +124,12 @@ public class Snssai   {
   **/
   @ApiModelProperty(value = "")
   
-    public static String getSd() {
-    return sd;
-  }
+public String getSd() {
+	    return sd;
+	  }
 
-  public static void setSd(String sd) {
-    sd = sd;
+  public void setSd(String sd) {
+    this.sd = sd;
   }
 
 
@@ -133,19 +150,17 @@ public class Snssai   {
   public int hashCode() {
     return Objects.hash(sst, sd);
   }
+  
+  
 
-//  @Override
-  /*
+  @Override
+  
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Snssai {\n");
-    
-    sb.append("    sst: ").append(toIndentedString(sst)).append("\n");
-    sb.append("    sd: ").append(toIndentedString(sd)).append("\n");
-    sb.append("}");
+    sb.append((sst)).append("-").append(sd);
     return sb.toString();
   }
-*/
+
   /**
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
@@ -198,32 +213,12 @@ public class Snssai   {
 		  if(parts[i].contains("-")) {
 			  currentSnssai = parts[i].split("-");
 		  }
-		  //System.out.println("Sst="+parts2[0] + " Sd="+parts2[1] );
-		  //setSst(Integer.parseInt(parts2[0]));
+		  int curresntSst = Integer.parseInt(currentSnssai[0]);
+		  String currentSd = (currentSnssai[1]);
 		  
-		  //sst = Integer.parseInt(currentSnssai[0]);
-		  System.out.println(Arrays.toString(currentSnssai) );
-		  //System.out.println(getSd());
-		  //sd = (currentSnssai[1]);
-		  //output.add(snssai(sst, sd));
-		  Snssai s = new Snssai(Integer.parseInt(currentSnssai[0]), (currentSnssai[1]));
+		  Snssai s = new Snssai(curresntSst, currentSd);
 		  output.add(s);
-		  System.out.println(s.getSd());
-		  
 		  }
-	  
-	  //System.out.println(output);
-	  return output;
-  }
-  public static Snssai stringToSnssai(String input) {
-	  String str = input;
-	  String[] parts = str.split("-");
-	  setSst(null);
-	  setSd(null);
-	  sst = Integer.parseInt(parts[0]);
-	  sd = (parts[1]);
-	  Snssai output = new Snssai(sst, sd);
-	  System.out.println("Snssai = "+ output);
 	  return output;
   }
 }
