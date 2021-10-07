@@ -17,6 +17,7 @@ import io.swagger2.model.NFType;
 import io.swagger2.model.NetworkAreaInfo;
 import io.swagger2.model.NetworkPerfType;
 import io.swagger2.model.NfInstanceId;
+import io.swagger2.model.NsiId;
 import io.swagger2.model.NsiIdInfo;
 import io.swagger2.model.NsiLoadLevelInfo;
 import io.swagger2.model.ProblemDetails;
@@ -29,6 +30,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationConfig;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import java.util.regex.*;
@@ -60,6 +62,7 @@ import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -132,192 +135,221 @@ public interface AnalyticsApi {
     		 
 //-----------------------------------------ana-req----------------------------------------    		  
     		  EventReportingRequirement analyticsReq = new EventReportingRequirement();
-  	  		  Map<String, String> anaMap = new JsonToMap().jsonToMap(anaReq);
-    		  
-  	  		  analyticsReq.setAccuracy(new Accuracy(anaMap.get("accuracy"))); 
-  	  		  OffsetDateTime startTs = null;
-  	  		  if(anaMap.get("startTs") != null) {
-  	  			startTs = OffsetDateTime.parse(anaMap.get("startTs"), DateTimeFormatter.ISO_OFFSET_DATE_TIME);
-  	  		  }
-  	  		  analyticsReq.setStartTs(startTs);
-    		  
-    		  OffsetDateTime endTs = null;
-    		  if(anaMap.get("endTs") != null) {
-    			  endTs = OffsetDateTime.parse(anaMap.get("endTs"), DateTimeFormatter.ISO_OFFSET_DATE_TIME);
-  	  		  }
-  	  		  analyticsReq.setEndTs(endTs);
-    		  
-    		  OffsetDateTime timeAnaNeeded = null;
-    		  if(anaMap.get("timeAnaNeeded") != null) {
-    			  timeAnaNeeded = OffsetDateTime.parse(anaMap.get("timeAnaNeeded"), DateTimeFormatter.ISO_OFFSET_DATE_TIME);
-  	  		  }
-  	  		  analyticsReq.setTimeAnaNeeded(timeAnaNeeded);
-  	  		  
-    		  Integer sampRatio = null;
-    		  if(anaMap.get("sampRatio") != null) {
-    			  sampRatio = Integer.parseInt(anaMap.get("sampRatio"));
-    		  }
-    		  analyticsReq.setSampRatio(sampRatio);
-    		  
-    		  Integer maxObjectNbr = 1000000000;
-    		  if(anaMap.get("maxObjectNbr") != null) {
-    			  maxObjectNbr = Integer.parseInt(anaMap.get("maxObjectNbr"));
-    		  }
-    		  analyticsReq.setMaxObjectNbr(maxObjectNbr);
-    		  
-    		  Integer maxSupiNbr = 1000000000;
-    		  if(anaMap.get("maxSupiNbr") != null) {
-    			  maxSupiNbr = Integer.parseInt(anaMap.get("maxSupiNbr"));
-    		  }
-    		  analyticsReq.setMaxSupiNbr(maxSupiNbr);
+    		  Map<String, String> anaMap = null;
+	    	  if(anaReq!=null) {
+	    		  anaMap = new JsonToMap().jsonToMap(anaReq);
+	    		  
+	  	  		  analyticsReq.setAccuracy(new Accuracy(anaMap.get("accuracy"))); 
+	  	  		  OffsetDateTime startTs = null;
+	  	  		  if(anaMap.get("startTs") != null) {
+	  	  			startTs = OffsetDateTime.parse(anaMap.get("startTs"), DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+	  	  		  }
+	  	  		  analyticsReq.setStartTs(startTs);
+	    		  
+	    		  OffsetDateTime endTs = null;
+	    		  if(anaMap.get("endTs") != null) {
+	    			  endTs = OffsetDateTime.parse(anaMap.get("endTs"), DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+	  	  		  }
+	  	  		  analyticsReq.setEndTs(endTs);
+	    		  
+	    		  OffsetDateTime timeAnaNeeded = null;
+	    		  if(anaMap.get("timeAnaNeeded") != null) {
+	    			  timeAnaNeeded = OffsetDateTime.parse(anaMap.get("timeAnaNeeded"), DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+	  	  		  }
+	  	  		  analyticsReq.setTimeAnaNeeded(timeAnaNeeded);
+	  	  		  
+	    		  Integer sampRatio = null;
+	    		  if(anaMap.get("sampRatio") != null) {
+	    			  sampRatio = Integer.parseInt(anaMap.get("sampRatio"));
+	    		  }
+	    		  analyticsReq.setSampRatio(sampRatio);
+	    		  
+	    		  Integer maxObjectNbr = 1000000000;
+	    		  if(anaMap.get("maxObjectNbr") != null) {
+	    			  maxObjectNbr = Integer.parseInt(anaMap.get("maxObjectNbr"));
+	    		  }
+	    		  analyticsReq.setMaxObjectNbr(maxObjectNbr);
+	    		  
+	    		  Integer maxSupiNbr = 1000000000;
+	    		  if(anaMap.get("maxSupiNbr") != null) {
+	    			  maxSupiNbr = Integer.parseInt(anaMap.get("maxSupiNbr"));
+	    		  }
+	    		  analyticsReq.setMaxSupiNbr(maxSupiNbr);
+	    	  }
 //--------------------------------event-filter---------------------------------------------------------    		      		  
     		  EventFilter eventFilt = new EventFilter();
-    		  Map<String, String> eventFilterMap = new JsonToMap().jsonToMap(eventFilter);
+    		  Map<String, String> eventFilterMap = null;
     		  
-    		  List<String> appIdsList = null;
-    		  if(eventFilterMap.get("appIds") != null)	{ appIdsList = new StringToList().stringToList(eventFilterMap.get("appIds")); }
-    		  List<String> dnnsList = null;
-    		  if(eventFilterMap.get("dnns") != null)	{dnnsList = new StringToList().stringToList(eventFilterMap.get("dnns"));}
-    		  List<String> dnaisList = null;
-    		  if(eventFilterMap.get("dnais") != null)	{dnaisList = new StringToList().stringToList(eventFilterMap.get("dnais"));}    
-    		  List<String> nfSetIdsList = null;
-    		  if(eventFilterMap.get("nfSetIds") != null) {nfSetIdsList = new StringToList().stringToList(eventFilterMap.get("nfSetIds"));} 
-    		      		  
-    		  List<UUID> nfInstanceIds = null;
-    		  if(eventFilterMap.get("nfInstanceIds") != null) { nfInstanceIds = new StringToList().stringToUuidList(eventFilterMap.get("nfInstanceIds"));}
-    		  List<NFType> nfTypes = null;
-    		  if(eventFilterMap.get("nfTypes") != null)  {nfTypes = new StringToList().stringToNfTypeList(eventFilterMap.get("nfTypes"));}
-    		  // List<NetworkAreaInfo> networkAreaInfo = new StringToList().stringToNetworkAreaInfo(eventFilterMap.get("networkArea"));
-    		  //List<NsiIdInfo> nsiIdInfoList = new StringToList().stringToNsiIdInfo((eventFilterMap.get("nsiIdInfos")));
-    		  List <NetworkPerfType> nwPerfTypesList = null;
-    		  if(eventFilterMap.get("nwPerfTypes") != null) {nwPerfTypesList = new StringToList().stringToNetworkPerfType(eventFilterMap.get("nwPerfTypes"));}
-    		  List <ExceptionId> excepIdsList = null;
-    		  if(eventFilterMap.get("excepIds") != null)  {excepIdsList = new StringToList().stringToExceptionIds(eventFilterMap.get("excepIds"));}
-    		  List <ExpectedAnalyticsType> exptAnaTypeList = null;
-    		  if(eventFilterMap.get("exptAnaType") !=null) {exptAnaTypeList = new StringToList().stringToExptAnaType(eventFilterMap.get("exptAnaType"));}
-    		  List <NsiIdInfo> nsiIdInfosList = null;
-    		  if (eventFilterMap.get("nsiIdInfos") != null) {
-    			  List<ArrayList<String>> nsiIdInfosListTest = new StringToList().stringToNsiIdInfos(eventFilterMap.get("nsiIdInfos"));
-    			  //System.out.println(nsiIdInfosListTest.get(0).get(0));
-    		  };
-    		  
-    		  
-    		  // eventFilt.setNsiIdInfos(nsiIdInfoList);
-    		  // eventFilt.setNetworkArea(networkAreaInfo);
-    		  
-    		  eventFilt.setExcepIds(excepIdsList);
-    		  eventFilt.setNwPerfTypes(nwPerfTypesList);
-    		  eventFilt.setNfInstanceIds(nfInstanceIds);
-    		  eventFilt.setNfTypes(nfTypes);
-    		  ArrayList<Snssai> snssais = null;
-    		  if(eventFilterMap.get("snssais") != null) {snssais = Snssai.stringToSnssaiList(eventFilterMap.get("snssais"));}
-    		  eventFilt.setSnssais(snssais);
-    		  //System.out.println("---->"+VM.current().addressOf(eventFilt.getSnssais().get(0).getSd()) + "------|" +VM.current().addressOf(eventFilt.getSnssais().get(1).getSd()));
-    		  Snssai testSnssai = snssais.get(0);
-    		  String testString = testSnssai.toString();
-    		  System.out.println( testString );
-    		  eventFilt.setAnySlice(Boolean.parseBoolean(eventFilterMap.get("anySlice")));    		  
-    		  eventFilt.setNfSetIds(nfSetIdsList);
-    		  eventFilt.setDnais(dnaisList);
-    		  eventFilt.setAppIds(appIdsList);
-    		  eventFilt.setDnns(dnnsList);
-//-------------------------------------------supported-features---------------------------------------------------------------------
-    		SupportedFeatures supportedFeats = new SupportedFeatures(supportedFeatures);
+    		  if (eventFilter!=null) {
+				eventFilterMap = new JsonToMap().jsonToMap(eventFilter);
+				List<String> appIdsList = null;
+				if (eventFilterMap.get("appIds") != null) {
+					appIdsList = new StringToList().stringToList(eventFilterMap.get("appIds"));
+				}
+				List<String> dnnsList = null;
+				if (eventFilterMap.get("dnns") != null) {
+					dnnsList = new StringToList().stringToList(eventFilterMap.get("dnns"));
+				}
+				List<String> dnaisList = null;
+				if (eventFilterMap.get("dnais") != null) {
+					dnaisList = new StringToList().stringToList(eventFilterMap.get("dnais"));
+				}
+				List<String> nfSetIdsList = null;
+				if (eventFilterMap.get("nfSetIds") != null) {
+					nfSetIdsList = new StringToList().stringToList(eventFilterMap.get("nfSetIds"));
+				}
+				List<UUID> nfInstanceIds = null;
+				if (eventFilterMap.get("nfInstanceIds") != null) {
+					nfInstanceIds = new StringToList().stringToUuidList(eventFilterMap.get("nfInstanceIds"));
+				}
+				List<NFType> nfTypes = null;
+				if (eventFilterMap.get("nfTypes") != null) {
+					nfTypes = new StringToList().stringToNfTypeList(eventFilterMap.get("nfTypes"));
+				}
+				// List<NetworkAreaInfo> networkAreaInfo = new StringToList().stringToNetworkAreaInfo(eventFilterMap.get("networkArea"));
+				//List<NsiIdInfo> nsiIdInfoList = new StringToList().stringToNsiIdInfo((eventFilterMap.get("nsiIdInfos")));
+				List<NetworkPerfType> nwPerfTypesList = null;
+				if (eventFilterMap.get("nwPerfTypes") != null) {
+					nwPerfTypesList = new StringToList().stringToNetworkPerfType(eventFilterMap.get("nwPerfTypes"));
+				}
+				List<ExceptionId> excepIdsList = null;
+				if (eventFilterMap.get("excepIds") != null) {
+					excepIdsList = new StringToList().stringToExceptionIds(eventFilterMap.get("excepIds"));
+				}
+				List<ExpectedAnalyticsType> exptAnaTypeList = null;
+				if (eventFilterMap.get("exptAnaType") != null) {
+					exptAnaTypeList = new StringToList().stringToExptAnaType(eventFilterMap.get("exptAnaType"));
+				}
+				ArrayList<NsiIdInfo> nsiIdInfosList = null;
+				if (eventFilterMap.get("nsiIdInfos") != null) {
+					nsiIdInfosList = new NsiIdInfo().stringToNsiIdInfos(eventFilterMap.get("nsiIdInfos"));
+				}
+				
+				eventFilt.setNsiIdInfos(nsiIdInfosList);
+				eventFilt.setExcepIds(excepIdsList);
+				eventFilt.setNwPerfTypes(nwPerfTypesList);
+				eventFilt.setNfInstanceIds(nfInstanceIds);
+				eventFilt.setNfTypes(nfTypes);
+				ArrayList<Snssai> snssais = null;
+				if (eventFilterMap.get("snssais") != null) {
+					snssais = Snssai.stringToSnssaiList(eventFilterMap.get("snssais"));
+				}
+				eventFilt.setSnssais(snssais);
+				eventFilt.setAnySlice(Boolean.parseBoolean(eventFilterMap.get("anySlice")));
+				eventFilt.setNfSetIds(nfSetIdsList);
+				eventFilt.setDnais(dnaisList);
+				eventFilt.setAppIds(appIdsList);
+				eventFilt.setDnns(dnnsList);
+			}
+			//-------------------------------------------supported-features---------------------------------------------------------------------
+    		SupportedFeatures supportedFeats = null;
+			if (supportedFeatures!=null) {
+				supportedFeats = new SupportedFeatures(supportedFeatures);
+			}
     		  
 //------------------------------------------------tgt-ue----------------------------------------------------------------------------
     		TargetUeInformation targetUe = new TargetUeInformation();
-    		Map<String, String> targetUeMap = new JsonToMap().jsonToMap(tgtUe);
-    		  
-    		if (targetUeMap.get("anyUe") != null) {
-				targetUe.setAnyUe(Boolean.parseBoolean(targetUeMap.get("anyUe")));
-			}
-			if (targetUeMap.get("supis")!= null) {
-				List<String> supi = new Supi().stringToSupis(targetUeMap.get("supis"));
-				targetUe.setSupis(supi);
-			}
-			if (targetUeMap.get("intGroupIds")!=null) {
-				List<String> groupId = new GroupId().stringToGroupIds(targetUeMap.get("intGroupIds"));
-				targetUe.setIntGroupIds(groupId);
-				//System.out.println(targetUe.getIntGroupIds());
+    		Map<String, String> targetUeMap = null;
+    		if (tgtUe!=null) {
+				targetUeMap = new JsonToMap().jsonToMap(tgtUe);
+				if (targetUeMap.get("anyUe") != null) {
+					targetUe.setAnyUe(Boolean.parseBoolean(targetUeMap.get("anyUe")));
+				}
+				if (targetUeMap.get("supis") != null) {
+					List<String> supi = new Supi().stringToSupis(targetUeMap.get("supis"));
+					targetUe.setSupis(supi);
+				}
+				if (targetUeMap.get("intGroupIds") != null) {
+					List<String> groupId = new GroupId().stringToGroupIds(targetUeMap.get("intGroupIds"));
+					targetUe.setIntGroupIds(groupId);
+					//System.out.println(targetUe.getIntGroupIds());
+				} 
 			}
 			String command = "curl http://192.168.1.4:9090/api/v1/query?query=node_disk_flush_requests_time_seconds_total -o /home/gctz/Desktop/Diplwmatikh/Multi_TS/Analytics_info/prometheus_yaml_files/test.json";
-    		  Process process;
-				
-				//EventReportingRequirement analyticsRec = new EventReportingRequirement();
-				//Accuracy acc = new Accuracy(anaReq);
-				
-				
-				
-				//analyticsRec.setAccuracy(acc);
-				//System.out.println(analyticsRec.getAccuracy());
-    		    try {
-					process = Runtime.getRuntime().exec(command);
-					process.getInputStream();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-    		    ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-   		        mapper.findAndRegisterModules();
+    		Process process;
+			try {
+				process = Runtime.getRuntime().exec(command);
+				process.getInputStream();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    		ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
+    		//mapper.configure(SerializationFeature.FAIL_ON_SELF_REFERENCES, false);
+   		    mapper.findAndRegisterModules();
     		    
-    		    
-    		    
-                AnalyticsData ad = new AnalyticsData();
-                ad.setTimeStampGen(OffsetDateTime.now());
-                if(supportedFeats.getAbnormalBehaviour() != null) {ad.setSuppFeat("{AbnormalBehaviour="+supportedFeats.getAbnormalBehaviour() + "; NetworkPerformance=" + supportedFeats.getNetworkPerformance() + "; NfLoad="+supportedFeats.getNfLoad() +"; NsiLoad="+supportedFeats.getNsiLoad()+"; QoSSustainability="+supportedFeats.getQoSSustainability()+"; ServiceExperience="+supportedFeats.getServiceExperience()+"; UeCommunication="+supportedFeats.getUeCommunication()+"; UeMobility="+supportedFeats.getUeMobility()+"; UserDataCongestion="+supportedFeats.getUserDataCongestion()+"}");}
-                if(analyticsReq.getStartTs() != null) {ad.setStart(analyticsReq.getStartTs());}
-                if(analyticsReq.getTimeAnaNeeded() != null) {ad.setExpiry(analyticsReq.getTimeAnaNeeded());}
-                if(eventId.name() == "LOAD_LEVEL_INFORMATION") {ad.setSliceLoadLevelInfos(null);}
-                if(eventId.name() == "NETWORK_PERFORMANCE") {ad.setNwPerfs(null);;}
-                if(eventId.name() == "NF_LOAD") {ad.setNfLoadLevelInfos(null);}
-                if(eventId.name() == "SERVICE_EXPERIENCE") {ad.setSvcExps(null);}
-                if(eventId.name() == "UE_MOBILITY") {ad.setUeMobs(null);}
-                if(eventId.name() == "UE_COMMUNICATION") {ad.setUeComms(null);}
-                if(eventId.name() == "QOS_SUSTAINABILITY") {ad.setQosSustainInfos(null);}
-                if(eventId.name() == "ABNORMAL_BEHAVIOUR") {ad.setAbnorBehavrs(null);}
-                if(eventId.name() == "USER_DATA_CONGESTION") {ad.setUserDataCongInfos(null);}
-                if(eventId.name() == "NSI_LOAD_LEVEL") {
-                	//List<NsiLoadLevelInfo> nsiLoadLevelInfos = new ArrayList<NsiLoadLevelInfo>();
-                	List<String[]> nsiLoadLevelInfos = new ArrayList<String[]>();
-                	//nsiLoadLevelInfos.add(null)
-                	String givenSnssais = eventFilterMap.get("snssais");                	
-                	//System.out.println("givenSnssais = "+givenSnssais);
-//------------------------------------------------------------------------------------------------------         
-                	//System.out.println("-->");
-                	String[] parts = givenSnssais.split(",");
-                	//System.out.println("<-->");
-                	List<String> snssaisStringList = new ArrayList<String>();
-	              	int i,j;
-	              	String[] eachLoadLevelInfos = new String[3];
-	              	for(i=0; i<parts.length; i++) {
-	              		//System.out.println("-->"+Snssai.checkSnssai(parts[i]));
-	              		if(Snssai.checkSnssai(parts[i]) != null) {
-	              			String currentNsiId = null;
-	              			String currentSnssai = parts[i];
-	              			Integer currentLoadLevel = NsiLoadLevelInfo.nsiLoadLevelInfo(currentSnssai);
-	              			
-	              			eachLoadLevelInfos[0] =  "loadLevelInformation: "+currentLoadLevel;
-	              			eachLoadLevelInfos[1] = "nsiId: "+currentNsiId;
-	              			eachLoadLevelInfos[2] =  "snssai: "+currentSnssai;
-	              			//System.out.println(eachLoadLevelInfos);	              			
-	              			nsiLoadLevelInfos.add(eachLoadLevelInfos);
-	              		}
-	              	
-	              	}	              		  
-             	  
-//------------------------------------------------------------------------------------------------------      	              	  
-                	                	               	
-                	ad.setNsiLoadLevelInfos(nsiLoadLevelInfos);
-                }
-                                
+    		AnalyticsData ad = new AnalyticsData();
+            ad.setTimeStampGen(OffsetDateTime.now());
                 
-                return new ResponseEntity<>(ad, HttpStatus.OK);
-                //return new ResponseEntity<>(getObjectMapper().get().readValue("{\n  \"sliceLoadLevelInfos\" : [ {\n    \"loadLevelInformation\" : 0,\n    \"snssais\" : [ {\n      \"sd\" : \"sd\",\n      \"sst\" : 153\n    }, {\n      \"sd\" : \"sd\",\n      \"sst\" : 153\n    } ]\n  }, {\n    \"loadLevelInformation\" : 0,\n    \"snssais\" : [ {\n      \"sd\" : \"sd\",\n      \"sst\" : 153\n    }, {\n      \"sd\" : \"sd\",\n      \"sst\" : 153\n    } ]\n  } ],\n  \"ueComms\" : [ {\n    \"trafChar\" : {\n      \"fDescs\" : [ {\n        \"ethTrafficFilter\" : {\n          \"destMacAddr\" : \"{}\",\n          \"fDir\" : \"{}\",\n          \"ethType\" : \"ethType\",\n          \"fDesc\" : \"{}\",\n          \"vlanTags\" : [ \"vlanTags\", \"vlanTags\" ]\n        },\n        \"ipTrafficFilter\" : \"ipTrafficFilter\"\n      }, {\n        \"ethTrafficFilter\" : {\n          \"destMacAddr\" : \"{}\",\n          \"fDir\" : \"{}\",\n          \"ethType\" : \"ethType\",\n          \"fDesc\" : \"{}\",\n          \"vlanTags\" : [ \"vlanTags\", \"vlanTags\" ]\n        },\n        \"ipTrafficFilter\" : \"ipTrafficFilter\"\n      } ],\n      \"ulVol\" : 0\n    }\n  }, {\n    \"trafChar\" : {\n      \"fDescs\" : [ {\n        \"ethTrafficFilter\" : {\n          \"destMacAddr\" : \"{}\",\n          \"fDir\" : \"{}\",\n          \"ethType\" : \"ethType\",\n          \"fDesc\" : \"{}\",\n          \"vlanTags\" : [ \"vlanTags\", \"vlanTags\" ]\n        },\n        \"ipTrafficFilter\" : \"ipTrafficFilter\"\n      }, {\n        \"ethTrafficFilter\" : {\n          \"destMacAddr\" : \"{}\",\n          \"fDir\" : \"{}\",\n          \"ethType\" : \"ethType\",\n          \"fDesc\" : \"{}\",\n          \"vlanTags\" : [ \"vlanTags\", \"vlanTags\" ]\n        },\n        \"ipTrafficFilter\" : \"ipTrafficFilter\"\n      } ],\n      \"ulVol\" : 0\n    }\n  } ],\n  \"start\" : \"2000-01-23T04:56:07.000+00:00\",\n  \"nfLoadLevelInfos\" : [ {\n    \"nfInstanceId\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"nfStorageUsage\" : 2,\n    \"nfLoadLevelpeak\" : 9,\n    \"nfStatus\" : {\n      \"statusRegistered\" : 15\n    },\n    \"nfCpuUsage\" : 5,\n    \"confidence\" : 0,\n    \"nfType\" : \"\",\n    \"nfSetId\" : \"nfSetId\",\n    \"nfMemoryUsage\" : 5,\n    \"nfLoadLevelAverage\" : 7\n  }, {\n    \"nfInstanceId\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"nfStorageUsage\" : 2,\n    \"nfLoadLevelpeak\" : 9,\n    \"nfStatus\" : {\n      \"statusRegistered\" : 15\n    },\n    \"nfCpuUsage\" : 5,\n    \"confidence\" : 0,\n    \"nfType\" : \"\",\n    \"nfSetId\" : \"nfSetId\",\n    \"nfMemoryUsage\" : 5,\n    \"nfLoadLevelAverage\" : 7\n  } ],\n  \"svcExps\" : [ {\n    \"svcExprcVariance\" : 2.027123,\n    \"supis\" : [ \"supis\", \"supis\" ],\n    \"svcExprc\" : {\n      \"mos\" : \"{}\"\n    },\n    \"dnn\" : \"dnn\",\n    \"appId\" : \"appId\"\n  }, {\n    \"svcExprcVariance\" : 2.027123,\n    \"supis\" : [ \"supis\", \"supis\" ],\n    \"svcExprc\" : {\n      \"mos\" : \"{}\"\n    },\n    \"dnn\" : \"dnn\",\n    \"appId\" : \"appId\"\n  } ],\n  \"nsiLoadLevelInfos\" : [ {\n    \"nsiId\" : \"nsiId\"\n  }, {\n    \"nsiId\" : \"nsiId\"\n  } ],\n  \"userDataCongInfos\" : [ {\n    \"congestionInfo\" : {\n      \"timeIntev\" : {\n        \"startTime\" : \"{}\"\n      },\n      \"nsi\" : {\n        \"nfStorageUsage\" : 7,\n        \"congLevel\" : 1,\n        \"nfCpuUsage\" : 1,\n        \"nfMemoryUsage\" : 6,\n        \"nfLoadLevel\" : 1\n      },\n      \"congType\" : \"\"\n    }\n  }, {\n    \"congestionInfo\" : {\n      \"timeIntev\" : {\n        \"startTime\" : \"{}\"\n      },\n      \"nsi\" : {\n        \"nfStorageUsage\" : 7,\n        \"congLevel\" : 1,\n        \"nfCpuUsage\" : 1,\n        \"nfMemoryUsage\" : 6,\n        \"nfLoadLevel\" : 1\n      },\n      \"congType\" : \"\"\n    }\n  } ],\n  \"abnorBehavrs\" : [ {\n    \"supis\" : [ null, null ],\n    \"excep\" : {\n      \"excepTrend\" : \"\",\n      \"excepId\" : \"\",\n      \"excepLevel\" : 1\n    },\n    \"addtMeasInfo\" : {\n      \"ddosAttack\" : {\n        \"ipv6Addrs\" : [ \"2001:db8:85a3::8a2e:370:7334\", \"2001:db8:85a3::8a2e:370:7334\" ],\n        \"ipv4Addrs\" : [ \"198.51.100.1\", \"198.51.100.1\" ]\n      },\n      \"unexpFlowTeps\" : [ null, null ],\n      \"unexpWakes\" : [ null, null ],\n      \"circums\" : [ { }, { } ]\n    }\n  }, {\n    \"supis\" : [ null, null ],\n    \"excep\" : {\n      \"excepTrend\" : \"\",\n      \"excepId\" : \"\",\n      \"excepLevel\" : 1\n    },\n    \"addtMeasInfo\" : {\n      \"ddosAttack\" : {\n        \"ipv6Addrs\" : [ \"2001:db8:85a3::8a2e:370:7334\", \"2001:db8:85a3::8a2e:370:7334\" ],\n        \"ipv4Addrs\" : [ \"198.51.100.1\", \"198.51.100.1\" ]\n      },\n      \"unexpFlowTeps\" : [ null, null ],\n      \"unexpWakes\" : [ null, null ],\n      \"circums\" : [ { }, { } ]\n    }\n  } ],\n  \"nwPerfs\" : [ {\n    \"networkArea\" : {\n      \"ncgis\" : [ {\n        \"nrCellId\" : \"{}\"\n      }, {\n        \"nrCellId\" : \"{}\"\n      } ],\n      \"tais\" : [ {\n        \"tac\" : \"{}\"\n      }, {\n        \"tac\" : \"{}\"\n      } ],\n      \"gRanNodeIds\" : [ {\n        \"eNbId\" : \"{}\",\n        \"wagfId\" : \"{}\",\n        \"tngfId\" : \"{}\",\n        \"gNbId\" : \"{}\",\n        \"n3IwfId\" : \"{}\",\n        \"ngeNbId\" : \"{}\"\n      }, {\n        \"eNbId\" : \"{}\",\n        \"wagfId\" : \"{}\",\n        \"tngfId\" : \"{}\",\n        \"gNbId\" : \"{}\",\n        \"n3IwfId\" : \"{}\",\n        \"ngeNbId\" : \"{}\"\n      } ],\n      \"ecgis\" : [ {\n        \"eutraCellId\" : \"{}\",\n        \"nid\" : \"{}\",\n        \"plmnId\" : \"{}\"\n      }, {\n        \"eutraCellId\" : \"{}\",\n        \"nid\" : \"{}\",\n        \"plmnId\" : \"{}\"\n      } ]\n    },\n    \"nwPerfType\" : \"\"\n  }, {\n    \"networkArea\" : {\n      \"ncgis\" : [ {\n        \"nrCellId\" : \"{}\"\n      }, {\n        \"nrCellId\" : \"{}\"\n      } ],\n      \"tais\" : [ {\n        \"tac\" : \"{}\"\n      }, {\n        \"tac\" : \"{}\"\n      } ],\n      \"gRanNodeIds\" : [ {\n        \"eNbId\" : \"{}\",\n        \"wagfId\" : \"{}\",\n        \"tngfId\" : \"{}\",\n        \"gNbId\" : \"{}\",\n        \"n3IwfId\" : \"{}\",\n        \"ngeNbId\" : \"{}\"\n      }, {\n        \"eNbId\" : \"{}\",\n        \"wagfId\" : \"{}\",\n        \"tngfId\" : \"{}\",\n        \"gNbId\" : \"{}\",\n        \"n3IwfId\" : \"{}\",\n        \"ngeNbId\" : \"{}\"\n      } ],\n      \"ecgis\" : [ {\n        \"eutraCellId\" : \"{}\",\n        \"nid\" : \"{}\",\n        \"plmnId\" : \"{}\"\n      }, {\n        \"eutraCellId\" : \"{}\",\n        \"nid\" : \"{}\",\n        \"plmnId\" : \"{}\"\n      } ]\n    },\n    \"nwPerfType\" : \"\"\n  } ],\n  \"ueMobs\" : [ {\n    \"duration\" : 4,\n    \"recurringTime\" : {\n      \"daysOfWeek\" : [ \"{}\", \"{}\", \"{}\", \"{}\", \"{}\", \"{}\" ],\n      \"timeOfDayStart\" : \"{}\"\n    },\n    \"locInfos\" : [ {\n      \"loc\" : {\n        \"eutraLocation\" : \"{}\",\n        \"nrLocation\" : \"{}\",\n        \"n3gaLocation\" : \"{}\"\n      }\n    }, {\n      \"loc\" : {\n        \"eutraLocation\" : \"{}\",\n        \"nrLocation\" : \"{}\",\n        \"n3gaLocation\" : \"{}\"\n      }\n    } ]\n  }, {\n    \"duration\" : 4,\n    \"recurringTime\" : {\n      \"daysOfWeek\" : [ \"{}\", \"{}\", \"{}\", \"{}\", \"{}\", \"{}\" ],\n      \"timeOfDayStart\" : \"{}\"\n    },\n    \"locInfos\" : [ {\n      \"loc\" : {\n        \"eutraLocation\" : \"{}\",\n        \"nrLocation\" : \"{}\",\n        \"n3gaLocation\" : \"{}\"\n      }\n    }, {\n      \"loc\" : {\n        \"eutraLocation\" : \"{}\",\n        \"nrLocation\" : \"{}\",\n        \"n3gaLocation\" : \"{}\"\n      }\n    } ]\n  } ],\n  \"qosSustainInfos\" : [ {\n    \"qosFlowRetThd\" : {\n      \"relTimeUnit\" : \"\"\n    },\n    \"ranUeThrouThd\" : \"ranUeThrouThd\"\n  }, {\n    \"qosFlowRetThd\" : {\n      \"relTimeUnit\" : \"\"\n    },\n    \"ranUeThrouThd\" : \"ranUeThrouThd\"\n  } ],\n  \"suppFeat\" : \"suppFeat\"\n}", AnalyticsData.class), HttpStatus.NOT_IMPLEMENTED);
-            }
-            
-         
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-    }
+            if (supportedFeats != null) {
+				if (supportedFeats.getAbnormalBehaviour() != null) {
+					ad.setSuppFeat("{AbnormalBehaviour=" + supportedFeats.getAbnormalBehaviour()
+							+ "; NetworkPerformance=" + supportedFeats.getNetworkPerformance() + "; NfLoad="
+							+ supportedFeats.getNfLoad() + "; NsiLoad=" + supportedFeats.getNsiLoad()
+							+ "; QoSSustainability=" + supportedFeats.getQoSSustainability()
+							+ "; ServiceExperience=" + supportedFeats.getServiceExperience() + "; UeCommunication="
+							+ supportedFeats.getUeCommunication() + "; UeMobility=" + supportedFeats.getUeMobility()
+							+ "; UserDataCongestion=" + supportedFeats.getUserDataCongestion() + "}");
+				} 
+			}
+			if (anaMap!=null) {
+				if (analyticsReq.getStartTs() != null) {
+					ad.setStart(analyticsReq.getStartTs());
+				}
 
+				if (analyticsReq.getEndTs() != null) {
+					ad.setExpiry(analyticsReq.getEndTs());
+				}
+				
+				if(ad.getStart()!=null && ad.getExpiry()!=null ) { //CHECKING START PRECEEDS EXPIRY
+					if(ad.getStart().compareTo(ad.getExpiry())>0) {
+						ad.setStart(null);
+						ad.setExpiry(null);
+					}
+				}
+			}
+			if(eventId.name() == "LOAD_LEVEL_INFORMATION") {ad.setSliceLoadLevelInfos(null);}
+               if(eventId.name() == "NETWORK_PERFORMANCE") {ad.setNwPerfs(null);;}
+               if(eventId.name() == "NF_LOAD") {ad.setNfLoadLevelInfos(null);}
+               if(eventId.name() == "SERVICE_EXPERIENCE") {ad.setSvcExps(null);}
+               if(eventId.name() == "UE_MOBILITY") {ad.setUeMobs(null);}
+               if(eventId.name() == "UE_COMMUNICATION") {ad.setUeComms(null);}
+               if(eventId.name() == "QOS_SUSTAINABILITY") {ad.setQosSustainInfos(null);}
+               if(eventId.name() == "ABNORMAL_BEHAVIOUR") {ad.setAbnorBehavrs(null);}
+               if(eventId.name() == "USER_DATA_CONGESTION") {ad.setUserDataCongInfos(null);}
+               if(eventId.name() == "NSI_LOAD_LEVEL") {
+            	   List<NsiLoadLevelInfo> nsiLoadLevelInfos = new ArrayList<NsiLoadLevelInfo>();
+            	   if (eventFilt.getSnssais() != null) {
+            		   @Valid @Size(min = 1) List<Snssai> givenSnssais = eventFilt.getSnssais();
+            		   for (int j = 0; j < givenSnssais.size(); j++) {
+            			   Snssai currentSnssai = givenSnssais.get(j);
+            			   NsiLoadLevelInfo currentNsiLoadLevelInfo = new NsiLoadLevelInfo(currentSnssai);
+            			   //ad.addNsiLoadLevelInfosItem(currentNsiLoadLevelInfo);
+            			   nsiLoadLevelInfos.add(currentNsiLoadLevelInfo);
+            		   }
+					//------------------------------------------------------------------------------------------------------      	              	  
+            	   }
+            	   if(eventFilt.getNsiIdInfos()!=null) {
+            		   List<NsiIdInfo> givenNsiIdInfos = eventFilt.getNsiIdInfos();
+            		   for(int i = 0; i<givenNsiIdInfos.size(); i++) {
+            			   Snssai currentSnssai = givenNsiIdInfos.get(i).getSnssai();
+            			   List<String> currentNsiIdsList = givenNsiIdInfos.get(i).getNsiIds();
+            			   for(int j=0; j < currentNsiIdsList.size(); j++) {
+            				   String currentNsiId = currentNsiIdsList.get(j);
+            				   NsiLoadLevelInfo currentNsiLoadLevelInfo = new NsiLoadLevelInfo(currentSnssai, currentNsiId);
+            				   //ad.addNsiLoadLevelInfosItem(currentNsiLoadLevelInfo);
+            				   nsiLoadLevelInfos.add(currentNsiLoadLevelInfo);
+            			   }
+            		   }
+            	   }
+            	   ad.setNsiLoadLevelInfos(nsiLoadLevelInfos);
+            	   //System.out.println("11"+ad);
+               }
+                //--------------> TO PROVLHMA EINAI STHN ONTOTHTA POY EPISTREFEI TO RETURN <----------------------	
+               return new ResponseEntity<>(ad, HttpStatus.OK);
+               //return new ResponseEntity<>(getObjectMapper().get().readValue("{\n  \"sliceLoadLevelInfos\" : [ {\n    \"loadLevelInformation\" : 0,\n    \"snssais\" : [ {\n      \"sd\" : \"sd\",\n      \"sst\" : 153\n    }, {\n      \"sd\" : \"sd\",\n      \"sst\" : 153\n    } ]\n  }, {\n    \"loadLevelInformation\" : 0,\n    \"snssais\" : [ {\n      \"sd\" : \"sd\",\n      \"sst\" : 153\n    }, {\n      \"sd\" : \"sd\",\n      \"sst\" : 153\n    } ]\n  } ],\n  \"ueComms\" : [ {\n    \"trafChar\" : {\n      \"fDescs\" : [ {\n        \"ethTrafficFilter\" : {\n          \"destMacAddr\" : \"{}\",\n          \"fDir\" : \"{}\",\n          \"ethType\" : \"ethType\",\n          \"fDesc\" : \"{}\",\n          \"vlanTags\" : [ \"vlanTags\", \"vlanTags\" ]\n        },\n        \"ipTrafficFilter\" : \"ipTrafficFilter\"\n      }, {\n        \"ethTrafficFilter\" : {\n          \"destMacAddr\" : \"{}\",\n          \"fDir\" : \"{}\",\n          \"ethType\" : \"ethType\",\n          \"fDesc\" : \"{}\",\n          \"vlanTags\" : [ \"vlanTags\", \"vlanTags\" ]\n        },\n        \"ipTrafficFilter\" : \"ipTrafficFilter\"\n      } ],\n      \"ulVol\" : 0\n    }\n  }, {\n    \"trafChar\" : {\n      \"fDescs\" : [ {\n        \"ethTrafficFilter\" : {\n          \"destMacAddr\" : \"{}\",\n          \"fDir\" : \"{}\",\n          \"ethType\" : \"ethType\",\n          \"fDesc\" : \"{}\",\n          \"vlanTags\" : [ \"vlanTags\", \"vlanTags\" ]\n        },\n        \"ipTrafficFilter\" : \"ipTrafficFilter\"\n      }, {\n        \"ethTrafficFilter\" : {\n          \"destMacAddr\" : \"{}\",\n          \"fDir\" : \"{}\",\n          \"ethType\" : \"ethType\",\n          \"fDesc\" : \"{}\",\n          \"vlanTags\" : [ \"vlanTags\", \"vlanTags\" ]\n        },\n        \"ipTrafficFilter\" : \"ipTrafficFilter\"\n      } ],\n      \"ulVol\" : 0\n    }\n  } ],\n  \"start\" : \"2000-01-23T04:56:07.000+00:00\",\n  \"nfLoadLevelInfos\" : [ {\n    \"nfInstanceId\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"nfStorageUsage\" : 2,\n    \"nfLoadLevelpeak\" : 9,\n    \"nfStatus\" : {\n      \"statusRegistered\" : 15\n    },\n    \"nfCpuUsage\" : 5,\n    \"confidence\" : 0,\n    \"nfType\" : \"\",\n    \"nfSetId\" : \"nfSetId\",\n    \"nfMemoryUsage\" : 5,\n    \"nfLoadLevelAverage\" : 7\n  }, {\n    \"nfInstanceId\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"nfStorageUsage\" : 2,\n    \"nfLoadLevelpeak\" : 9,\n    \"nfStatus\" : {\n      \"statusRegistered\" : 15\n    },\n    \"nfCpuUsage\" : 5,\n    \"confidence\" : 0,\n    \"nfType\" : \"\",\n    \"nfSetId\" : \"nfSetId\",\n    \"nfMemoryUsage\" : 5,\n    \"nfLoadLevelAverage\" : 7\n  } ],\n  \"svcExps\" : [ {\n    \"svcExprcVariance\" : 2.027123,\n    \"supis\" : [ \"supis\", \"supis\" ],\n    \"svcExprc\" : {\n      \"mos\" : \"{}\"\n    },\n    \"dnn\" : \"dnn\",\n    \"appId\" : \"appId\"\n  }, {\n    \"svcExprcVariance\" : 2.027123,\n    \"supis\" : [ \"supis\", \"supis\" ],\n    \"svcExprc\" : {\n      \"mos\" : \"{}\"\n    },\n    \"dnn\" : \"dnn\",\n    \"appId\" : \"appId\"\n  } ],\n  \"nsiLoadLevelInfos\" : [ {\n    \"nsiId\" : \"nsiId\"\n  }, {\n    \"nsiId\" : \"nsiId\"\n  } ],\n  \"userDataCongInfos\" : [ {\n    \"congestionInfo\" : {\n      \"timeIntev\" : {\n        \"startTime\" : \"{}\"\n      },\n      \"nsi\" : {\n        \"nfStorageUsage\" : 7,\n        \"congLevel\" : 1,\n        \"nfCpuUsage\" : 1,\n        \"nfMemoryUsage\" : 6,\n        \"nfLoadLevel\" : 1\n      },\n      \"congType\" : \"\"\n    }\n  }, {\n    \"congestionInfo\" : {\n      \"timeIntev\" : {\n        \"startTime\" : \"{}\"\n      },\n      \"nsi\" : {\n        \"nfStorageUsage\" : 7,\n        \"congLevel\" : 1,\n        \"nfCpuUsage\" : 1,\n        \"nfMemoryUsage\" : 6,\n        \"nfLoadLevel\" : 1\n      },\n      \"congType\" : \"\"\n    }\n  } ],\n  \"abnorBehavrs\" : [ {\n    \"supis\" : [ null, null ],\n    \"excep\" : {\n      \"excepTrend\" : \"\",\n      \"excepId\" : \"\",\n      \"excepLevel\" : 1\n    },\n    \"addtMeasInfo\" : {\n      \"ddosAttack\" : {\n        \"ipv6Addrs\" : [ \"2001:db8:85a3::8a2e:370:7334\", \"2001:db8:85a3::8a2e:370:7334\" ],\n        \"ipv4Addrs\" : [ \"198.51.100.1\", \"198.51.100.1\" ]\n      },\n      \"unexpFlowTeps\" : [ null, null ],\n      \"unexpWakes\" : [ null, null ],\n      \"circums\" : [ { }, { } ]\n    }\n  }, {\n    \"supis\" : [ null, null ],\n    \"excep\" : {\n      \"excepTrend\" : \"\",\n      \"excepId\" : \"\",\n      \"excepLevel\" : 1\n    },\n    \"addtMeasInfo\" : {\n      \"ddosAttack\" : {\n        \"ipv6Addrs\" : [ \"2001:db8:85a3::8a2e:370:7334\", \"2001:db8:85a3::8a2e:370:7334\" ],\n        \"ipv4Addrs\" : [ \"198.51.100.1\", \"198.51.100.1\" ]\n      },\n      \"unexpFlowTeps\" : [ null, null ],\n      \"unexpWakes\" : [ null, null ],\n      \"circums\" : [ { }, { } ]\n    }\n  } ],\n  \"nwPerfs\" : [ {\n    \"networkArea\" : {\n      \"ncgis\" : [ {\n        \"nrCellId\" : \"{}\"\n      }, {\n        \"nrCellId\" : \"{}\"\n      } ],\n      \"tais\" : [ {\n        \"tac\" : \"{}\"\n      }, {\n        \"tac\" : \"{}\"\n      } ],\n      \"gRanNodeIds\" : [ {\n        \"eNbId\" : \"{}\",\n        \"wagfId\" : \"{}\",\n        \"tngfId\" : \"{}\",\n        \"gNbId\" : \"{}\",\n        \"n3IwfId\" : \"{}\",\n        \"ngeNbId\" : \"{}\"\n      }, {\n        \"eNbId\" : \"{}\",\n        \"wagfId\" : \"{}\",\n        \"tngfId\" : \"{}\",\n        \"gNbId\" : \"{}\",\n        \"n3IwfId\" : \"{}\",\n        \"ngeNbId\" : \"{}\"\n      } ],\n      \"ecgis\" : [ {\n        \"eutraCellId\" : \"{}\",\n        \"nid\" : \"{}\",\n        \"plmnId\" : \"{}\"\n      }, {\n        \"eutraCellId\" : \"{}\",\n        \"nid\" : \"{}\",\n        \"plmnId\" : \"{}\"\n      } ]\n    },\n    \"nwPerfType\" : \"\"\n  }, {\n    \"networkArea\" : {\n      \"ncgis\" : [ {\n        \"nrCellId\" : \"{}\"\n      }, {\n        \"nrCellId\" : \"{}\"\n      } ],\n      \"tais\" : [ {\n        \"tac\" : \"{}\"\n      }, {\n        \"tac\" : \"{}\"\n      } ],\n      \"gRanNodeIds\" : [ {\n        \"eNbId\" : \"{}\",\n        \"wagfId\" : \"{}\",\n        \"tngfId\" : \"{}\",\n        \"gNbId\" : \"{}\",\n        \"n3IwfId\" : \"{}\",\n        \"ngeNbId\" : \"{}\"\n      }, {\n        \"eNbId\" : \"{}\",\n        \"wagfId\" : \"{}\",\n        \"tngfId\" : \"{}\",\n        \"gNbId\" : \"{}\",\n        \"n3IwfId\" : \"{}\",\n        \"ngeNbId\" : \"{}\"\n      } ],\n      \"ecgis\" : [ {\n        \"eutraCellId\" : \"{}\",\n        \"nid\" : \"{}\",\n        \"plmnId\" : \"{}\"\n      }, {\n        \"eutraCellId\" : \"{}\",\n        \"nid\" : \"{}\",\n        \"plmnId\" : \"{}\"\n      } ]\n    },\n    \"nwPerfType\" : \"\"\n  } ],\n  \"ueMobs\" : [ {\n    \"duration\" : 4,\n    \"recurringTime\" : {\n      \"daysOfWeek\" : [ \"{}\", \"{}\", \"{}\", \"{}\", \"{}\", \"{}\" ],\n      \"timeOfDayStart\" : \"{}\"\n    },\n    \"locInfos\" : [ {\n      \"loc\" : {\n        \"eutraLocation\" : \"{}\",\n        \"nrLocation\" : \"{}\",\n        \"n3gaLocation\" : \"{}\"\n      }\n    }, {\n      \"loc\" : {\n        \"eutraLocation\" : \"{}\",\n        \"nrLocation\" : \"{}\",\n        \"n3gaLocation\" : \"{}\"\n      }\n    } ]\n  }, {\n    \"duration\" : 4,\n    \"recurringTime\" : {\n      \"daysOfWeek\" : [ \"{}\", \"{}\", \"{}\", \"{}\", \"{}\", \"{}\" ],\n      \"timeOfDayStart\" : \"{}\"\n    },\n    \"locInfos\" : [ {\n      \"loc\" : {\n        \"eutraLocation\" : \"{}\",\n        \"nrLocation\" : \"{}\",\n        \"n3gaLocation\" : \"{}\"\n      }\n    }, {\n      \"loc\" : {\n        \"eutraLocation\" : \"{}\",\n        \"nrLocation\" : \"{}\",\n        \"n3gaLocation\" : \"{}\"\n      }\n    } ]\n  } ],\n  \"qosSustainInfos\" : [ {\n    \"qosFlowRetThd\" : {\n      \"relTimeUnit\" : \"\"\n    },\n    \"ranUeThrouThd\" : \"ranUeThrouThd\"\n  }, {\n    \"qosFlowRetThd\" : {\n      \"relTimeUnit\" : \"\"\n    },\n    \"ranUeThrouThd\" : \"ranUeThrouThd\"\n  } ],\n  \"suppFeat\" : \"suppFeat\"\n}", AnalyticsData.class), HttpStatus.NOT_IMPLEMENTED);
+    	  }
+     	  return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+    }
 }
  

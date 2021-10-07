@@ -6,6 +6,7 @@ import java.util.Objects;
 import java.util.Random;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -25,7 +26,9 @@ public class NsiLoadLevelInfo   {
   private Integer loadLevelInformation = null;
 
   @JsonProperty("snssai")
-  private Snssai snssai = null;
+  // an valw @   Json Back Reference to trexei alla den mou gyrizei to snssai
+  //private Snssai snssai = null;
+  private String snssai = null;
 
   @JsonProperty("nsiId")
   private String nsiId = null;
@@ -49,8 +52,9 @@ public class NsiLoadLevelInfo   {
   public void setLoadLevelInformation(Integer loadLevelInformation) {
     this.loadLevelInformation = loadLevelInformation;
   }
-
-  public NsiLoadLevelInfo snssai(Snssai snssai) {
+  
+  //public NsiLoadLevelInfo snssai(Snssai snssai) {
+  public NsiLoadLevelInfo snssai(String snssai) {
     this.snssai = snssai;
     return this;
   }
@@ -63,11 +67,12 @@ public class NsiLoadLevelInfo   {
       @NotNull
 
     @Valid
-    public Snssai getSnssai() {
+    //public Snssai getSnssai() {
+    public String getSnssai() {
     return snssai;
   }
-
-  public void setSnssai(Snssai snssai) {
+  //public void setSnssai(Snssai snssai) {
+  public void setSnssai(String snssai) {
     this.snssai = snssai;
   }
 
@@ -76,26 +81,45 @@ public class NsiLoadLevelInfo   {
     return this;
   }
   
-  //CHECKS THE CORRESPONDING VALUE FOR A GIVEN SNSSAI
-  public static Integer nsiLoadLevelInfo(String givenSnssai) {
-	  
-	  Random r = new Random();
-	  int loadLevelInfo = r.nextInt(100) + 1;
-	  
-	  return loadLevelInfo;
-	  
-  }
-/*  
-  public static List<String> nsiLoadLevelInfo(Snssai givenSnssai) {
-	  snssai = givenSnssai;
-	  
-	  List<String> list = new ArrayList<String>();
-	  list.add(String.valueOf(sst));
-	  list.add(sd);
-	  	  
-	  return list;
+  public NsiLoadLevelInfo(Snssai givenSnssai) {
+	if(givenSnssai == null) {
+		return ;
+	}  
+	else {
+		String snssaiIn = givenSnssai.toString();
+		Random r = new Random();
+		int loadLevelInfo = r.nextInt(100) + 1;
+		this.snssai = snssaiIn;
+		//this.snssai = new Snssai(snssaiIn);
+		this.loadLevelInformation = loadLevelInfo;
 	}
-*/	
+  }
+  public NsiLoadLevelInfo(Snssai givenSnssai, String givenNsiId) {
+		if(givenSnssai == null) {
+			return ;
+		}  
+		else {
+			String snssaiIn = givenSnssai.toString2();
+			Random r = new Random();
+			int loadLevelInfo = r.nextInt(100) + 1;
+			this.snssai = snssaiIn;
+			//this.snssai = new Snssai(snssaiIn);
+			this.loadLevelInformation = loadLevelInfo;
+			setNsiId(givenNsiId);
+		}
+	  }
+  
+  public ArrayList<NsiLoadLevelInfo> snssaisToNsiLoadLevelList(ArrayList<Snssai> givenSnssais){
+	  ArrayList<NsiLoadLevelInfo> output = new ArrayList<>();
+	  for(int i=0; i<givenSnssais.size(); i++) {
+		  NsiLoadLevelInfo s = new NsiLoadLevelInfo(givenSnssais.get(i));
+		  output.add(s);
+	  }
+	  return output;
+  }
+  
+
+
   /**
    * Get nsiId
    * @return nsiId

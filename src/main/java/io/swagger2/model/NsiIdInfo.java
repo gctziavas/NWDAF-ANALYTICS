@@ -2,12 +2,17 @@ package io.swagger2.model;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger2.api.JsonToMap;
 import io.swagger2.model.Snssai;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -20,6 +25,7 @@ import javax.validation.constraints.*;
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-04T13:04:57.679821+03:00[Europe/Athens]")
 public class NsiIdInfo   {
   @JsonProperty("snssai")
+  
   private Snssai snssai = null;
 
   @JsonProperty("nsiIds")
@@ -30,8 +36,22 @@ public class NsiIdInfo   {
     this.snssai = snssai;
     return this;
   }
+  
+  public NsiIdInfo(Snssai snssai, ArrayList<String> nsiIds) {
+	  if( snssai == null ) {
+		  return ;
+	  }
+	  else {
+		  this.snssai = snssai;
+		  this.nsiIds = nsiIds;
+	  }
+  }
+  
+  public NsiIdInfo() {
+	// TODO Auto-generated constructor stub
+}
 
-  /**
+/**
    * Get snssai
    * @return snssai
   **/
@@ -47,7 +67,7 @@ public class NsiIdInfo   {
     this.snssai = snssai;
   }
 
-  public NsiIdInfo nsiIds(List<String> nsiIds) {
+  public NsiIdInfo nsiIds(ArrayList<String> nsiIds) {
     this.nsiIds = nsiIds;
     return this;
   }
@@ -59,7 +79,7 @@ public class NsiIdInfo   {
     this.nsiIds.add(nsiIdsItem);
     return this;
   }
-
+  
   /**
    * Get nsiIds
    * @return nsiIds
@@ -113,5 +133,30 @@ public class NsiIdInfo   {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+  
+  public ArrayList<NsiIdInfo> stringToNsiIdInfos (String input){
+	  ArrayList<NsiIdInfo> output = new ArrayList<NsiIdInfo>();
+	  if(input.contains("},")) {
+			String[] parts = input.split("},"); //Split the different NsiIdInfo inputs
+			
+			for(int i = 0; i<parts.length; i++) {
+				NsiIdInfo info = null;
+				String[] pairs = parts[i].split(";"); // Split Snssais and nsiIds but keeping them paired
+				Map<String, String> snssaiPart = new JsonToMap().ColonToMap(pairs[0]);
+				Map<String, String> idPart = new JsonToMap().ColonToMap(pairs[1]);
+				String snssaiString = snssaiPart.get("snssai");
+				ArrayList<String> nsiIds = new ArrayList(Arrays.asList(idPart.get("nsiIds").split(",")));
+				//System.out.println("SNSSAI = "+snssai + " Corresponding nsiIds = "+Arrays.toString(nsiIds));
+				
+				if (Snssai.checkSnssai(snssaiString)!=null) {
+					Snssai snssai = new Snssai(snssaiString);
+					info = new NsiIdInfo(snssai , nsiIds);
+					output.add(info);
+					}
+			}
+	  }
+	  //System.out.println(output.toString());
+	  return output;
   }
 }

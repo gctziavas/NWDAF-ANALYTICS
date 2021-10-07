@@ -33,6 +33,10 @@ public class Snssai   {
     this.sst = sst;
     return this;
   }
+  public Snssai sd(String sd) {
+	    this.sd = sd;
+	    return this;
+	  }
   
   public Snssai(Integer sst, String sd) {
 	  if(sst == null) {
@@ -47,9 +51,10 @@ public class Snssai   {
 			  for(int i=0; i<dif; i++) {
 				  addedZeros+="0";
 			  } 
-			  sd = addedZeros+ sd;
+			  
+			  sdCheck = addedZeros+ sd;
 		  }
-		  sdCheck = sd;
+		  //sdCheck = sd;
 		  String pattern = "^[A-Fa-f0-9]{6}$";
 		  Pattern r = Pattern.compile(pattern);
 		  Matcher m = r.matcher(sdCheck);
@@ -60,6 +65,52 @@ public class Snssai   {
 			  this.sd = sd;
 		  }
 		  else {return;}	  
+	  }
+  }    
+  
+  public Snssai(String input) {
+	  
+	  String[] parts = {input , "000000"};
+
+	  if(input.contains("-")) {
+		  parts = input.split("-");
+		  //System.out.println("++++++++++"+sst);
+		  sst = Integer.valueOf(parts[0]);
+		 // System.out.println("++++++++++"+sst);
+	    }
+	  else {sst = Integer.valueOf(parts[0]);}
+	  
+	  if(parts[1] != "000000") { sd = parts[1]; }
+	  
+	  if(sst == null) {
+		  return;
+	  }
+	  else {
+		  Integer sstCheck = Integer.parseInt(String.valueOf(sst));
+		  String sdCheck = null;
+		  String addedZeros = "";
+		  if (sd!=null) {
+			if (sd.length() < 6) {
+				int dif = 6 - sd.length();
+				for (int i = 0; i < dif; i++) {
+					addedZeros += "0";
+				}
+
+				sdCheck = addedZeros + sd;
+			} 
+		}
+		//sdCheck = sd;
+		  String pattern = "^[A-Fa-f0-9]{6}$";
+		  Pattern r = Pattern.compile(pattern);
+		  Matcher m;
+		if (sd!=null) {
+			m = r.matcher(sdCheck);
+			if(sstCheck >= 0 && sstCheck <= 255 && m.matches()) {
+			  this.sst = sst;
+			  this.sd = sd;
+		  }
+		  else {return;}	  
+		}
 	  }
   }    
   
@@ -77,24 +128,7 @@ public class Snssai   {
 	  }
 	  
   }
-  /*
-  public static List<String> snssai(Integer SST, String SD) {
-	  sst = SST;
-	  sd = SD;
-	  List<String> list = new ArrayList<String>();
-	  list.add(String.valueOf(sst));
-	  list.add(sd);
-	  return list;
-  }
-  */
-  /*
-  public String snssaiToString(Snssai input) {
-	  String inp = input.toString();
-	  String inputString = String.valueOf(inp);
-	  
-	  return output;
-	}
-  */
+  
   
   /**
    * Get sst
@@ -113,10 +147,7 @@ public class Snssai   {
     this.sst = sst;
   }
 
-  public Snssai sd(String sd) {
-    this.sd = sd;
-    return this;
-  }
+
 
   /**
    * Get sd
@@ -153,25 +184,41 @@ public String getSd() {
   
   
 
-  @Override
+
+ @Override
   
   public String toString() {
+	    StringBuilder sb = new StringBuilder();
+	    sb.append("{\n");
+	    sb.append("    sst: ").append(toIndentedString(sst)).append("\n");
+	    sb.append("    sd: ").append(toIndentedString(sd)).append("\n");
+	    sb.append("}");
+	    return sb.toString();
+	  }
+  
+  
+  public String toString2() {
     StringBuilder sb = new StringBuilder();
-    sb.append((sst)).append("-").append(sd);
-    return sb.toString();
+    
+    if (sd!=null) {
+		sb.append(sst).append("-").append(sd);
+	}
+    else {sb.append(sst);}
+	return sb.toString();
   }
+  
 
   /**
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
- /* private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(java.lang.Object o) {
     if (o == null) {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
   }
-  */
+  
   //CHECKS IF A GIVEN SNSSAI IS VALID ACCORDING TO TS 29.571 AT CLAUSE 5.4.4.2
   public static String checkSnssai(String input) { 
 	  String[] parts = {input , "000000"};
