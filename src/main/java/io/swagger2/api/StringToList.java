@@ -103,6 +103,7 @@ public class StringToList {
 			}
 		return output;
 	}
+	/*
 	  public static List<PlmnId> StringToPlmnId(String input){
 		  List <String> plmnIdStringList = new ArrayList<String>();
 		  List output = new ArrayList<TS29571CommonDataYamlcomponentsschemasPlmnId.PlmnId>();
@@ -159,7 +160,7 @@ public class StringToList {
 		}
 		return output;
 	}
-
+*/
 //	public List<NsiIdInfo> stringToNsiIdInfo(String input) {
 //		Map<String, String> inputMap = new JsonToMap().jsonToMap(input);
 //		List<NsiIdInfo> output = new ArrayList<NsiIdInfo>();

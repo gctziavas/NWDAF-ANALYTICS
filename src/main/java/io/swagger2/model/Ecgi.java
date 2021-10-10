@@ -5,9 +5,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger2.model.TS29571CommonDataYamlcomponentsschemasEutraCellId;
-import io.swagger2.model.TS29571CommonDataYamlcomponentsschemasNid;
-import io.swagger2.model.TS29571CommonDataYamlcomponentsschemasPlmnId;
+import io.swagger2.model.EutraCellId;
+import io.swagger2.model.Nid;
+import io.swagger2.model.PlmnId;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -19,19 +19,30 @@ import javax.validation.constraints.*;
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-04T13:04:57.679821+03:00[Europe/Athens]")
 public class Ecgi   {
   @JsonProperty("plmnId")
-  private TS29571CommonDataYamlcomponentsschemasPlmnId plmnId = null;
+  private PlmnId plmnId = null;
 
   @JsonProperty("eutraCellId")
-  private TS29571CommonDataYamlcomponentsschemasEutraCellId eutraCellId = null;
+  private EutraCellId eutraCellId = null;
 
   @JsonProperty("nid")
-  private TS29571CommonDataYamlcomponentsschemasNid nid = null;
+  private Nid nid = null;
 
-  public Ecgi plmnId(TS29571CommonDataYamlcomponentsschemasPlmnId plmnId) {
+  public Ecgi plmnId(PlmnId plmnId) {
     this.plmnId = plmnId;
     return this;
   }
-
+  
+  public Ecgi(PlmnId plmnId, EutraCellId eutraCellId) {
+	this.plmnId = plmnId;
+	this.eutraCellId = eutraCellId;
+  }
+  
+  public Ecgi(PlmnId plmnId, EutraCellId eutraCellId, Nid nid) {
+	  this.plmnId = plmnId;
+	  this.eutraCellId = eutraCellId;
+	  this.nid = nid;
+  }
+  
   /**
    * Get plmnId
    * @return plmnId
@@ -40,19 +51,20 @@ public class Ecgi   {
       @NotNull
 
     @Valid
-    public TS29571CommonDataYamlcomponentsschemasPlmnId getPlmnId() {
+    public PlmnId getPlmnId() {
     return plmnId;
   }
 
-  public void setPlmnId(TS29571CommonDataYamlcomponentsschemasPlmnId plmnId) {
+  public void setPlmnId(PlmnId plmnId) {
     this.plmnId = plmnId;
   }
 
-  public Ecgi eutraCellId(TS29571CommonDataYamlcomponentsschemasEutraCellId eutraCellId) {
+  public Ecgi eutraCellId(EutraCellId eutraCellId) {
     this.eutraCellId = eutraCellId;
     return this;
   }
 
+  
   /**
    * Get eutraCellId
    * @return eutraCellId
@@ -61,15 +73,15 @@ public class Ecgi   {
       @NotNull
 
     @Valid
-    public TS29571CommonDataYamlcomponentsschemasEutraCellId getEutraCellId() {
+    public EutraCellId getEutraCellId() {
     return eutraCellId;
   }
 
-  public void setEutraCellId(TS29571CommonDataYamlcomponentsschemasEutraCellId eutraCellId) {
+  public void setEutraCellId(EutraCellId eutraCellId) {
     this.eutraCellId = eutraCellId;
   }
 
-  public Ecgi nid(TS29571CommonDataYamlcomponentsschemasNid nid) {
+  public Ecgi nid(Nid nid) {
     this.nid = nid;
     return this;
   }
@@ -81,11 +93,11 @@ public class Ecgi   {
   @ApiModelProperty(value = "")
   
     @Valid
-    public TS29571CommonDataYamlcomponentsschemasNid getNid() {
+    public Nid getNid() {
     return nid;
   }
 
-  public void setNid(TS29571CommonDataYamlcomponentsschemasNid nid) {
+  public void setNid(Nid nid) {
     this.nid = nid;
   }
 

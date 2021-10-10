@@ -13,12 +13,16 @@ import javax.validation.constraints.*;
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-04T13:04:57.679821+03:00[Europe/Athens]")
 public class Mnc   {
 	private Integer Mnc = null;
+	
 	public Mnc(Integer mnc) {
 		if(mnc==null) {
 			  return ;
 		  }
-		else {
-			Mnc = mnc;
+		else if( String.valueOf(mnc).length() != 3 &&  String.valueOf(mnc).length() != 2){
+			return ;
+		}
+		else{
+			this.Mnc = mnc;
 		}
 	}
 

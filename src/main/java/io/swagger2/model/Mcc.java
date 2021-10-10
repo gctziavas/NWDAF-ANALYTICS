@@ -13,9 +13,13 @@ import javax.validation.constraints.*;
 public class Mcc   {
 	private Integer mcc = null;
 
-	public Mcc mcc(Integer mcc) {
-		this.mcc  = mcc;
-		return this;
+	public Mcc(Integer mcc) {
+		if(mcc==null || String.valueOf(mcc).length() != 3) {
+			this.mcc = null;
+		}
+		else {
+			this.mcc  = mcc;
+		}
 	}
   @Override
   public boolean equals(java.lang.Object o) {

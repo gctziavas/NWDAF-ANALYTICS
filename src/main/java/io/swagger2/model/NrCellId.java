@@ -1,6 +1,9 @@
 package io.swagger2.model;
 
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -11,7 +14,26 @@ import javax.validation.constraints.*;
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-04T13:04:57.679821+03:00[Europe/Athens]")
 public class NrCellId   {
-
+	
+	private String NrCellId = null;
+	
+	public NrCellId(String NrCellId) {
+		if(NrCellId == null) {
+			return ;
+		}
+		else {
+			String pattern = "^[A-Fa-f0-9]{9}$";
+			Pattern r = Pattern.compile(pattern);
+			Matcher m = r.matcher(NrCellId);
+			if(m.matches()) {
+				this.NrCellId = NrCellId;
+			}
+		}
+	
+	}
+	
+	
+	
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

@@ -5,9 +5,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger2.model.TS29571CommonDataYamlcomponentsschemasNid;
-import io.swagger2.model.TS29571CommonDataYamlcomponentsschemasNrCellId;
-import io.swagger2.model.TS29571CommonDataYamlcomponentsschemasPlmnId;
+import io.swagger2.model.Nid;
+import io.swagger2.model.NrCellId;
+import io.swagger2.model.PlmnId;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -19,19 +19,29 @@ import javax.validation.constraints.*;
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-04T13:04:57.679821+03:00[Europe/Athens]")
 public class Ncgi   {
   @JsonProperty("plmnId")
-  private TS29571CommonDataYamlcomponentsschemasPlmnId plmnId = null;
+  private PlmnId plmnId = null;
 
   @JsonProperty("nrCellId")
-  private TS29571CommonDataYamlcomponentsschemasNrCellId nrCellId = null;
+  private NrCellId nrCellId = null;
 
   @JsonProperty("nid")
-  private TS29571CommonDataYamlcomponentsschemasNid nid = null;
+  private Nid nid = null;
 
-  public Ncgi plmnId(TS29571CommonDataYamlcomponentsschemasPlmnId plmnId) {
+  public Ncgi plmnId(PlmnId plmnId) {
     this.plmnId = plmnId;
     return this;
   }
-
+  
+  public Ncgi(PlmnId plmnId, NrCellId nrCellId) {
+	  this.plmnId = plmnId;
+	  this.nrCellId = nrCellId;
+  }
+  
+  public Ncgi(PlmnId plmnId, NrCellId nrCellId, Nid nid) {
+	  this.plmnId = plmnId;
+	  this.nrCellId = nrCellId;
+	  this.nid = nid;
+  }
   /**
    * Get plmnId
    * @return plmnId
@@ -40,15 +50,15 @@ public class Ncgi   {
       @NotNull
 
     @Valid
-    public TS29571CommonDataYamlcomponentsschemasPlmnId getPlmnId() {
+    public PlmnId getPlmnId() {
     return plmnId;
   }
 
-  public void setPlmnId(TS29571CommonDataYamlcomponentsschemasPlmnId plmnId) {
+  public void setPlmnId(PlmnId plmnId) {
     this.plmnId = plmnId;
   }
 
-  public Ncgi nrCellId(TS29571CommonDataYamlcomponentsschemasNrCellId nrCellId) {
+  public Ncgi nrCellId(NrCellId nrCellId) {
     this.nrCellId = nrCellId;
     return this;
   }
@@ -61,15 +71,15 @@ public class Ncgi   {
       @NotNull
 
     @Valid
-    public TS29571CommonDataYamlcomponentsschemasNrCellId getNrCellId() {
+    public NrCellId getNrCellId() {
     return nrCellId;
   }
 
-  public void setNrCellId(TS29571CommonDataYamlcomponentsschemasNrCellId nrCellId) {
+  public void setNrCellId(NrCellId nrCellId) {
     this.nrCellId = nrCellId;
   }
 
-  public Ncgi nid(TS29571CommonDataYamlcomponentsschemasNid nid) {
+  public Ncgi nid(Nid nid) {
     this.nid = nid;
     return this;
   }
@@ -81,11 +91,11 @@ public class Ncgi   {
   @ApiModelProperty(value = "")
   
     @Valid
-    public TS29571CommonDataYamlcomponentsschemasNid getNid() {
+    public Nid getNid() {
     return nid;
   }
 
-  public void setNid(TS29571CommonDataYamlcomponentsschemasNid nid) {
+  public void setNid(Nid nid) {
     this.nid = nid;
   }
 

@@ -5,14 +5,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger2.model.TS29571CommonDataYamlcomponentsschemasENbId;
-import io.swagger2.model.TS29571CommonDataYamlcomponentsschemasGNbId;
-import io.swagger2.model.TS29571CommonDataYamlcomponentsschemasN3IwfId;
-import io.swagger2.model.TS29571CommonDataYamlcomponentsschemasNgeNbId;
-import io.swagger2.model.TS29571CommonDataYamlcomponentsschemasNid;
-import io.swagger2.model.TS29571CommonDataYamlcomponentsschemasPlmnId;
-import io.swagger2.model.TS29571CommonDataYamlcomponentsschemasTngfId;
-import io.swagger2.model.TS29571CommonDataYamlcomponentsschemasWAgfId;
+import io.swagger2.model.ENbId;
+import io.swagger2.model.GNbId;
+import io.swagger2.model.N3IwfId;
+import io.swagger2.model.NgeNbId;
+import io.swagger2.model.Nid;
+import io.swagger2.model.PlmnId;
+import io.swagger2.model.TngfId;
+import io.swagger2.model.WAgfId;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -24,30 +24,30 @@ import javax.validation.constraints.*;
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-04T13:04:57.679821+03:00[Europe/Athens]")
 public class GlobalRanNodeId  implements OneOfGlobalRanNodeId {
   @JsonProperty("plmnId")
-  private TS29571CommonDataYamlcomponentsschemasPlmnId plmnId = null;
+  private PlmnId plmnId = null;
 
   @JsonProperty("n3IwfId")
-  private TS29571CommonDataYamlcomponentsschemasN3IwfId n3IwfId = null;
+  private N3IwfId n3IwfId = null;
 
   @JsonProperty("gNbId")
-  private TS29571CommonDataYamlcomponentsschemasGNbId gNbId = null;
+  private GNbId gNbId = null;
 
   @JsonProperty("ngeNbId")
-  private TS29571CommonDataYamlcomponentsschemasNgeNbId ngeNbId = null;
+  private NgeNbId ngeNbId = null;
 
   @JsonProperty("wagfId")
-  private TS29571CommonDataYamlcomponentsschemasWAgfId wagfId = null;
+  private WAgfId wagfId = null;
 
   @JsonProperty("tngfId")
-  private TS29571CommonDataYamlcomponentsschemasTngfId tngfId = null;
+  private TngfId tngfId = null;
 
   @JsonProperty("nid")
-  private TS29571CommonDataYamlcomponentsschemasNid nid = null;
+  private Nid nid = null;
 
   @JsonProperty("eNbId")
-  private TS29571CommonDataYamlcomponentsschemasENbId eNbId = null;
+  private ENbId eNbId = null;
 
-  public GlobalRanNodeId plmnId(TS29571CommonDataYamlcomponentsschemasPlmnId plmnId) {
+  public GlobalRanNodeId plmnId(PlmnId plmnId) {
     this.plmnId = plmnId;
     return this;
   }
@@ -60,15 +60,15 @@ public class GlobalRanNodeId  implements OneOfGlobalRanNodeId {
       @NotNull
 
     @Valid
-    public TS29571CommonDataYamlcomponentsschemasPlmnId getPlmnId() {
+    public PlmnId getPlmnId() {
     return plmnId;
   }
 
-  public void setPlmnId(TS29571CommonDataYamlcomponentsschemasPlmnId plmnId) {
+  public void setPlmnId(PlmnId plmnId) {
     this.plmnId = plmnId;
   }
 
-  public GlobalRanNodeId n3IwfId(TS29571CommonDataYamlcomponentsschemasN3IwfId n3IwfId) {
+  public GlobalRanNodeId n3IwfId(N3IwfId n3IwfId) {
     this.n3IwfId = n3IwfId;
     return this;
   }
@@ -80,15 +80,15 @@ public class GlobalRanNodeId  implements OneOfGlobalRanNodeId {
   @ApiModelProperty(value = "")
   
     @Valid
-    public TS29571CommonDataYamlcomponentsschemasN3IwfId getN3IwfId() {
+    public N3IwfId getN3IwfId() {
     return n3IwfId;
   }
 
-  public void setN3IwfId(TS29571CommonDataYamlcomponentsschemasN3IwfId n3IwfId) {
+  public void setN3IwfId(N3IwfId n3IwfId) {
     this.n3IwfId = n3IwfId;
   }
 
-  public GlobalRanNodeId gNbId(TS29571CommonDataYamlcomponentsschemasGNbId gNbId) {
+  public GlobalRanNodeId gNbId(GNbId gNbId) {
     this.gNbId = gNbId;
     return this;
   }
@@ -100,15 +100,15 @@ public class GlobalRanNodeId  implements OneOfGlobalRanNodeId {
   @ApiModelProperty(value = "")
   
     @Valid
-    public TS29571CommonDataYamlcomponentsschemasGNbId getGNbId() {
+    public GNbId getGNbId() {
     return gNbId;
   }
 
-  public void setGNbId(TS29571CommonDataYamlcomponentsschemasGNbId gNbId) {
+  public void setGNbId(GNbId gNbId) {
     this.gNbId = gNbId;
   }
 
-  public GlobalRanNodeId ngeNbId(TS29571CommonDataYamlcomponentsschemasNgeNbId ngeNbId) {
+  public GlobalRanNodeId ngeNbId(NgeNbId ngeNbId) {
     this.ngeNbId = ngeNbId;
     return this;
   }
@@ -120,15 +120,15 @@ public class GlobalRanNodeId  implements OneOfGlobalRanNodeId {
   @ApiModelProperty(value = "")
   
     @Valid
-    public TS29571CommonDataYamlcomponentsschemasNgeNbId getNgeNbId() {
+    public NgeNbId getNgeNbId() {
     return ngeNbId;
   }
 
-  public void setNgeNbId(TS29571CommonDataYamlcomponentsschemasNgeNbId ngeNbId) {
+  public void setNgeNbId(NgeNbId ngeNbId) {
     this.ngeNbId = ngeNbId;
   }
 
-  public GlobalRanNodeId wagfId(TS29571CommonDataYamlcomponentsschemasWAgfId wagfId) {
+  public GlobalRanNodeId wagfId(WAgfId wagfId) {
     this.wagfId = wagfId;
     return this;
   }
@@ -140,15 +140,15 @@ public class GlobalRanNodeId  implements OneOfGlobalRanNodeId {
   @ApiModelProperty(value = "")
   
     @Valid
-    public TS29571CommonDataYamlcomponentsschemasWAgfId getWagfId() {
+    public WAgfId getWagfId() {
     return wagfId;
   }
 
-  public void setWagfId(TS29571CommonDataYamlcomponentsschemasWAgfId wagfId) {
+  public void setWagfId(WAgfId wagfId) {
     this.wagfId = wagfId;
   }
 
-  public GlobalRanNodeId tngfId(TS29571CommonDataYamlcomponentsschemasTngfId tngfId) {
+  public GlobalRanNodeId tngfId(TngfId tngfId) {
     this.tngfId = tngfId;
     return this;
   }
@@ -160,15 +160,15 @@ public class GlobalRanNodeId  implements OneOfGlobalRanNodeId {
   @ApiModelProperty(value = "")
   
     @Valid
-    public TS29571CommonDataYamlcomponentsschemasTngfId getTngfId() {
+    public TngfId getTngfId() {
     return tngfId;
   }
 
-  public void setTngfId(TS29571CommonDataYamlcomponentsschemasTngfId tngfId) {
+  public void setTngfId(TngfId tngfId) {
     this.tngfId = tngfId;
   }
 
-  public GlobalRanNodeId nid(TS29571CommonDataYamlcomponentsschemasNid nid) {
+  public GlobalRanNodeId nid(Nid nid) {
     this.nid = nid;
     return this;
   }
@@ -180,15 +180,15 @@ public class GlobalRanNodeId  implements OneOfGlobalRanNodeId {
   @ApiModelProperty(value = "")
   
     @Valid
-    public TS29571CommonDataYamlcomponentsschemasNid getNid() {
+    public Nid getNid() {
     return nid;
   }
 
-  public void setNid(TS29571CommonDataYamlcomponentsschemasNid nid) {
+  public void setNid(Nid nid) {
     this.nid = nid;
   }
 
-  public GlobalRanNodeId eNbId(TS29571CommonDataYamlcomponentsschemasENbId eNbId) {
+  public GlobalRanNodeId eNbId(ENbId eNbId) {
     this.eNbId = eNbId;
     return this;
   }
@@ -200,11 +200,11 @@ public class GlobalRanNodeId  implements OneOfGlobalRanNodeId {
   @ApiModelProperty(value = "")
   
     @Valid
-    public TS29571CommonDataYamlcomponentsschemasENbId getENbId() {
+    public ENbId getENbId() {
     return eNbId;
   }
 
-  public void setENbId(TS29571CommonDataYamlcomponentsschemasENbId eNbId) {
+  public void setENbId(ENbId eNbId) {
     this.eNbId = eNbId;
   }
 

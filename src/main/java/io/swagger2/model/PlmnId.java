@@ -7,8 +7,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger2.model.TS29571CommonDataYamlcomponentsschemasMcc;
-import io.swagger2.model.TS29571CommonDataYamlcomponentsschemasMnc;
+import io.swagger2.model.Mcc;
+import io.swagger2.model.Mnc;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -20,16 +20,23 @@ import javax.validation.constraints.*;
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-04T13:04:57.679821+03:00[Europe/Athens]")
 public class PlmnId   {
   @JsonProperty("mcc")
-  private static TS29571CommonDataYamlcomponentsschemasMcc mcc = null;
+  private Mcc mcc = null;
 
   @JsonProperty("mnc")
-  private static TS29571CommonDataYamlcomponentsschemasMnc mnc = null;
+  private Mnc mnc = null;
 
-  public PlmnId mcc(TS29571CommonDataYamlcomponentsschemasMcc mcc) {
+  public PlmnId mcc(Mcc mcc) {
     this.mcc = mcc;
     return this;
   }
-
+  
+  public PlmnId(Mcc mcc, Mnc mnc) {
+	  this.mcc= mcc;
+	  this.mnc= mnc;
+  }
+  
+  
+  
   /**
    * Get mcc
    * @return mcc
@@ -38,15 +45,15 @@ public class PlmnId   {
       @NotNull
 
     @Valid
-    public TS29571CommonDataYamlcomponentsschemasMcc getMcc() {
+    public Mcc getMcc() {
     return mcc;
   }
 
-  public void setMcc(TS29571CommonDataYamlcomponentsschemasMcc mcc) {
+  public void setMcc(Mcc mcc) {
     this.mcc = mcc;
   }
 
-  public PlmnId mnc(TS29571CommonDataYamlcomponentsschemasMnc mnc) {
+  public PlmnId mnc(Mnc mnc) {
     this.mnc = mnc;
     return this;
   }
@@ -59,11 +66,11 @@ public class PlmnId   {
       @NotNull
 
     @Valid
-    public TS29571CommonDataYamlcomponentsschemasMnc getMnc() {
+    public Mnc getMnc() {
     return mnc;
   }
 
-  public void setMnc(TS29571CommonDataYamlcomponentsschemasMnc mnc) {
+  public void setMnc(Mnc mnc) {
     this.mnc = mnc;
   }
 
@@ -110,7 +117,7 @@ public class PlmnId   {
   
 
   
-	public static List <PlmnId> PlmnIdList(TS29571CommonDataYamlcomponentsschemasMcc mcc2, TS29571CommonDataYamlcomponentsschemasMnc mnc2) {
+	public static List <PlmnId> PlmnIdList(Mcc mcc2, Mnc mnc2) {
 		  List list = new ArrayList<PlmnId>();
 		  
 		  if(mnc2 == null || mcc2 == null) {

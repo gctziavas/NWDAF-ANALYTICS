@@ -1,6 +1,9 @@
 package io.swagger2.model;
 
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -11,8 +14,31 @@ import javax.validation.constraints.*;
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-04T13:04:57.679821+03:00[Europe/Athens]")
 public class Nid   {
+	
+	private String nid = null;
+	public Nid(String nid) {
+		if(nid == null) {
+			return ;
+		}
+		else {
+			String pattern = "^[A-Fa-f0-9]{11}$";
+			Pattern r = Pattern.compile(pattern);
+			Matcher m = r.matcher(nid);
+			if(m.matches()) {
+				this.nid = nid;
+			}
+		}
+	}
+	
+  public String getNid() {
+		return nid;
+	}
 
-  @Override
+	public void setNid(String nid) {
+		this.nid = nid;
+	}
+
+@Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {
       return true;
