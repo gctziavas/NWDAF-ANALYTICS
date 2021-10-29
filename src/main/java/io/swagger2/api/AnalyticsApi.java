@@ -282,15 +282,13 @@ public interface AnalyticsApi {
             ad.setTimeStampGen(OffsetDateTime.now());
                 
             if (supportedFeats != null) {
-				if (supportedFeats.getAbnormalBehaviour() != null) {
-					ad.setSuppFeat("{AbnormalBehaviour=" + supportedFeats.getAbnormalBehaviour()
-							+ "; NetworkPerformance=" + supportedFeats.getNetworkPerformance() + "; NfLoad="
-							+ supportedFeats.getNfLoad() + "; NsiLoad=" + supportedFeats.getNsiLoad()
-							+ "; QoSSustainability=" + supportedFeats.getQoSSustainability()
-							+ "; ServiceExperience=" + supportedFeats.getServiceExperience() + "; UeCommunication="
-							+ supportedFeats.getUeCommunication() + "; UeMobility=" + supportedFeats.getUeMobility()
-							+ "; UserDataCongestion=" + supportedFeats.getUserDataCongestion() + "}");
-				} 
+				ad.setSuppFeat("{AbnormalBehaviour=" + supportedFeats.getAbnormalBehaviour()
+				+ "; NetworkPerformance=" + supportedFeats.getNetworkPerformance() + "; NfLoad="
+				+ supportedFeats.getNfLoad() + "; NsiLoad=" + supportedFeats.getNsiLoad()
+				+ "; QoSSustainability=" + supportedFeats.getQoSSustainability()
+				+ "; ServiceExperience=" + supportedFeats.getServiceExperience() + "; UeCommunication="
+				+ supportedFeats.getUeCommunication() + "; UeMobility=" + supportedFeats.getUeMobility()
+				+ "; UserDataCongestion=" + supportedFeats.getUserDataCongestion() + "}");
 			}
 			if (anaMap!=null) {
 				if (analyticsReq.getStartTs() != null) {
@@ -320,6 +318,7 @@ public interface AnalyticsApi {
                if(eventId.name() == "NSI_LOAD_LEVEL") {
             	   List<NsiLoadLevelInfo> nsiLoadLevelInfos = new ArrayList<NsiLoadLevelInfo>();
             	   if (eventFilt.getSnssais() != null) {
+            		  
             		   @Valid @Size(min = 1) List<Snssai> givenSnssais = eventFilt.getSnssais();
             		   for (int j = 0; j < givenSnssais.size(); j++) {
             			   Snssai currentSnssai = givenSnssais.get(j);
@@ -330,7 +329,9 @@ public interface AnalyticsApi {
 					//------------------------------------------------------------------------------------------------------      	              	  
             	   }
             	   if(eventFilt.getNsiIdInfos()!=null) {
+            		  
             		   List<NsiIdInfo> givenNsiIdInfos = eventFilt.getNsiIdInfos();
+            		   //System.out.println(givenNsiIdInfos.toString());
             		   for(int i = 0; i<givenNsiIdInfos.size(); i++) {
             			   Snssai currentSnssai = givenNsiIdInfos.get(i).getSnssai();
             			   List<String> currentNsiIdsList = givenNsiIdInfos.get(i).getNsiIds();

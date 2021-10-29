@@ -156,6 +156,21 @@ public class NsiIdInfo   {
 					}
 			}
 	  }
+	  else {
+		  NsiIdInfo info = null;
+		  String[] pairs = input.split(";"); // Split Snssais and nsiIds but keeping them paired
+		  Map<String, String> snssaiPart = new JsonToMap().ColonToMap(pairs[0]);
+		  Map<String, String> idPart = new JsonToMap().ColonToMap(pairs[1]);
+		  String snssaiString = snssaiPart.get("snssai");
+		  ArrayList<String> nsiIds = new ArrayList(Arrays.asList(idPart.get("nsiIds").split(",")));
+		  //System.out.println("SNSSAI = "+snssai + " Corresponding nsiIds = "+Arrays.toString(nsiIds));
+			
+		  if (Snssai.checkSnssai(snssaiString)!=null) {
+			  Snssai snssai = new Snssai(snssaiString);
+			  info = new NsiIdInfo(snssai , nsiIds);
+			  output.add(info);
+			  }
+	  }
 	  //System.out.println(output.toString());
 	  return output;
   }

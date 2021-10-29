@@ -101,10 +101,11 @@ public class SupportedFeatures   {
 	}
 
 	public SupportedFeatures(String supportedFeatures) {
-		String pattern = "^[A-Fa-f0-9]{3}$";
+		String pattern = "^[A-Fa-f0-9]{1,3}";
 		Pattern r = Pattern.compile(pattern);
 		Matcher m = r.matcher(supportedFeatures);
 		if (m.matches()) {
+			
 			int num = (Integer.parseInt(supportedFeatures, 16));
 			String supportedFeaturesBin = Integer.toBinaryString(num);
 			char[] charArray = supportedFeaturesBin.toCharArray();
