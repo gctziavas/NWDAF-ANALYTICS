@@ -1,5 +1,7 @@
 package io.swagger2.model;
 
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -10,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger2.api.ReadFileIntoList;
 import io.swagger2.model.Snssai;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
@@ -86,14 +89,75 @@ public class NsiLoadLevelInfo   {
 		return ;
 	}  
 	else {
-		String snssaiIn = givenSnssai.toString();
-		Random r = new Random();
-		int loadLevelInfo = r.nextInt(100) + 1;
+		String file = "/home/gctz/Desktop/data/"+givenSnssai.toString2();
+		String snssaiIn = givenSnssai.toString2();
+		List<String> loadLevels = new ReadFileIntoList().readFileInList(file);
+		String lastItem = loadLevels.get(loadLevels.size() - 1);
+		String[] lastLoad = lastItem.split(" ");
+		int newLoadInfo = Integer.parseInt(lastLoad[1].toString());
 		this.snssai = snssaiIn;
-		//this.snssai = new Snssai(snssaiIn);
-		this.loadLevelInformation = loadLevelInfo;
+		this.loadLevelInformation = newLoadInfo;
 	}
   }
+  
+  public NsiLoadLevelInfo(Snssai givenSnssai, OffsetDateTime startTs) {
+	if(givenSnssai == null) {
+		return ;
+	}  
+	else {
+		String file = "/home/gctz/Desktop/data/"+givenSnssai.toString2();
+		String snssaiIn = givenSnssai.toString2();
+		List <String> loadLevels = new ReadFileIntoList().readFileInList(file);
+		ArrayList <OffsetDateTime> times = new ArrayList<OffsetDateTime>();
+		ArrayList <Integer> loads = new ArrayList<Integer>();
+		int loadLevelSum = 0;
+		int counter = 0;
+		for(int i=0; i<loadLevels.size(); i++) {
+			OffsetDateTime time = OffsetDateTime.parse(loadLevels.get(i).split(" ")[0], DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+			Integer load = Integer.parseInt(loadLevels.get(i).split(" ")[1]);
+			loads.add(i, load);
+			times.add(i, time);
+			if(startTs.compareTo(times.get(i)) <= 0) {
+				loadLevelSum = loadLevelSum + load;
+				counter++;
+				System.out.println("TimeDif="+startTs.compareTo(times.get(i))+" loadLevelSum="+loadLevelSum+" Load="+load+" Counter"+ counter);
+			}
+		}
+		int newLoadInfo = loadLevelSum / counter;
+		this.snssai = snssaiIn;
+		this.loadLevelInformation = newLoadInfo;
+	}
+  }
+  
+  public NsiLoadLevelInfo(Snssai givenSnssai, OffsetDateTime startTs, OffsetDateTime endTs) {
+	if(givenSnssai == null) {
+		return ;
+	}  
+	else {
+		String file = "/home/gctz/Desktop/data/"+givenSnssai.toString2();
+		String snssaiIn = givenSnssai.toString2();
+		List <String> loadLevels = new ReadFileIntoList().readFileInList(file);
+		ArrayList <OffsetDateTime> times = new ArrayList<OffsetDateTime>();
+		ArrayList <Integer> loads = new ArrayList<Integer>();
+		int loadLevelSum = 0;
+		int counter = 0;
+		for(int i=0; i<loadLevels.size(); i++) {
+			OffsetDateTime time = OffsetDateTime.parse(loadLevels.get(i).split(" ")[0], DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+			Integer load = Integer.parseInt(loadLevels.get(i).split(" ")[1]);
+			loads.add(i, load);
+			times.add(i, time);
+			if(startTs.compareTo(times.get(i)) <= 0 && endTs.compareTo(times.get(i)) >=0) {
+				loadLevelSum = loadLevelSum + load;
+				counter++;
+				System.out.println("TimeDif="+startTs.compareTo(times.get(i))+" loadLevelSum="+loadLevelSum+" Load="+load+" Counter"+ counter);
+			}
+		}
+		int newLoadInfo = loadLevelSum / counter;
+		this.snssai = snssaiIn;
+		this.loadLevelInformation = newLoadInfo;
+	}
+  }
+  
   public NsiLoadLevelInfo(Snssai givenSnssai, String givenNsiId) {
 		if(givenSnssai == null) {
 			return ;
