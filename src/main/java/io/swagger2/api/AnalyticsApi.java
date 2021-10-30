@@ -353,14 +353,17 @@ public interface AnalyticsApi {
             			NsiLoadLevelInfo currentNsiLoadLevelInfo;
 						if (analyticsReq.getStartTs() == null) {
 							currentNsiLoadLevelInfo = new NsiLoadLevelInfo(currentSnssai);
+							if(currentNsiLoadLevelInfo.getLoadLevelInformation() > 100) {return new ResponseEntity<>(HttpStatus.NO_CONTENT);}
 							nsiLoadLevelInfos.add(currentNsiLoadLevelInfo);
 						}
 						else if(analyticsReq.getEndTs()!=null) {
 							currentNsiLoadLevelInfo = new NsiLoadLevelInfo(currentSnssai, analyticsReq.getStartTs(), analyticsReq.getEndTs());
+							if(currentNsiLoadLevelInfo.getLoadLevelInformation() > 100) {return new ResponseEntity<>(HttpStatus.NO_CONTENT);}
 							nsiLoadLevelInfos.add(currentNsiLoadLevelInfo);
 						}
 						else {
 							currentNsiLoadLevelInfo = new NsiLoadLevelInfo(currentSnssai, analyticsReq.getStartTs());
+							if(currentNsiLoadLevelInfo.getLoadLevelInformation() > 100) {return new ResponseEntity<>(HttpStatus.NO_CONTENT);}
 							nsiLoadLevelInfos.add(currentNsiLoadLevelInfo);
 						}
             		}
@@ -373,9 +376,21 @@ public interface AnalyticsApi {
             			List<String> currentNsiIdsList = givenNsiIdInfos.get(i).getNsiIds();
             			for(int j=0; j < currentNsiIdsList.size(); j++) {
             				String currentNsiId = currentNsiIdsList.get(j);
-            				NsiLoadLevelInfo currentNsiLoadLevelInfo = new NsiLoadLevelInfo(currentSnssai, currentNsiId);
-            				//ad.addNsiLoadLevelInfosItem(currentNsiLoadLevelInfo);
-            				nsiLoadLevelInfos.add(currentNsiLoadLevelInfo);
+            				if (analyticsReq.getStartTs() == null) {
+								NsiLoadLevelInfo currentNsiLoadLevelInfo = new NsiLoadLevelInfo(currentSnssai,currentNsiId);
+								if(currentNsiLoadLevelInfo.getLoadLevelInformation() > 100) {return new ResponseEntity<>(HttpStatus.NO_CONTENT);}
+								nsiLoadLevelInfos.add(currentNsiLoadLevelInfo);
+							}
+            				else if(analyticsReq.getStartTs() != null) {
+            					NsiLoadLevelInfo currentNsiLoadLevelInfo = new NsiLoadLevelInfo(currentSnssai,currentNsiId, analyticsReq.getStartTs());
+            					if(currentNsiLoadLevelInfo.getLoadLevelInformation() > 100) {return new ResponseEntity<>(HttpStatus.NO_CONTENT);}
+								nsiLoadLevelInfos.add(currentNsiLoadLevelInfo);
+            				}
+            				else {
+            					NsiLoadLevelInfo currentNsiLoadLevelInfo = new NsiLoadLevelInfo(currentSnssai,currentNsiId, analyticsReq.getStartTs(), analyticsReq.getEndTs());
+            					if(currentNsiLoadLevelInfo.getLoadLevelInformation() > 100) {return new ResponseEntity<>(HttpStatus.NO_CONTENT);}
+								nsiLoadLevelInfos.add(currentNsiLoadLevelInfo);
+            				}
             			}
             		}
             	}

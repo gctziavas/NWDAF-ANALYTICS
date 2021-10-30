@@ -13,7 +13,7 @@ public class ReadFileIntoList {
 			// do something
 			e.printStackTrace();
 	    }
-		System.out.println(lines);
+		//System.out.println(lines);
 	    return lines;
 	  }
 }
