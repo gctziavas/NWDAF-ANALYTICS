@@ -29,7 +29,7 @@ import javax.validation.constraints.*;
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-04T13:04:57.679821+03:00[Europe/Athens]")
 public class EventFilter   {
   @JsonProperty("anySlice")
-  private Boolean anySlice = null;
+  private Boolean anySlice = false;
 
   @JsonProperty("snssais")
   @Valid

@@ -57,6 +57,8 @@ import org.springframework.web.bind.annotation.CookieValue;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+
+import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
@@ -343,10 +345,33 @@ public interface AnalyticsApi {
             }
             if(eventId.name() == "NSI_LOAD_LEVEL") {
             	List<NsiLoadLevelInfo> nsiLoadLevelInfos = new ArrayList<NsiLoadLevelInfo>();
-            	if (eventFilt.getSnssais() == null && eventFilt.getNsiIdInfos()==null) {
+            	if (eventFilt.getSnssais() == null && eventFilt.getNsiIdInfos()==null && eventFilt.getAnySlice()!= true) {
             		return new ResponseEntity<>(ad , HttpStatus.NO_CONTENT);
             	}
-            	if (eventFilt.getSnssais() != null) {
+            	else if(eventFilt.getAnySlice()== true) {
+            		File folder = new File("/home/gctz/Desktop/data/");
+            		File[] listOfFiles = folder.listFiles();
+            		ArrayList<Snssai> allSnssais = new ArrayList<Snssai>();
+            		ArrayList<NsiIdInfo> allNsiIdInfos = new ArrayList<NsiIdInfo>();
+            		for (int i = 0; i < listOfFiles.length; i++) {
+            			String currentFile = listOfFiles[i].getName();
+            			String checkIfValid = Snssai.checkSnssai(currentFile);
+            			
+            			if (checkIfValid != null) {
+            				boolean check = Snssai.isFileOfSnssai(currentFile);
+            				if(check) {
+            					allSnssais.add(new Snssai(currentFile));
+            				}
+            				else if(Snssai.checkSnssai(currentFile) != null){
+            					ArrayList<String> nsiIds = NsiIdInfo.isFileOfNsiId(currentFile);
+            					allNsiIdInfos.add(new NsiIdInfo(new Snssai(currentFile), nsiIds));
+            				}
+            			}
+            		}
+            		eventFilt.setSnssais(allSnssais);
+            		eventFilt.setNsiIdInfos(allNsiIdInfos);
+            	}
+            		if (eventFilt.getSnssais() != null) {
             		@Valid @Size(min = 1) List<Snssai> givenSnssais = eventFilt.getSnssais();
             		for (int j = 0; j < givenSnssais.size(); j++) {
             			Snssai currentSnssai = givenSnssais.get(j);
@@ -402,5 +427,7 @@ public interface AnalyticsApi {
     	  }
     	  return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
+
+	
 }
  

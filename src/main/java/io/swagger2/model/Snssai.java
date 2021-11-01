@@ -1,5 +1,7 @@
 package io.swagger2.model;
 
+import java.io.File;
+import java.time.OffsetDateTime;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger2.api.ReadFileIntoList;
 import io.swagger2.api.StringToList;
 
 import org.springframework.validation.annotation.Validated;
@@ -113,6 +116,31 @@ public class Snssai   {
 		}
 	  }
   }    
+  
+  public static boolean isFileOfSnssai(String fileName) {
+	  boolean flag = false;
+	  if(checkSnssai(fileName) == null) {
+		  return flag;
+	  }
+	  else {
+		  String file = "/home/gctz/Desktop/data/"+fileName;
+		  String snssaiIn = fileName;
+		  File tempFile = new File(file);
+		  List<String> loadLevels = new ReadFileIntoList().readFileInList(file);
+		  for (int i = 0; i < loadLevels.size(); i++) {
+			  List<String> objects = Arrays.asList(loadLevels.get(i).split(" "));
+			  if(objects.size()>2) {
+				  flag = false;
+				  return flag;
+			  }
+			  else if(objects.size()==2) {
+				  flag = true;
+			  }
+		  }
+		  return flag;
+	  }
+  }
+  
   
   public Snssai getSnssai() {
 	  if(sst == null) {
@@ -226,6 +254,10 @@ public String getSd() {
 		  parts = input.split("-");
 	    }
 	  String sdCheck = null;
+	  
+	  if(!parts[0].matches("[0-9]+")) {
+		  return null;
+	  }
 	  Integer sstCheck = Integer.parseInt(parts[0]);
 	  String addedZeros = "";
 	  if (parts[1].length() < 6) {

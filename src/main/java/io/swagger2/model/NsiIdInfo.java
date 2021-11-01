@@ -7,7 +7,10 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger2.api.JsonToMap;
+import io.swagger2.api.ReadFileIntoList;
 import io.swagger2.model.Snssai;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -174,4 +177,29 @@ public class NsiIdInfo   {
 	  //System.out.println(output.toString());
 	  return output;
   }
+  public static ArrayList<String> isFileOfNsiId(String fileName) {
+	  ArrayList<String> allNsiIds= new ArrayList<String>();
+	  if(Snssai.checkSnssai(fileName) == null) {
+		  return allNsiIds;
+	  }
+	  else {
+		  String file = "/home/gctz/Desktop/data/"+fileName;
+		  String snssaiIn = fileName;
+		  File tempFile = new File(file);
+		  List<String> loadLevels = new ReadFileIntoList().readFileInList(file);
+		  for (int i = 0; i < loadLevels.size(); i++) {
+			  List<String> objects = Arrays.asList(loadLevels.get(i).split(" "));
+			  for(int j=1; j<objects.size(); j++) {
+				  String currentNsiId = objects.get(j).split("-")[0];
+				  if (!allNsiIds.contains(currentNsiId)) {
+					allNsiIds.add(currentNsiId);
+				}
+			  }
+		  }
+	  }
+	  return allNsiIds;
+  }
+  
+  
+  
 }
