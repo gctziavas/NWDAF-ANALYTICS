@@ -406,7 +406,7 @@ public interface AnalyticsApi {
 								if(currentNsiLoadLevelInfo.getLoadLevelInformation() > 100) {return new ResponseEntity<>(HttpStatus.NO_CONTENT);}
 								nsiLoadLevelInfos.add(currentNsiLoadLevelInfo);
 							}
-            				else if(analyticsReq.getStartTs() != null) {
+            				else if(analyticsReq.getStartTs() != null && analyticsReq.getEndTs() == null ) {
             					NsiLoadLevelInfo currentNsiLoadLevelInfo = new NsiLoadLevelInfo(currentSnssai,currentNsiId, analyticsReq.getStartTs());
             					if(currentNsiLoadLevelInfo.getLoadLevelInformation() > 100) {return new ResponseEntity<>(HttpStatus.NO_CONTENT);}
 								nsiLoadLevelInfos.add(currentNsiLoadLevelInfo);

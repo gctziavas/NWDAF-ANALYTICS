@@ -176,8 +176,7 @@ public class NsiLoadLevelInfo   {
 				if (startTs.compareTo(times.get(i)) <= 0 && endTs.compareTo(times.get(i)) >= 0) {
 					loadLevelSum = loadLevelSum + load;
 					counter++;
-					System.out.println("TimeDif=" + startTs.compareTo(times.get(i)) + " loadLevelSum=" + loadLevelSum
-							+ " Load=" + load + " Counter" + counter);
+					//System.out.println("Counter" + counter + "Snssai= "+snssaiIn );
 				}
 			}
 			if (counter != 0) {
@@ -257,8 +256,9 @@ public class NsiLoadLevelInfo   {
 								int currentNsiLoadLevel = Integer.parseInt(nsiLevels.get(j).split("-")[1]);
 								loadLevelSum = loadLevelSum + currentNsiLoadLevel;
 								counter++;
-								System.out.println("TimeDif=" + startTs.compareTo(times.get(i)) + " loadLevelSum="
-										+ loadLevelSum + " Load=" + currentNsiLoadLevel + " Counter" + counter);
+								//System.out.println("-------Counter: "+ counter+ "CurrentNsi: " +currentNsi);
+								//System.out.println("TimeDif=" + startTs.compareTo(times.get(i)) + " loadLevelSum="
+								//		+ loadLevelSum + " Load=" + currentNsiLoadLevel + " Counter" + counter);
 							}
 						}
 					}
@@ -305,7 +305,7 @@ public class NsiLoadLevelInfo   {
 								int currentNsiLoadLevel = Integer.parseInt(nsiLevels.get(j).split("-")[1]);
 								loadLevelSum = loadLevelSum + currentNsiLoadLevel;
 								counter++;
-								//System.out.println("TimeDif="+startTs.compareTo(times.get(i))+" loadLevelSum="+loadLevelSum+" Load="+currentNsiLoadLevel+" Counter"+ counter);
+								//System.out.println("Counter: "+ counter+ "CurrentNsi: " +currentNsi);
 							}
 						}
 					}
