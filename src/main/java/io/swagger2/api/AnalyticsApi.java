@@ -311,39 +311,39 @@ public interface AnalyticsApi {
 				ad.setSliceLoadLevelInfos(null); 
 				return new ResponseEntity<>(ad , HttpStatus.NOT_IMPLEMENTED);
 			}
-			if(eventId.name() == "NETWORK_PERFORMANCE") {
+			else if(eventId.name() == "NETWORK_PERFORMANCE") {
 				ad.setNwPerfs(null);
 				return new ResponseEntity<>(ad , HttpStatus.NOT_IMPLEMENTED);
 			}
-            if(eventId.name() == "NF_LOAD") {
+			else if(eventId.name() == "NF_LOAD") {
             	ad.setNfLoadLevelInfos(null);
             	return new ResponseEntity<>(ad , HttpStatus.NOT_IMPLEMENTED);
             }
-            if(eventId.name() == "SERVICE_EXPERIENCE") {
+			else if(eventId.name() == "SERVICE_EXPERIENCE") {
             	ad.setSvcExps(null);
             	return new ResponseEntity<>(ad , HttpStatus.NOT_IMPLEMENTED);
             }
-            if(eventId.name() == "UE_MOBILITY") {
+			else if(eventId.name() == "UE_MOBILITY") {
             	ad.setUeMobs(null);
             	return new ResponseEntity<>(ad , HttpStatus.NOT_IMPLEMENTED);
             }
-            if(eventId.name() == "UE_COMMUNICATION") {
+			else if(eventId.name() == "UE_COMMUNICATION") {
             	ad.setUeComms(null);
             	return new ResponseEntity<>(ad , HttpStatus.NOT_IMPLEMENTED);
             }
-            if(eventId.name() == "QOS_SUSTAINABILITY") {
+			else if(eventId.name() == "QOS_SUSTAINABILITY") {
             	ad.setQosSustainInfos(null);
             	return new ResponseEntity<>(ad , HttpStatus.NOT_IMPLEMENTED);
             }
-            if(eventId.name() == "ABNORMAL_BEHAVIOUR") {
+			else if(eventId.name() == "ABNORMAL_BEHAVIOUR") {
             	ad.setAbnorBehavrs(null);
             	return new ResponseEntity<>(ad , HttpStatus.NOT_IMPLEMENTED);
             }
-            if(eventId.name() == "USER_DATA_CONGESTION") {
+			else if(eventId.name() == "USER_DATA_CONGESTION") {
             	ad.setUserDataCongInfos(null);
             	return new ResponseEntity<>(ad , HttpStatus.NOT_IMPLEMENTED);
             }
-            if(eventId.name() == "NSI_LOAD_LEVEL") {
+			else if(eventId.name() == "NSI_LOAD_LEVEL") {
             	List<NsiLoadLevelInfo> nsiLoadLevelInfos = new ArrayList<NsiLoadLevelInfo>();
             	if (eventFilt.getSnssais() == null && eventFilt.getNsiIdInfos()==null && eventFilt.getAnySlice()!= true) {
             		return new ResponseEntity<>(ad , HttpStatus.NO_CONTENT);
@@ -356,13 +356,15 @@ public interface AnalyticsApi {
             		for (int i = 0; i < listOfFiles.length; i++) {
             			String currentFile = listOfFiles[i].getName();
             			String checkIfValid = Snssai.checkSnssai(currentFile);
-            			
             			if (checkIfValid != null) {
+            				//System.out.println(checkIfValid+" IS VALID");
+            				/*
             				boolean check = Snssai.isFileOfSnssai(currentFile);
             				if(check) {
             					allSnssais.add(new Snssai(currentFile));
             				}
-            				else if(Snssai.checkSnssai(currentFile) != null){
+            				*/
+            				if(Snssai.checkSnssai(currentFile) != null){
             					ArrayList<String> nsiIds = NsiIdInfo.isFileOfNsiId(currentFile);
             					allNsiIdInfos.add(new NsiIdInfo(new Snssai(currentFile), nsiIds));
             				}
@@ -371,52 +373,69 @@ public interface AnalyticsApi {
             		eventFilt.setSnssais(allSnssais);
             		eventFilt.setNsiIdInfos(allNsiIdInfos);
             	}
-            		if (eventFilt.getSnssais() != null) {
-            		@Valid @Size(min = 1) List<Snssai> givenSnssais = eventFilt.getSnssais();
-            		for (int j = 0; j < givenSnssais.size(); j++) {
-            			Snssai currentSnssai = givenSnssais.get(j);
-            			NsiLoadLevelInfo currentNsiLoadLevelInfo;
-						if (analyticsReq.getStartTs() == null) {
-							currentNsiLoadLevelInfo = new NsiLoadLevelInfo(currentSnssai);
-							if(currentNsiLoadLevelInfo.getLoadLevelInformation() > 100) {return new ResponseEntity<>(HttpStatus.NO_CONTENT);}
-							nsiLoadLevelInfos.add(currentNsiLoadLevelInfo);
-						}
-						else if(analyticsReq.getEndTs()!=null) {
-							currentNsiLoadLevelInfo = new NsiLoadLevelInfo(currentSnssai, analyticsReq.getStartTs(), analyticsReq.getEndTs());
-							if(currentNsiLoadLevelInfo.getLoadLevelInformation() > 100) {return new ResponseEntity<>(HttpStatus.NO_CONTENT);}
-							nsiLoadLevelInfos.add(currentNsiLoadLevelInfo);
-						}
-						else {
-							currentNsiLoadLevelInfo = new NsiLoadLevelInfo(currentSnssai, analyticsReq.getStartTs());
-							if(currentNsiLoadLevelInfo.getLoadLevelInformation() > 100) {return new ResponseEntity<>(HttpStatus.NO_CONTENT);}
-							nsiLoadLevelInfos.add(currentNsiLoadLevelInfo);
-						}
-            		}
-				}
+            	/*
+            	if (eventFilt.getSnssais() != null) {
+            	@Valid @Size(min = 1) List<Snssai> givenSnssais = eventFilt.getSnssais();
+	            	for (int j = 0; j < givenSnssais.size(); j++) {
+	            		Snssai currentSnssai = givenSnssais.get(j);
+	            		NsiLoadLevelInfo currentNsiLoadLevelInfo;
+	            		if (analyticsReq.getStartTs() == null) {
+	            			currentNsiLoadLevelInfo = new NsiLoadLevelInfo(currentSnssai);
+	            			if(currentNsiLoadLevelInfo.getLoadLevelInformation() > 100) {return new ResponseEntity<>(HttpStatus.NO_CONTENT);}
+	            			nsiLoadLevelInfos.add(currentNsiLoadLevelInfo);
+	            		}
+	            		else if(analyticsReq.getEndTs()!=null) {
+	            			currentNsiLoadLevelInfo = new NsiLoadLevelInfo(currentSnssai, analyticsReq.getStartTs(), analyticsReq.getEndTs());
+	            			if(currentNsiLoadLevelInfo.getLoadLevelInformation() > 100) {return new ResponseEntity<>(HttpStatus.NO_CONTENT);}
+	            			nsiLoadLevelInfos.add(currentNsiLoadLevelInfo);
+	            		}
+	            		else {
+	            			currentNsiLoadLevelInfo = new NsiLoadLevelInfo(currentSnssai, analyticsReq.getStartTs());
+	            			if(currentNsiLoadLevelInfo.getLoadLevelInformation() > 100) {return new ResponseEntity<>(HttpStatus.NO_CONTENT);}
+	            			nsiLoadLevelInfos.add(currentNsiLoadLevelInfo);
+	            		}
+	            	}
+            	}
+            	*/
+            	
             	if(eventFilt.getNsiIdInfos()!=null) {
             		List<NsiIdInfo> givenNsiIdInfos = eventFilt.getNsiIdInfos();
-            		//System.out.println(givenNsiIdInfos.toString());
+            	//	System.out.println(givenNsiIdInfos.toString());
             		for(int i = 0; i<givenNsiIdInfos.size(); i++) {
             			Snssai currentSnssai = givenNsiIdInfos.get(i).getSnssai();
             			List<String> currentNsiIdsList = givenNsiIdInfos.get(i).getNsiIds();
-            			for(int j=0; j < currentNsiIdsList.size(); j++) {
-            				String currentNsiId = currentNsiIdsList.get(j);
-            				if (analyticsReq.getStartTs() == null) {
-								NsiLoadLevelInfo currentNsiLoadLevelInfo = new NsiLoadLevelInfo(currentSnssai,currentNsiId);
-								if(currentNsiLoadLevelInfo.getLoadLevelInformation() > 100) {return new ResponseEntity<>(HttpStatus.NO_CONTENT);}
-								nsiLoadLevelInfos.add(currentNsiLoadLevelInfo);
-							}
-            				else if(analyticsReq.getStartTs() != null && analyticsReq.getEndTs() == null ) {
-            					NsiLoadLevelInfo currentNsiLoadLevelInfo = new NsiLoadLevelInfo(currentSnssai,currentNsiId, analyticsReq.getStartTs());
-            					if(currentNsiLoadLevelInfo.getLoadLevelInformation() > 100) {return new ResponseEntity<>(HttpStatus.NO_CONTENT);}
-								nsiLoadLevelInfos.add(currentNsiLoadLevelInfo);
-            				}
-            				else {
-            					NsiLoadLevelInfo currentNsiLoadLevelInfo = new NsiLoadLevelInfo(currentSnssai,currentNsiId, analyticsReq.getStartTs(), analyticsReq.getEndTs());
-            					if(currentNsiLoadLevelInfo.getLoadLevelInformation() > 100) {return new ResponseEntity<>(HttpStatus.NO_CONTENT);}
-								nsiLoadLevelInfos.add(currentNsiLoadLevelInfo);
-            				}
+            			if (currentNsiIdsList.isEmpty()) {
+            				ArrayList<String> nsiIds = NsiIdInfo.isFileOfNsiId(currentSnssai.toString2());
+            				givenNsiIdInfos.set(i, new NsiIdInfo(currentSnssai, nsiIds));
+            				currentNsiIdsList = givenNsiIdInfos.get(i).getNsiIds();
             			}
+            			if (currentNsiIdsList != null) {
+							for (int j = 0; j < currentNsiIdsList.size(); j++) {
+								String currentNsiId = currentNsiIdsList.get(j);
+								if (analyticsReq.getStartTs() == null) {
+									NsiLoadLevelInfo currentNsiLoadLevelInfo = new NsiLoadLevelInfo(currentSnssai,
+											currentNsiId);
+									if (currentNsiLoadLevelInfo.getLoadLevelInformation() > 100) {
+										return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+									}
+									nsiLoadLevelInfos.add(currentNsiLoadLevelInfo);
+								} else if (analyticsReq.getStartTs() != null && analyticsReq.getEndTs() == null) {
+									NsiLoadLevelInfo currentNsiLoadLevelInfo = new NsiLoadLevelInfo(currentSnssai,
+											currentNsiId, analyticsReq.getStartTs());
+									if (currentNsiLoadLevelInfo.getLoadLevelInformation() > 100) {
+										return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+									}
+									nsiLoadLevelInfos.add(currentNsiLoadLevelInfo);
+								} else {
+									NsiLoadLevelInfo currentNsiLoadLevelInfo = new NsiLoadLevelInfo(currentSnssai,
+											currentNsiId, analyticsReq.getStartTs(), analyticsReq.getEndTs());
+									if (currentNsiLoadLevelInfo.getLoadLevelInformation() > 100) {
+										return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+									}
+									nsiLoadLevelInfos.add(currentNsiLoadLevelInfo);
+								}
+							} 
+						}
             		}
             	}
             	ad.setNsiLoadLevelInfos(nsiLoadLevelInfos);

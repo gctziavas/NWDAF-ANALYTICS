@@ -35,9 +35,8 @@ public class NsiIdInfo   {
   @Valid
   private List<String> nsiIds = null;
 
-  public NsiIdInfo snssai(Snssai snssai) {
+  public NsiIdInfo(Snssai snssai) {
     this.snssai = snssai;
-    return this;
   }
   
   public NsiIdInfo(Snssai snssai, ArrayList<String> nsiIds) {
@@ -146,26 +145,43 @@ public class NsiIdInfo   {
 			for(int i = 0; i<parts.length; i++) {
 				NsiIdInfo info = null;
 				String[] pairs = parts[i].split(";"); // Split Snssais and nsiIds but keeping them paired
+				ArrayList <String> nsiIds = new ArrayList<String>();
 				Map<String, String> snssaiPart = new JsonToMap().ColonToMap(pairs[0]);
-				Map<String, String> idPart = new JsonToMap().ColonToMap(pairs[1]);
+				Map<String, String> idPart;
+				if (pairs.length==2) {
+					idPart = new JsonToMap().ColonToMap(pairs[1]);
+					String[] nsiIdsString = idPart.get("nsiIds").split(",");
+					for(int k=0; k<nsiIdsString.length; k++) {
+						nsiIds.add(nsiIdsString[k]);
+					}
+					
+				}
 				String snssaiString = snssaiPart.get("snssai");
-				ArrayList<String> nsiIds = new ArrayList(Arrays.asList(idPart.get("nsiIds").split(",")));
+				
 				//System.out.println("SNSSAI = "+snssai + " Corresponding nsiIds = "+Arrays.toString(nsiIds));
 				
-				if (Snssai.checkSnssai(snssaiString)!=null) {
-					Snssai snssai = new Snssai(snssaiString);
-					info = new NsiIdInfo(snssai , nsiIds);
-					output.add(info);
-					}
+				  if (Snssai.checkSnssai(snssaiString)!=null) {
+					  Snssai snssai = new Snssai(snssaiString);
+					  info = new NsiIdInfo(snssai , nsiIds);
+					  output.add(info);
+					  }
 			}
 	  }
 	  else {
 		  NsiIdInfo info = null;
 		  String[] pairs = input.split(";"); // Split Snssais and nsiIds but keeping them paired
 		  Map<String, String> snssaiPart = new JsonToMap().ColonToMap(pairs[0]);
-		  Map<String, String> idPart = new JsonToMap().ColonToMap(pairs[1]);
+		  ArrayList <String> nsiIds = new ArrayList<String>();
+		  Map<String, String> idPart;
+		  if (pairs.length==2) {
+			idPart = new JsonToMap().ColonToMap(pairs[1]);
+			String[] nsiIdsString = idPart.get("nsiIds").split(",");
+			for(int k=0; k<nsiIdsString.length; k++) {
+				nsiIds.add(nsiIdsString[k]);
+			}
+		}
 		  String snssaiString = snssaiPart.get("snssai");
-		  ArrayList<String> nsiIds = new ArrayList(Arrays.asList(idPart.get("nsiIds").split(",")));
+		  
 		  //System.out.println("SNSSAI = "+snssai + " Corresponding nsiIds = "+Arrays.toString(nsiIds));
 			
 		  if (Snssai.checkSnssai(snssaiString)!=null) {
