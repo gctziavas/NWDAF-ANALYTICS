@@ -296,8 +296,28 @@ public interface AnalyticsApi {
 					}
 				}
 				if (analyticsReq.getTimeAnaNeeded()!=null) {
-					int delay = OffsetDateTime.now().getSecond() - analyticsReq.getTimeAnaNeeded().getSecond();
-					if (delay>0) {
+					//int delay = OffsetDateTime.now().getSecond() - analyticsReq.getTimeAnaNeeded().getSecond();
+					OffsetDateTime timeAnaNeeded = analyticsReq.getTimeAnaNeeded();
+					OffsetDateTime currentTime = OffsetDateTime.now();
+					
+					if (timeAnaNeeded.compareTo(currentTime)>0) {
+						int yearDif = timeAnaNeeded.getYear() - currentTime.getYear();
+						//Convert the years difference into days difference + adding their daysDif into the year
+						int totalDaysDif = yearDif*365 + (currentTime.getDayOfYear() - currentTime.getDayOfYear());
+						//Taking into consideration the leap years
+						if(timeAnaNeeded.getYear()/4==0 || yearDif>=4) {
+							totalDaysDif = totalDaysDif+1;
+						}
+						if( currentTime.getYear()/4==0 ) {
+							totalDaysDif = totalDaysDif-1;
+						}
+						//Convert daysDif into minutes and adding their hoursDif into the day
+						int hoursDif = totalDaysDif*24 + ( timeAnaNeeded.getHour() - currentTime.getHour());
+						//Convert hoursDif in minutesDif
+						int minutesDif = hoursDif*60 + ( timeAnaNeeded.getMinute() - currentTime.getMinute());
+						//Convert minutesDif into secDif and adding their seconds difference
+						int delay = minutesDif*60 + ( timeAnaNeeded.getSecond() - currentTime.getSecond());
+						//System.out.println("Current:"+currentTime+"   Needed:"+timeAnaNeeded+"	\nYearDif:"+yearDif+"	\ndaysDif:" + totalDaysDif+"	\nhourDif"+hoursDif+"	\nminutesDif"+minutesDif+"	\nsecondsDif"+delay);
 						try {
 							java.util.concurrent.TimeUnit.SECONDS.sleep(delay);
 						} catch (InterruptedException e) {
@@ -345,59 +365,23 @@ public interface AnalyticsApi {
             }
 			else if(eventId.name() == "NSI_LOAD_LEVEL") {
             	List<NsiLoadLevelInfo> nsiLoadLevelInfos = new ArrayList<NsiLoadLevelInfo>();
-            	if (eventFilt.getSnssais() == null && eventFilt.getNsiIdInfos()==null && eventFilt.getAnySlice()!= true) {
+            	if (eventFilt.getNsiIdInfos()==null && eventFilt.getAnySlice()!= true) {
             		return new ResponseEntity<>(ad , HttpStatus.NO_CONTENT);
             	}
             	else if(eventFilt.getAnySlice()== true) {
             		File folder = new File("/home/gctz/Desktop/data/");
             		File[] listOfFiles = folder.listFiles();
-            		ArrayList<Snssai> allSnssais = new ArrayList<Snssai>();
             		ArrayList<NsiIdInfo> allNsiIdInfos = new ArrayList<NsiIdInfo>();
             		for (int i = 0; i < listOfFiles.length; i++) {
             			String currentFile = listOfFiles[i].getName();
-            			String checkIfValid = Snssai.checkSnssai(currentFile);
-            			if (checkIfValid != null) {
-            				//System.out.println(checkIfValid+" IS VALID");
-            				/*
-            				boolean check = Snssai.isFileOfSnssai(currentFile);
-            				if(check) {
-            					allSnssais.add(new Snssai(currentFile));
-            				}
-            				*/
-            				if(Snssai.checkSnssai(currentFile) != null){
-            					ArrayList<String> nsiIds = NsiIdInfo.isFileOfNsiId(currentFile);
-            					allNsiIdInfos.add(new NsiIdInfo(new Snssai(currentFile), nsiIds));
-            				}
+            			if(Snssai.checkSnssai(currentFile) != null){
+            				ArrayList<String> nsiIds = NsiIdInfo.isFileOfNsiId(currentFile);
+            				allNsiIdInfos.add(new NsiIdInfo(new Snssai(currentFile), nsiIds));
             			}
             		}
-            		eventFilt.setSnssais(allSnssais);
             		eventFilt.setNsiIdInfos(allNsiIdInfos);
             	}
-            	/*
-            	if (eventFilt.getSnssais() != null) {
-            	@Valid @Size(min = 1) List<Snssai> givenSnssais = eventFilt.getSnssais();
-	            	for (int j = 0; j < givenSnssais.size(); j++) {
-	            		Snssai currentSnssai = givenSnssais.get(j);
-	            		NsiLoadLevelInfo currentNsiLoadLevelInfo;
-	            		if (analyticsReq.getStartTs() == null) {
-	            			currentNsiLoadLevelInfo = new NsiLoadLevelInfo(currentSnssai);
-	            			if(currentNsiLoadLevelInfo.getLoadLevelInformation() > 100) {return new ResponseEntity<>(HttpStatus.NO_CONTENT);}
-	            			nsiLoadLevelInfos.add(currentNsiLoadLevelInfo);
-	            		}
-	            		else if(analyticsReq.getEndTs()!=null) {
-	            			currentNsiLoadLevelInfo = new NsiLoadLevelInfo(currentSnssai, analyticsReq.getStartTs(), analyticsReq.getEndTs());
-	            			if(currentNsiLoadLevelInfo.getLoadLevelInformation() > 100) {return new ResponseEntity<>(HttpStatus.NO_CONTENT);}
-	            			nsiLoadLevelInfos.add(currentNsiLoadLevelInfo);
-	            		}
-	            		else {
-	            			currentNsiLoadLevelInfo = new NsiLoadLevelInfo(currentSnssai, analyticsReq.getStartTs());
-	            			if(currentNsiLoadLevelInfo.getLoadLevelInformation() > 100) {return new ResponseEntity<>(HttpStatus.NO_CONTENT);}
-	            			nsiLoadLevelInfos.add(currentNsiLoadLevelInfo);
-	            		}
-	            	}
-            	}
-            	*/
-            	
+            	           	
             	if(eventFilt.getNsiIdInfos()!=null) {
             		List<NsiIdInfo> givenNsiIdInfos = eventFilt.getNsiIdInfos();
             	//	System.out.println(givenNsiIdInfos.toString());
@@ -413,22 +397,19 @@ public interface AnalyticsApi {
 							for (int j = 0; j < currentNsiIdsList.size(); j++) {
 								String currentNsiId = currentNsiIdsList.get(j);
 								if (analyticsReq.getStartTs() == null) {
-									NsiLoadLevelInfo currentNsiLoadLevelInfo = new NsiLoadLevelInfo(currentSnssai,
-											currentNsiId);
+									NsiLoadLevelInfo currentNsiLoadLevelInfo = new NsiLoadLevelInfo(currentSnssai, currentNsiId);
 									if (currentNsiLoadLevelInfo.getLoadLevelInformation() > 100) {
 										return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 									}
 									nsiLoadLevelInfos.add(currentNsiLoadLevelInfo);
 								} else if (analyticsReq.getStartTs() != null && analyticsReq.getEndTs() == null) {
-									NsiLoadLevelInfo currentNsiLoadLevelInfo = new NsiLoadLevelInfo(currentSnssai,
-											currentNsiId, analyticsReq.getStartTs());
+									NsiLoadLevelInfo currentNsiLoadLevelInfo = new NsiLoadLevelInfo(currentSnssai, currentNsiId, analyticsReq.getStartTs());
 									if (currentNsiLoadLevelInfo.getLoadLevelInformation() > 100) {
 										return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 									}
 									nsiLoadLevelInfos.add(currentNsiLoadLevelInfo);
 								} else {
-									NsiLoadLevelInfo currentNsiLoadLevelInfo = new NsiLoadLevelInfo(currentSnssai,
-											currentNsiId, analyticsReq.getStartTs(), analyticsReq.getEndTs());
+									NsiLoadLevelInfo currentNsiLoadLevelInfo = new NsiLoadLevelInfo(currentSnssai, currentNsiId, analyticsReq.getStartTs(), analyticsReq.getEndTs());
 									if (currentNsiLoadLevelInfo.getLoadLevelInformation() > 100) {
 										return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 									}
@@ -439,10 +420,8 @@ public interface AnalyticsApi {
             		}
             	}
             	ad.setNsiLoadLevelInfos(nsiLoadLevelInfos);
-            	//System.out.println("11"+ad);
             }
-            //--------------> TO PROVLHMA EINAI STHN ONTOTHTA POY EPISTREFEI TO RETURN <----------------------	
-            return new ResponseEntity<>(ad, HttpStatus.OK);
+			return new ResponseEntity<>(ad, HttpStatus.OK);
     	  }
     	  return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }

@@ -36,9 +36,9 @@ public class NsiLoadLevelInfo   {
 
   @JsonProperty("snssai")
   // an valw @   Json Back Reference to trexei alla den mou gyrizei to snssai
-  //private Snssai snssai = null;
-  private String snssai = null;
-
+  private Snssai snssai = null;
+  //private String snssai = null;
+  
   @JsonProperty("nsiId")
   private String nsiId = null;
 
@@ -62,12 +62,6 @@ public class NsiLoadLevelInfo   {
     this.loadLevelInformation = loadLevelInformation;
   }
   
-  //public NsiLoadLevelInfo snssai(Snssai snssai) {
-  public NsiLoadLevelInfo snssai(String snssai) {
-    this.snssai = snssai;
-    return this;
-  }
-
   /**
    * Get snssai
    * @return snssai
@@ -76,12 +70,12 @@ public class NsiLoadLevelInfo   {
       @NotNull
 
     @Valid
-    //public Snssai getSnssai() {
-    public String getSnssai() {
+    public Snssai getSnssai() {
+    //public String getSnssai() {
     return snssai;
   }
-  //public void setSnssai(Snssai snssai) {
-  public void setSnssai(String snssai) {
+  public void setSnssai(Snssai snssai) {
+  //public void setSnssai(String snssai) {
     this.snssai = snssai;
   }
 
@@ -91,12 +85,10 @@ public class NsiLoadLevelInfo   {
   }
   
   public NsiLoadLevelInfo(Snssai givenSnssai) {
-	if(givenSnssai == null) {
-		return ;
-	}  
-	else {
+
 		String file = "/home/gctz/Desktop/data/"+givenSnssai.toString2();
-		String snssaiIn = givenSnssai.toString2();
+		//String snssaiIn = givenSnssai.toString2();
+		Snssai snssaiIn = givenSnssai; 
 		this.snssai = snssaiIn;
 		File tempFile = new File(file);
 		if (tempFile.exists()) {
@@ -110,15 +102,13 @@ public class NsiLoadLevelInfo   {
 			this.loadLevelInformation = 1000;
 		}
 	}
-  }
+  
   
   public NsiLoadLevelInfo(Snssai givenSnssai, OffsetDateTime startTs) {
-	if(givenSnssai == null) {
-		return ;
-	}  
-	else {
+
 		String file = "/home/gctz/Desktop/data/"+givenSnssai.toString2();
-		String snssaiIn = givenSnssai.toString2();
+		//String snssaiIn = givenSnssai.toString2();
+		Snssai snssaiIn = givenSnssai;
 		File tempFile = new File(file);
 
 		if (tempFile.exists()) {
@@ -149,16 +139,14 @@ public class NsiLoadLevelInfo   {
 			this.loadLevelInformation = 1000;
 		}
 	}
-  }
+  
   
   public NsiLoadLevelInfo(Snssai givenSnssai, OffsetDateTime startTs, OffsetDateTime endTs) {
-	if(givenSnssai == null) {
-		return ;
-	}  
-	else {
+
 		this.loadLevelInformation = 1000;
 		String file = "/home/gctz/Desktop/data/"+givenSnssai.toString2();
-		String snssaiIn = givenSnssai.toString2();
+		//String snssaiIn = givenSnssai.toString2();
+		Snssai snssaiIn = givenSnssai;
 		File tempFile = new File(file);
 
 		if (tempFile.exists()) {
@@ -189,16 +177,14 @@ public class NsiLoadLevelInfo   {
 			this.loadLevelInformation = 1000;
 		}
 	}
-  }
+  
   
   public NsiLoadLevelInfo(Snssai givenSnssai, String givenNsiId) {
-		if(givenSnssai == null) {
-			return ;
-		}  
-		else {
+
 			int loadLevelInfo = 1000;
 			String file = "/home/gctz/Desktop/data/"+givenSnssai.toString2();
-			String snssaiIn = givenSnssai.toString2();
+			//String snssaiIn = givenSnssai.toString2();
+			Snssai snssaiIn = givenSnssai;
 			File tempFile = new File(file);
 
 			if (tempFile.exists()) {
@@ -218,25 +204,23 @@ public class NsiLoadLevelInfo   {
 				this.snssai = snssaiIn;
 				//this.snssai = new Snssai(snssaiIn);
 				this.loadLevelInformation = loadLevelInfo;
-				setNsiId(givenNsiId);
+				this.nsiId = givenNsiId;
 			}
 			else {
 				this.snssai = snssaiIn;
 				this.loadLevelInformation = 1000;
-				setNsiId(givenNsiId);
+				this.nsiId = givenNsiId;
 			}
 		}
-	  }
+	  
   
   public NsiLoadLevelInfo(Snssai givenSnssai, String givenNsiId, OffsetDateTime startTs) {
-		if(givenSnssai == null) {
-			return ;
-		}  
-		else {
+
 			int loadLevelInfo = 1000;
 			ArrayList <OffsetDateTime> times = new ArrayList<OffsetDateTime>();
 			String file = "/home/gctz/Desktop/data/" + givenSnssai.toString2();
-			String snssaiIn = givenSnssai.toString2();
+			//String snssaiIn = givenSnssai.toString2();
+			Snssai snssaiIn = givenSnssai;
 			File tempFile = new File(file);
 			if (tempFile.exists()) {
 				
@@ -276,17 +260,15 @@ public class NsiLoadLevelInfo   {
 				this.loadLevelInformation = 1000;
 				setNsiId(givenNsiId);
 			}
-		}
+		
 	  }
   public NsiLoadLevelInfo(Snssai givenSnssai, String givenNsiId, OffsetDateTime startTs, OffsetDateTime endTs) {
-		if(givenSnssai == null) {
-			return ;
-		}  
-		else {
+
 			int loadLevelInfo = 1000;
 			ArrayList <OffsetDateTime> times = new ArrayList<OffsetDateTime>();
 			String file = "/home/gctz/Desktop/data/"+givenSnssai.toString2();
-			String snssaiIn = givenSnssai.toString2();
+		//	String snssaiIn = givenSnssai.toString2();
+			Snssai snssaiIn = givenSnssai;
 			File tempFile = new File(file);
 			if (tempFile.exists()) {
 				List<String> loadLevels = new ReadFileIntoList().readFileInList(file);
@@ -325,7 +307,7 @@ public class NsiLoadLevelInfo   {
 				setNsiId(givenNsiId);
 			}
 		}
-	  }
+	  
   
   public ArrayList<NsiLoadLevelInfo> snssaisToNsiLoadLevelList(ArrayList<Snssai> givenSnssais){
 	  ArrayList<NsiLoadLevelInfo> output = new ArrayList<>();

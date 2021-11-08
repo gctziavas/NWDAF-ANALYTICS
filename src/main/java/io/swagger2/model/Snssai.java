@@ -32,49 +32,36 @@ public class Snssai   {
   @JsonProperty("sd")
   private String sd = null;
 
-  public Snssai sst(Integer sst) {
-    this.sst = sst;
-    return this;
-  }
-  public Snssai sd(String sd) {
-	    this.sd = sd;
-	    return this;
+  public Snssai(Integer sst) {
+	  if(sst >= 0 && sst <= 255) {
+		  this.sst = sst;
 	  }
+  }
   
   public Snssai(Integer sst, String sd) {
-	  if(sst == null) {
-		  return;
+	  Integer sstCheck = Integer.parseInt(String.valueOf(sst));
+	  String sdCheck = null;
+	  String addedZeros = "";
+	  if (sd.length() < 6) {
+		  int dif = 6 - sd.length();
+		  for(int i=0; i<dif; i++) {
+			  addedZeros+="0";
+		  } 
+		  sdCheck = addedZeros+ sd;
 	  }
-	  else {
-		  Integer sstCheck = Integer.parseInt(String.valueOf(sst));
-		  String sdCheck = null;
-		  String addedZeros = "";
-		  if (sd.length() < 6) {
-			  int dif = 6 - sd.length();
-			  for(int i=0; i<dif; i++) {
-				  addedZeros+="0";
-			  } 
-			  
-			  sdCheck = addedZeros+ sd;
-		  }
-		  //sdCheck = sd;
-		  String pattern = "^[A-Fa-f0-9]{6}$";
-		  Pattern r = Pattern.compile(pattern);
-		  Matcher m = r.matcher(sdCheck);
-		  if(sstCheck >= 0 && sstCheck <= 255 && m.matches()) {
-			  //setSst(sst);
-			  //setSd(sd);
-			  this.sst = sst;
-			  this.sd = sd;
-		  }
-		  else {return;}	  
+	  //sdCheck = sd;
+	  String pattern = "^[A-Fa-f0-9]{6}$";
+	  Pattern r = Pattern.compile(pattern);
+	  Matcher m = r.matcher(sdCheck);
+	  if(sstCheck >= 0 && sstCheck <= 255 && m.matches()) {
+		  this.sst = sst;
+		  this.sd = sd;
 	  }
   }    
   
   public Snssai(String input) {
 	  
 	  String[] parts = {input , "000000"};
-
 	  if(input.contains("-")) {
 		  parts = input.split("-");
 		  //System.out.println("++++++++++"+sst);
@@ -141,21 +128,6 @@ public class Snssai   {
 	  }
   }
   
-  
-  public Snssai getSnssai() {
-	  if(sst == null) {
-		  return null;
-	  }
-	  else {
-		  //setSst(sst);
-		  //setSd(sd);
-		  this.sst = sst;
-		  this.sd = sd;
-		  return this;
-		  
-	  }
-	  
-  }
   
   
   /**
