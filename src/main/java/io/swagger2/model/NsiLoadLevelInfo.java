@@ -202,7 +202,6 @@ public class NsiLoadLevelInfo   {
 					}
 				}
 				this.snssai = snssaiIn;
-				//this.snssai = new Snssai(snssaiIn);
 				this.loadLevelInformation = loadLevelInfo;
 				this.nsiId = givenNsiId;
 			}
