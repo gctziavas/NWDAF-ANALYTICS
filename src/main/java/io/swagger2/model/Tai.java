@@ -19,19 +19,28 @@ import javax.validation.constraints.*;
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-04T13:04:57.679821+03:00[Europe/Athens]")
 public class Tai   {
   @JsonProperty("plmnId")
-  private TS29571CommonDataYamlcomponentsschemasPlmnId plmnId = null;
+  private PlmnId plmnId = null;
 
   @JsonProperty("tac")
-  private TS29571CommonDataYamlcomponentsschemasTac tac = null;
+  private Tac tac = null;
 
   @JsonProperty("nid")
-  private TS29571CommonDataYamlcomponentsschemasNid nid = null;
+  private Nid nid = null;
 
-  public Tai plmnId(TS29571CommonDataYamlcomponentsschemasPlmnId plmnId) {
+  public Tai plmnId(PlmnId plmnId) {
     this.plmnId = plmnId;
     return this;
   }
-
+  
+  public Tai(PlmnId plmnId, Tac tac) {
+	  this.plmnId = plmnId;
+	  this.tac = tac;
+  }
+  public Tai(PlmnId plmnId, Tac tac, Nid nid) {
+	  this.plmnId = plmnId;
+	  this.tac = tac;
+	  this.nid = nid;
+  }
   /**
    * Get plmnId
    * @return plmnId
@@ -40,15 +49,15 @@ public class Tai   {
       @NotNull
 
     @Valid
-    public TS29571CommonDataYamlcomponentsschemasPlmnId getPlmnId() {
+    public PlmnId getPlmnId() {
     return plmnId;
   }
 
-  public void setPlmnId(TS29571CommonDataYamlcomponentsschemasPlmnId plmnId) {
+  public void setPlmnId(PlmnId plmnId) {
     this.plmnId = plmnId;
   }
 
-  public Tai tac(TS29571CommonDataYamlcomponentsschemasTac tac) {
+  public Tai tac(Tac tac) {
     this.tac = tac;
     return this;
   }
@@ -61,15 +70,15 @@ public class Tai   {
       @NotNull
 
     @Valid
-    public TS29571CommonDataYamlcomponentsschemasTac getTac() {
+    public Tac getTac() {
     return tac;
   }
 
-  public void setTac(TS29571CommonDataYamlcomponentsschemasTac tac) {
+  public void setTac(Tac tac) {
     this.tac = tac;
   }
 
-  public Tai nid(TS29571CommonDataYamlcomponentsschemasNid nid) {
+  public Tai nid(Nid nid) {
     this.nid = nid;
     return this;
   }
@@ -81,11 +90,11 @@ public class Tai   {
   @ApiModelProperty(value = "")
   
     @Valid
-    public TS29571CommonDataYamlcomponentsschemasNid getNid() {
+    public Nid getNid() {
     return nid;
   }
 
-  public void setNid(TS29571CommonDataYamlcomponentsschemasNid nid) {
+  public void setNid(Nid nid) {
     this.nid = nid;
   }
 

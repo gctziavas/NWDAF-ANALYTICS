@@ -19,7 +19,7 @@ public class NrCellId   {
 	
 	public NrCellId(String NrCellId) {
 		if(NrCellId == null) {
-			return ;
+			this.NrCellId=null;
 		}
 		else {
 			String pattern = "^[A-Fa-f0-9]{9}$";
@@ -27,6 +27,9 @@ public class NrCellId   {
 			Matcher m = r.matcher(NrCellId);
 			if(m.matches()) {
 				this.NrCellId = NrCellId;
+			}
+			else {
+				this.NrCellId = null;
 			}
 		}
 	

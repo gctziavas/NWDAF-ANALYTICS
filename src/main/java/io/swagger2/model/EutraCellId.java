@@ -5,8 +5,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * EutraCellId
@@ -14,20 +14,23 @@ import javax.validation.constraints.*;
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-04T13:04:57.679821+03:00[Europe/Athens]")
 public class EutraCellId   {
-	
+	@JsonProperty("eutraCellId")
 	private String eutraCellId = null;
+	
 	public EutraCellId(String eutraCellId) {
 		if(eutraCellId == null || eutraCellId.length() > 7) {
-			return ;
+			this.eutraCellId = null;
 		}
 		else {
 			String pattern = "^[A-Fa-f0-9]{7}$";
 			Pattern r = Pattern.compile(pattern);
 			Matcher m = r.matcher(eutraCellId);
 			if(m.matches()) {
-				this.eutraCellId = eutraCellId;
+				this.eutraCellId = eutraCellId.toUpperCase();
 			}
-			
+			else {
+				this.eutraCellId = null;
+			}
 		}
 	}
 

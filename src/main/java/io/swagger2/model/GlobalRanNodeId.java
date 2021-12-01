@@ -51,7 +51,29 @@ public class GlobalRanNodeId  implements OneOfGlobalRanNodeId {
     this.plmnId = plmnId;
     return this;
   }
-
+  
+  public GlobalRanNodeId(PlmnId plmnId, N3IwfId n3IwfId, GNbId gNbId, NgeNbId ngeNbId, WAgfId wagfId, TngfId tngfId, Nid nid, ENbId eNbId) {
+	  if(plmnId == null) {
+		  this.plmnId = null;
+	  }
+	  else  {
+		  if(n3IwfId==null && gNbId==null && ngeNbId==null && wagfId==null && tngfId==null && eNbId==null) {
+			  this.plmnId = null;
+			  this.nid = null;
+		  }
+		  else {
+			  this.plmnId = plmnId;
+			  this.nid = nid;
+		  }
+		  this.eNbId = eNbId;
+		  this.gNbId = gNbId;
+		  this.n3IwfId = n3IwfId;
+		  this.ngeNbId = ngeNbId;
+		  this.tngfId = tngfId;
+		  this.wagfId = wagfId;
+	  }
+  }  
+  
   /**
    * Get plmnId
    * @return plmnId

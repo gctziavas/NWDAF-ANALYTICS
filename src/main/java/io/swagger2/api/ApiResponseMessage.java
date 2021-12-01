@@ -10,6 +10,7 @@ public class ApiResponseMessage {
     public static final int INFO = 3;
     public static final int OK = 4;
     public static final int TOO_BUSY = 5;
+    public static final int NOT_IMPLEMENTED = 6;
 
     int code;
     String type;
@@ -35,6 +36,8 @@ public class ApiResponseMessage {
         case TOO_BUSY:
             setType("too busy");
             break;
+        case NOT_IMPLEMENTED:
+        	setType("not implemented");
         default:
             setType("unknown");
             break;

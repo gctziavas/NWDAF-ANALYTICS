@@ -96,7 +96,7 @@ public interface AnalyticsApi {
             })    }, tags={ "NWDAF Analytics (Document)", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Containing the analytics with parameters as relevant for the requesting NF service consumer.", response = AnalyticsData.class),
-        @ApiResponse(code = 204, message = "No Content (The request NWDAF Analytics data does not exist)"),
+        @ApiResponse(code = 204, message = "No Content (The request NWDAF Analytics data does not exist)", response = ProblemDetails.class),
         @ApiResponse(code = 400, message = "Bad request", response = ProblemDetails.class),
         @ApiResponse(code = 401, message = "Unauthorized", response = ProblemDetails.class),
         @ApiResponse(code = 403, message = "Forbidden", response = ProblemDetails.class),
@@ -105,6 +105,7 @@ public interface AnalyticsApi {
         @ApiResponse(code = 414, message = "URI Too Long", response = ProblemDetails.class),
         @ApiResponse(code = 429, message = "Too Many Requests", response = ProblemDetails.class),
         @ApiResponse(code = 500, message = "Internal Server Error", response = ProblemDetails.class),
+        @ApiResponse(code = 501, message = "Not Implemented", response = ProblemDetails.class),
         @ApiResponse(code = 503, message = "Service Unavailable", response = ProblemDetails.class),
         @ApiResponse(code = 200, message = "Generic Error") })
     @RequestMapping(value = "/analytics",
@@ -329,39 +330,39 @@ public interface AnalyticsApi {
 			}
 			if(eventId.name() == "LOAD_LEVEL_INFORMATION") {
 				ad.setSliceLoadLevelInfos(null); 
-				return new ResponseEntity<>(ad , HttpStatus.NOT_IMPLEMENTED);
+				return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 			}
 			else if(eventId.name() == "NETWORK_PERFORMANCE") {
 				ad.setNwPerfs(null);
-				return new ResponseEntity<>(ad , HttpStatus.NOT_IMPLEMENTED);
+				return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 			}
 			else if(eventId.name() == "NF_LOAD") {
             	ad.setNfLoadLevelInfos(null);
-            	return new ResponseEntity<>(ad , HttpStatus.NOT_IMPLEMENTED);
+            	return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
             }
 			else if(eventId.name() == "SERVICE_EXPERIENCE") {
             	ad.setSvcExps(null);
-            	return new ResponseEntity<>(ad , HttpStatus.NOT_IMPLEMENTED);
+            	return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
             }
 			else if(eventId.name() == "UE_MOBILITY") {
             	ad.setUeMobs(null);
-            	return new ResponseEntity<>(ad , HttpStatus.NOT_IMPLEMENTED);
+            	return new ResponseEntity<>( HttpStatus.NOT_IMPLEMENTED);
             }
 			else if(eventId.name() == "UE_COMMUNICATION") {
             	ad.setUeComms(null);
-            	return new ResponseEntity<>(ad , HttpStatus.NOT_IMPLEMENTED);
+            	return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
             }
 			else if(eventId.name() == "QOS_SUSTAINABILITY") {
             	ad.setQosSustainInfos(null);
-            	return new ResponseEntity<>(ad , HttpStatus.NOT_IMPLEMENTED);
+            	return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
             }
 			else if(eventId.name() == "ABNORMAL_BEHAVIOUR") {
             	ad.setAbnorBehavrs(null);
-            	return new ResponseEntity<>(ad , HttpStatus.NOT_IMPLEMENTED);
+            	return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
             }
 			else if(eventId.name() == "USER_DATA_CONGESTION") {
             	ad.setUserDataCongInfos(null);
-            	return new ResponseEntity<>(ad , HttpStatus.NOT_IMPLEMENTED);
+            	return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
             }
 			else if(eventId.name() == "NSI_LOAD_LEVEL") {
             	List<NsiLoadLevelInfo> nsiLoadLevelInfos = new ArrayList<NsiLoadLevelInfo>();

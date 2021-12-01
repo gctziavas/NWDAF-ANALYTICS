@@ -2,10 +2,7 @@ package io.swagger2.model;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger2.model.QosResourceType;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -18,7 +15,7 @@ import javax.validation.constraints.*;
 public class QosRequirement   {
   @JsonProperty("5qi")
   private Integer _5qi = null;
-
+  
   @JsonProperty("gfbrUl")
   private String gfbrUl = null;
 
@@ -38,7 +35,35 @@ public class QosRequirement   {
     this._5qi = _5qi;
     return this;
   }
-
+  
+  public QosRequirement(Integer _5qi, String gfbrUl, String gfbrDl, QosResourceType resType, Integer pdb, String per) {
+	  if( !Model5Qi.checkIfValid(_5qi) ) {
+		  _5qi = null;
+	  }
+	  if(_5qi==null && resType==null) {
+		  Nullify();
+	  }
+	  else {
+		  Nullify();
+		  this._5qi = _5qi;
+		  this.resType = resType;
+		  if( BitRate.checkIfValid(gfbrUl) ) { this.gfbrUl = gfbrUl; }
+		  if( BitRate.checkIfValid(gfbrDl) ) { this.gfbrDl = gfbrDl; }
+		  if( PacketDelBudget.checkIfValid(pdb) ) { this.pdb = pdb; }
+		  if( PacketErrRate.checkIfValid(per) ) { this.per = per; }
+	  }
+  }
+  
+  
+  private void Nullify() {
+	  this._5qi = null;
+	  this.gfbrUl = null;
+	  this.gfbrDl = null;
+	  this.resType = null;
+	  this.pdb = null;
+	  this.per = null;
+  }
+  
   /**
    * Get _5qi
    * @return _5qi

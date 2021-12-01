@@ -18,7 +18,7 @@ public class Nid   {
 	private String nid = null;
 	public Nid(String nid) {
 		if(nid == null) {
-			return ;
+			this.nid=null;
 		}
 		else {
 			String pattern = "^[A-Fa-f0-9]{11}$";
@@ -26,6 +26,9 @@ public class Nid   {
 			Matcher m = r.matcher(nid);
 			if(m.matches()) {
 				this.nid = nid;
+			}
+			else {
+				this.nid = null;
 			}
 		}
 	}

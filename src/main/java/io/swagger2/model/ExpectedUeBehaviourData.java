@@ -2,16 +2,9 @@ package io.swagger2.model;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger2.model.ScheduledCommunicationTime2;
-import io.swagger2.model.ScheduledCommunicationType;
-import io.swagger2.model.StationaryIndication;
-import io.swagger2.model.TS29503NudmPPYamlcomponentsschemasLocationArea;
-import io.swagger2.model.TS29571CommonDataYamlcomponentsschemasBatteryIndication;
-import io.swagger2.model.TS29571CommonDataYamlcomponentsschemasDateTime;
-import io.swagger2.model.TS29571CommonDataYamlcomponentsschemasTrafficProfile;
+import io.swagger2.model.TS29571CommonDataYamlcomponentsschemasTrafficProfile.TrafficProfile;
+
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -24,6 +17,12 @@ import javax.validation.constraints.*;
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-04T13:04:57.679821+03:00[Europe/Athens]")
 public class ExpectedUeBehaviourData   {
+  @JsonProperty("afInstanceId")  
+  private String afInstanceId = null;
+  
+  @JsonProperty("referenceId")
+  private Integer referenceId = null; //The numeric value should not be higher than 2^64-1
+  
   @JsonProperty("stationaryIndication")
   private StationaryIndication stationaryIndication = null;
 
@@ -34,29 +33,62 @@ public class ExpectedUeBehaviourData   {
   private Integer periodicTime = null;
 
   @JsonProperty("scheduledCommunicationTime")
-  private ScheduledCommunicationTime2 scheduledCommunicationTime = null;
+  private ScheduledCommunicationTime scheduledCommunicationTime = null;
 
   @JsonProperty("scheduledCommunicationType")
   private ScheduledCommunicationType scheduledCommunicationType = null;
 
   @JsonProperty("expectedUmts")
   @Valid
-  private List<TS29503NudmPPYamlcomponentsschemasLocationArea> expectedUmts = null;
+  private List<LocationArea> expectedUmts = null;
 
   @JsonProperty("trafficProfile")
-  private TS29571CommonDataYamlcomponentsschemasTrafficProfile trafficProfile = null;
+  private TrafficProfile trafficProfile = null;
 
   @JsonProperty("batteryIndication")
-  private TS29571CommonDataYamlcomponentsschemasBatteryIndication batteryIndication = null;
+  private BatteryIndication batteryIndication = null;
 
   @JsonProperty("validityTime")
-  private TS29571CommonDataYamlcomponentsschemasDateTime validityTime = null;
+  private DateTime validityTime = null;
 
   public ExpectedUeBehaviourData stationaryIndication(StationaryIndication stationaryIndication) {
     this.stationaryIndication = stationaryIndication;
     return this;
   }
 
+  public ExpectedUeBehaviourData(String afInstanceId, Integer referenceId, StationaryIndication stationaryIndication, Integer communicationDurationTime, Integer periodicTime, 
+		  ScheduledCommunicationTime scheduledCommunicationTime, ScheduledCommunicationType scheduledCommunicationType, List<LocationArea> expectedUmts, TrafficProfile trafficProfile, 
+		  BatteryIndication batteryIndication, DateTime validityTime) {
+	  Nullify();
+	  if(afInstanceId == null && referenceId == null) {
+		 
+	  }
+	  else if(stationaryIndication==null && communicationDurationTime==null && periodicTime==null && scheduledCommunicationTime==null && scheduledCommunicationType==null && 
+			  expectedUmts==null && trafficProfile==null && batteryIndication==null && validityTime==null){
+			  
+	  }
+	  else {
+		  this.afInstanceId = afInstanceId;
+		  this.referenceId = referenceId;
+		  
+	  }
+  }
+  
+  
+  private void Nullify() {
+	  this.afInstanceId = null;
+	  this.referenceId = null;
+	  this.stationaryIndication = null;
+	  this.communicationDurationTime = null;
+	  this.periodicTime = null;
+	  this.scheduledCommunicationTime = null;
+	  this.scheduledCommunicationType = null;
+	  this.expectedUmts = null;
+	  this.trafficProfile = null;
+	  this.batteryIndication = null;
+	  this.validityTime = null;
+  }
+  
   /**
    * Get stationaryIndication
    * @return stationaryIndication
@@ -110,7 +142,7 @@ public class ExpectedUeBehaviourData   {
     this.periodicTime = periodicTime;
   }
 
-  public ExpectedUeBehaviourData scheduledCommunicationTime(ScheduledCommunicationTime2 scheduledCommunicationTime) {
+  public ExpectedUeBehaviourData scheduledCommunicationTime(ScheduledCommunicationTime scheduledCommunicationTime) {
     this.scheduledCommunicationTime = scheduledCommunicationTime;
     return this;
   }
@@ -122,11 +154,11 @@ public class ExpectedUeBehaviourData   {
   @ApiModelProperty(value = "")
   
     @Valid
-    public ScheduledCommunicationTime2 getScheduledCommunicationTime() {
+    public ScheduledCommunicationTime getScheduledCommunicationTime() {
     return scheduledCommunicationTime;
   }
 
-  public void setScheduledCommunicationTime(ScheduledCommunicationTime2 scheduledCommunicationTime) {
+  public void setScheduledCommunicationTime(ScheduledCommunicationTime scheduledCommunicationTime) {
     this.scheduledCommunicationTime = scheduledCommunicationTime;
   }
 
@@ -150,12 +182,12 @@ public class ExpectedUeBehaviourData   {
     this.scheduledCommunicationType = scheduledCommunicationType;
   }
 
-  public ExpectedUeBehaviourData expectedUmts(List<TS29503NudmPPYamlcomponentsschemasLocationArea> expectedUmts) {
+  public ExpectedUeBehaviourData expectedUmts(List<LocationArea> expectedUmts) {
     this.expectedUmts = expectedUmts;
     return this;
   }
 
-  public ExpectedUeBehaviourData addExpectedUmtsItem(TS29503NudmPPYamlcomponentsschemasLocationArea expectedUmtsItem) {
+  public ExpectedUeBehaviourData addExpectedUmtsItem(LocationArea expectedUmtsItem) {
     if (this.expectedUmts == null) {
       this.expectedUmts = new ArrayList<>();
     }
@@ -169,15 +201,15 @@ public class ExpectedUeBehaviourData   {
   **/
   @ApiModelProperty(value = "Identifies the UE's expected geographical movement. The attribute is only applicable in 5G.")
       @Valid
-  @Size(min=1)   public List<TS29503NudmPPYamlcomponentsschemasLocationArea> getExpectedUmts() {
+  @Size(min=1)   public List<LocationArea> getExpectedUmts() {
     return expectedUmts;
   }
 
-  public void setExpectedUmts(List<TS29503NudmPPYamlcomponentsschemasLocationArea> expectedUmts) {
+  public void setExpectedUmts(List<LocationArea> expectedUmts) {
     this.expectedUmts = expectedUmts;
   }
 
-  public ExpectedUeBehaviourData trafficProfile(TS29571CommonDataYamlcomponentsschemasTrafficProfile trafficProfile) {
+  public ExpectedUeBehaviourData trafficProfile(TrafficProfile trafficProfile) {
     this.trafficProfile = trafficProfile;
     return this;
   }
@@ -189,15 +221,15 @@ public class ExpectedUeBehaviourData   {
   @ApiModelProperty(value = "")
   
     @Valid
-    public TS29571CommonDataYamlcomponentsschemasTrafficProfile getTrafficProfile() {
+    public TrafficProfile getTrafficProfile() {
     return trafficProfile;
   }
 
-  public void setTrafficProfile(TS29571CommonDataYamlcomponentsschemasTrafficProfile trafficProfile) {
+  public void setTrafficProfile(TrafficProfile trafficProfile) {
     this.trafficProfile = trafficProfile;
   }
 
-  public ExpectedUeBehaviourData batteryIndication(TS29571CommonDataYamlcomponentsschemasBatteryIndication batteryIndication) {
+  public ExpectedUeBehaviourData batteryIndication(BatteryIndication batteryIndication) {
     this.batteryIndication = batteryIndication;
     return this;
   }
@@ -209,15 +241,15 @@ public class ExpectedUeBehaviourData   {
   @ApiModelProperty(value = "")
   
     @Valid
-    public TS29571CommonDataYamlcomponentsschemasBatteryIndication getBatteryIndication() {
+    public BatteryIndication getBatteryIndication() {
     return batteryIndication;
   }
 
-  public void setBatteryIndication(TS29571CommonDataYamlcomponentsschemasBatteryIndication batteryIndication) {
+  public void setBatteryIndication(BatteryIndication batteryIndication) {
     this.batteryIndication = batteryIndication;
   }
 
-  public ExpectedUeBehaviourData validityTime(TS29571CommonDataYamlcomponentsschemasDateTime validityTime) {
+  public ExpectedUeBehaviourData validityTime(DateTime validityTime) {
     this.validityTime = validityTime;
     return this;
   }
@@ -229,11 +261,11 @@ public class ExpectedUeBehaviourData   {
   @ApiModelProperty(value = "")
   
     @Valid
-    public TS29571CommonDataYamlcomponentsschemasDateTime getValidityTime() {
+    public DateTime getValidityTime() {
     return validityTime;
   }
 
-  public void setValidityTime(TS29571CommonDataYamlcomponentsschemasDateTime validityTime) {
+  public void setValidityTime(DateTime validityTime) {
     this.validityTime = validityTime;
   }
 

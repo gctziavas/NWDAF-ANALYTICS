@@ -2,11 +2,8 @@ package io.swagger2.model;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
@@ -35,13 +32,37 @@ public class BwRequirement   {
     return this;
   }
 
+  
+  public BwRequirement(String appId, String marBwDl, String marBwUl, String mirBwDl, String mirBwUl) {
+	  if(appId == null) {
+		  nullify();
+	  }
+	  else {
+		  nullify();
+		  this.appId = appId;
+		  if(BitRate.checkIfValid(marBwDl)) {this.marBwDl = marBwDl;}
+		  if(BitRate.checkIfValid(marBwUl)) {this.marBwUl = marBwUl;}
+		  if(BitRate.checkIfValid(mirBwDl)) {this.mirBwDl = mirBwDl;}
+		  if(BitRate.checkIfValid(mirBwUl)) {this.mirBwUl = mirBwUl;}
+	  }
+  }
+  
+  
+  private void nullify(){
+	  appId = null;
+	  marBwDl = null;
+	  marBwUl = null;
+	  mirBwDl = null;
+	  mirBwUl = null;
+  }
+  
   /**
    * Get appId
    * @return appId
   **/
   @ApiModelProperty(required = true, value = "")
       @NotNull
-
+      
     public String getAppId() {
     return appId;
   }

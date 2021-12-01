@@ -25,7 +25,26 @@ public class GNbId   {
     this.bitLength = bitLength;
     return this;
   }
-
+  
+  public GNbId(String gNbId) {
+	  if(gNbId == null) {
+		  this.gNBValue = null;
+		  this.bitLength = null;
+	  }
+	  else {
+		  int size = gNbId.length();
+		  int sizeInBits = 4*size;
+		  if(sizeInBits>=22 && sizeInBits<=32) {
+			  this.gNBValue = gNbId;
+			  this.bitLength = sizeInBits;
+		  }
+		  else {
+			  this.gNBValue = null;
+			  this.bitLength = null;
+		  }
+	  }
+  }
+  
   /**
    * Get bitLength
    * minimum: 22

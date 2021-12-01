@@ -27,11 +27,6 @@ public class Ecgi   {
   @JsonProperty("nid")
   private Nid nid = null;
 
-  public Ecgi plmnId(PlmnId plmnId) {
-    this.plmnId = plmnId;
-    return this;
-  }
-  
   public Ecgi(PlmnId plmnId, EutraCellId eutraCellId) {
 	this.plmnId = plmnId;
 	this.eutraCellId = eutraCellId;
@@ -81,10 +76,6 @@ public class Ecgi   {
     this.eutraCellId = eutraCellId;
   }
 
-  public Ecgi nid(Nid nid) {
-    this.nid = nid;
-    return this;
-  }
 
   /**
    * Get nid

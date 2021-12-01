@@ -2,8 +2,8 @@ package io.swagger2.model;
 
 import java.util.Objects;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Model5Qi
@@ -11,8 +11,37 @@ import javax.validation.constraints.*;
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-04T13:04:57.679821+03:00[Europe/Athens]")
 public class Model5Qi   {
+  
+  @JsonProperty("5qi")
+  private Integer model5qi = null;
+  
+  public Model5Qi(Integer model5qi) {
+	  if(model5qi>=0 && model5qi<256) {
+		  this.model5qi = model5qi;
+	  }
+	  else {
+		  this.model5qi = null;
+	  }
+  }
+  
+  public static boolean checkIfValid(Integer input) {
+	  boolean output = false;
+	  Model5Qi _5qi = new Model5Qi(input);
+	  if(_5qi!=null) {
+		  output = true;
+	  }
+	  return output;
+  }
+  
+  public Integer getModel5qi() {
+	return model5qi;
+}
 
-  @Override
+public void setModel5qi(Integer model5qi) {
+	this.model5qi = model5qi;
+}
+
+@Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {
       return true;

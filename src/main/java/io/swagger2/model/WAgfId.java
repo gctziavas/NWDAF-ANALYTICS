@@ -1,7 +1,13 @@
 package io.swagger2.model;
 
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.springframework.validation.annotation.Validated;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -11,8 +17,35 @@ import javax.validation.constraints.*;
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-04T13:04:57.679821+03:00[Europe/Athens]")
 public class WAgfId   {
+  @JsonProperty("wAgfId")
+  private String wAgfId = null;
+	
+  public WAgfId(String wAgfId) {
+	  if(wAgfId == null) {
+		  this.wAgfId = null;
+	  }
+	  else {
+		  String pattern = "^[A-Fa-f0-9]+$";
+		  Pattern r = Pattern.compile(pattern);
+		  Matcher m = r.matcher(wAgfId);
+		  if(m.matches()) {
+			  this.wAgfId = wAgfId.toUpperCase();
+		  }
+		  else {
+			  this.wAgfId = null;
+			}
+	  }
+  }
+	
+  public String getwAgfId() {
+		return wAgfId;
+	}
 
-  @Override
+  public void setwAgfId(String wAgfId) {
+	  this.wAgfId = wAgfId;
+  }
+
+@Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {
       return true;

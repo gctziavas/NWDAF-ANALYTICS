@@ -46,7 +46,12 @@ public class ProblemDetails   {
   @JsonProperty("targetScp")
   private String targetScp = null;
 
-  public ProblemDetails type(String type) {
+  public ProblemDetails(String detail) {
+	// TODO Auto-generated constructor stub
+	  this.detail = detail;
+}
+
+public ProblemDetails type(String type) {
     this.type = type;
     return this;
   }

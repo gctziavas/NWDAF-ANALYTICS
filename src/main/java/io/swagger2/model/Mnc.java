@@ -16,10 +16,10 @@ public class Mnc   {
 	
 	public Mnc(Integer mnc) {
 		if(mnc==null) {
-			  return ;
+			this.Mnc = null;
 		  }
 		else if( String.valueOf(mnc).length() != 3 &&  String.valueOf(mnc).length() != 2){
-			return ;
+			this.Mnc = null;
 		}
 		else{
 			this.Mnc = mnc;
