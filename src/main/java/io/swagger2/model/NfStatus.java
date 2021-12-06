@@ -28,7 +28,17 @@ public class NfStatus   {
     this.statusRegistered = statusRegistered;
     return this;
   }
-
+  
+  public NfStatus(Integer statusRegistered, Integer statusUnregistered, Integer statusUndiscoverable) {
+	  
+	  if (statusRegistered + statusUnregistered + statusUndiscoverable <101) {
+		this.statusRegistered = statusRegistered;
+		this.statusUnregistered = statusUnregistered;
+		this.statusUndiscoverable = statusUndiscoverable;
+	}
+	
+  }
+   
   /**
    * Get statusRegistered
    * @return statusRegistered
@@ -40,7 +50,20 @@ public class NfStatus   {
   }
 
   public void setStatusRegistered(Integer statusRegistered) {
-    this.statusRegistered = statusRegistered;
+	  if(this.statusUnregistered!=null && this.statusUndiscoverable!=null) {
+		  if(statusRegistered + this.statusUnregistered + this.statusUndiscoverable < 101) {
+			  this.statusRegistered = statusRegistered;
+		  }
+	  }
+	  else if(this.statusUnregistered!=null && statusRegistered+this.statusUnregistered<101) {
+		  this.statusRegistered = statusRegistered;
+	  }
+	  else if(this.statusUndiscoverable!=null && statusRegistered+this.statusUndiscoverable<101) {
+		  this.statusRegistered = statusRegistered;
+	  }
+	  else if(statusRegistered<101) {
+		  this.statusRegistered = statusRegistered;
+	  }
   }
 
   public NfStatus statusUnregistered(Integer statusUnregistered) {
@@ -59,7 +82,20 @@ public class NfStatus   {
   }
 
   public void setStatusUnregistered(Integer statusUnregistered) {
-    this.statusUnregistered = statusUnregistered;
+	  if(this.statusUnregistered!=null && this.statusUndiscoverable!=null) {
+		  if(this.statusRegistered + statusUnregistered + this.statusUndiscoverable < 101) {
+			  this.statusUnregistered = statusUnregistered;
+		  }
+	  }
+	  else if(this.statusRegistered!=null && this.statusRegistered+statusUnregistered<101) {
+		  this.statusUnregistered = statusUnregistered;
+	  }
+	  else if(this.statusUndiscoverable!=null && statusUnregistered+this.statusUndiscoverable<101) {
+		  this.statusUnregistered = statusUnregistered;
+	  }
+	  else if(statusUnregistered<101) {
+		  this.statusUnregistered = statusUnregistered;
+	  }
   }
 
   public NfStatus statusUndiscoverable(Integer statusUndiscoverable) {
@@ -78,9 +114,21 @@ public class NfStatus   {
   }
 
   public void setStatusUndiscoverable(Integer statusUndiscoverable) {
-    this.statusUndiscoverable = statusUndiscoverable;
+    if(this.statusUnregistered!=null && this.statusRegistered!=null) {
+		  if(this.statusRegistered + this.statusUnregistered + statusUndiscoverable < 101) {
+			  this.statusUndiscoverable = statusUndiscoverable;
+		  }
+	  }
+	  else if(this.statusRegistered!=null && this.statusRegistered+statusUndiscoverable<101) {
+		  this.statusUndiscoverable = statusUndiscoverable;
+	  }
+	  else if(this.statusUnregistered!=null && this.statusUnregistered+statusUndiscoverable<101) {
+		  this.statusUndiscoverable = statusUndiscoverable;
+	  }
+	  else if(statusUndiscoverable<101) {
+		  this.statusUndiscoverable = statusUndiscoverable;
+	  }
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {

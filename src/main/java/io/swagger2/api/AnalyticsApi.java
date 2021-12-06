@@ -33,8 +33,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+import com.jayway.jsonpath.Configuration;
+import com.jayway.jsonpath.JsonPath;
+
 import java.util.regex.*;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import io.swagger.annotations.*;
 
@@ -58,8 +62,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
@@ -233,7 +239,8 @@ public interface AnalyticsApi {
 //-------------------------------------------supported-features---------------------------------------------------------------------
     		SupportedFeatures supportedFeats = null;
 			if (supportedFeatures!=null) {
-				supportedFeats = new SupportedFeatures(supportedFeatures);
+				supportedFeats = new SupportedFeatures("8");
+				//	supportedFeats = new SupportedFeatures(supportedFeatures);
 			}
     		  
 //------------------------------------------------tgt-ue----------------------------------------------------------------------------
@@ -333,7 +340,45 @@ public interface AnalyticsApi {
 				return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 			}
 			else if(eventId.name() == "NETWORK_PERFORMANCE") {
-				ad.setNwPerfs(null);
+				//ad.setNwPerfs(null);
+				List<NetworkPerfType> givenNwPerfTypes = eventFilt.getNwPerfTypes();
+				//System.out.println(givenNwPerfTypes.get(0).toString());
+				for(int i=0; i<givenNwPerfTypes.size(); i++) {
+					if(givenNwPerfTypes.get(i).toString().equals("NUM_OF_UE")  ) {
+						//String command = "curl http://150.140.195.253:9090/api/v1/query?query=netdata_UE_STATS_GNODEB_bps_average -o /home/gctz/Desktop/Diplwmatikh/Multi_TS/Analytics_info/prometheus_yaml_files/test.json";
+						String command = "curl http://150.140.195.253:9090/api/v1/query?query=netdata_UE_STATS_GNODEB_bps_average";
+						Process process;
+						String result = null;
+						try {
+							process = Runtime.getRuntime().exec(command);
+							//process.getInputStream();
+							result = new BufferedReader(
+			                           new InputStreamReader(process.getInputStream()))
+			                               .lines()
+			                               .collect(Collectors.joining("\n"));
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+						String json = result;
+						Object document = Configuration.defaultConfiguration().jsonProvider().parse(json);
+						String query = "$.data.result[*].metric.chart";
+						ArrayList<String> charts = JsonPath.read(document, query);
+						ArrayList<String> chartsUnique = new ArrayList<String>();
+						for(int j=0; j<charts.size(); j++) {
+							String currentInfo = charts.get(j);
+							String[] onlyUE = currentInfo.split("[.]");
+							String currentUE = onlyUE[0];
+							if(!chartsUnique.contains(currentUE)) {
+								chartsUnique.add(currentUE);
+							}
+						}
+						Integer numOfUEs = chartsUnique.size();
+						System.out.println(numOfUEs);
+					}
+				
+				}
+				
+				
 				return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 			}
 			else if(eventId.name() == "NF_LOAD") {

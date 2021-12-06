@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Objects;
 import io.swagger.annotations.ApiModel;
 import org.springframework.validation.annotation.Validated;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -16,8 +19,9 @@ import javax.validation.constraints.*;
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-05-04T13:04:57.679821+03:00[Europe/Athens]")
 public class NetworkPerfType  implements AnyOfNetworkPerfType {
+	@JsonProperty("NetworkPerfType")
+	private String networkPerfTypeString;
 	
-	String NetworkPerfTypeString;
 	public NetworkPerfType(String input) {
 		if (input==null) {
 			return;
@@ -28,11 +32,11 @@ public class NetworkPerfType  implements AnyOfNetworkPerfType {
 					Arrays.asList("GNB_ACTIVE_RATIO", "GNB_COMPUTING_USAGE", "GNB_MEMORY_USAGE", "GNB_DISK_USAGE",
 							"NUM_OF_UE", "SESS_SUCC_RATIO", "HO_SUCC_RATIO" ));
 			if(NetworkPerfTypeValues.contains(input)) {
-				NetworkPerfTypeString = input;
+				this.networkPerfTypeString  = input;
 				
 			}
 			else{
-				NetworkPerfTypeString = null;
+				this.networkPerfTypeString = null;
 			}
 		}
 	}
@@ -55,6 +59,11 @@ public class NetworkPerfType  implements AnyOfNetworkPerfType {
 
   @Override
   public String toString() {
+	  return this.networkPerfTypeString;
+  }
+  
+  
+  public String toString2() {
     StringBuilder sb = new StringBuilder();
     sb.append("class NetworkPerfType {\n");
     
