@@ -96,10 +96,10 @@ public interface AnalyticsApi {
         return getRequest().map(r -> r.getHeader("Accept"));
     }
 
-    @ApiOperation(value = "Read a NWDAF Analytics", nickname = "getNWDAFAnalytics", notes = "", response = AnalyticsData.class, authorizations = {
+    @ApiOperation(value = "Read a NWDAF Analytics", nickname = "analytics", notes = "", response = AnalyticsData.class, authorizations = {
         @Authorization(value = "oAuth2ClientCredentials", scopes = { 
             @AuthorizationScope(scope = "nnwdaf-analyticsinfo", description = "Access to the Nnwdaf_AnalyticsInfo API")
-            })    }, tags={ "NWDAF Analytics (Document)", })
+            })    }, tags={ "nnwdaf-analyticsinfo/v1", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Containing the analytics with parameters as relevant for the requesting NF service consumer.", response = AnalyticsData.class),
         @ApiResponse(code = 204, message = "No Content (The request NWDAF Analytics data does not exist)", response = ProblemDetails.class),
@@ -114,7 +114,7 @@ public interface AnalyticsApi {
         @ApiResponse(code = 501, message = "Not Implemented", response = ProblemDetails.class),
         @ApiResponse(code = 503, message = "Service Unavailable", response = ProblemDetails.class),
         @ApiResponse(code = 200, message = "Generic Error") })
-    @RequestMapping(value = "/analytics",
+    @RequestMapping(value = "/nnwdaf-analyticsinfo/v1/analytics",
         produces = {  "application/json", "application/problem+json" },
 
         method = RequestMethod.GET )
