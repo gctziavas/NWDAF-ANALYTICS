@@ -115,18 +115,18 @@ public interface AnalyticsApi {
         @ApiResponse(code = 503, message = "Service Unavailable", response = ProblemDetails.class),
         @ApiResponse(code = 200, message = "Generic Error") })
     @RequestMapping(value = "/nnwdaf-analyticsinfo/v1/analytics",
-        produces = {  "application/json", "application/problem+json" },
-
-        method = RequestMethod.GET )
-    default ResponseEntity<AnalyticsData> getNWDAFAnalytics(@NotNull @ApiParam(value = "Identify the analytics.", required = true) @Valid @RequestParam(value = "event-id", required = true) EventId  eventId //String eventId 
+        			produces = {  "application/json", "application/problem+json" },
+        			method = RequestMethod.GET
+        			)
+    default ResponseEntity<AnalyticsData> getNWDAFAnalytics(
+ @NotNull @ApiParam(value = "Identify the analytics.", required = true) @Valid @RequestParam(value = "event-id", required = true) EventId  eventId //String eventId 
 ,@ApiParam(value = "Identifies the analytics reporting requirement information.") @Valid @RequestParam(value = "ana-req", required = false)  String anaReq // EventReportingRequirement anaReq
 ,@ApiParam(value = "Identify the analytics.") @Valid @RequestParam(value = "event-filter", required = false)  String eventFilter //String eventFilter
 ,@ApiParam(value = "To filter irrelevant responses related to unsupported features") @Valid @RequestParam(value = "supported-features", required = false)  String supportedFeatures // SupportedFeatures supportedFeatures
-,@ApiParam(value = "Identify the target UE information.") @Valid @RequestParam(value = "tgt-ue", required = false)  String tgtUe //String tgtUe
+,@ApiParam(value = "Identify the target UE information.") @Valid @RequestParam(value = "tgt-ue", required = false )  String tgtUe //String tgtUe
 ) {		
     	 
 
-    	  if ( true ) {
     		 
 //-----------------------------------------ana-req----------------------------------------    		  
     		  EventReportingRequirement analyticsReq = new EventReportingRequirement();
@@ -238,14 +238,21 @@ public interface AnalyticsApi {
 			}
 //-------------------------------------------supported-features---------------------------------------------------------------------
     		SupportedFeatures supportedFeats = null;
+    		
 			if (supportedFeatures!=null) {
+				String json = supportedFeatures;
+				Object document = Configuration.defaultConfiguration().jsonProvider().parse(json);
+				String query = "$.supported-features";
+				supportedFeatures  = JsonPath.read(document, query);
+				System.out.println("----->SuppFeats:" + supportedFeatures);
 				supportedFeats = new SupportedFeatures("8");
-				//	supportedFeats = new SupportedFeatures(supportedFeatures);
+				// supportedFeats = new SupportedFeatures(supportedFeatures);
 			}
     		  
 //------------------------------------------------tgt-ue----------------------------------------------------------------------------
     		TargetUeInformation targetUe = new TargetUeInformation();
     		Map<String, String> targetUeMap = null;
+    		    		
     		if (tgtUe!=null) {
 				targetUeMap = new JsonToMap().jsonToMap(tgtUe);
 				if (targetUeMap.get("anyUe") != null) {
@@ -468,8 +475,8 @@ public interface AnalyticsApi {
             	ad.setNsiLoadLevelInfos(nsiLoadLevelInfos);
             }
 			return new ResponseEntity<>(ad, HttpStatus.OK);
-    	  }
-    	  return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    	  
+    	  
     }
 
 	
