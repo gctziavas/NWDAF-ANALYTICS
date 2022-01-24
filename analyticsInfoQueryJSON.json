@@ -69,8 +69,11 @@
 	"supported-features":"",
 
 	"tgt-ue":{
-		"snssais":"",
-		"nsiIds":"",
+		"snssais":[
+			{"sst":"" , "sd":""},
+			{"sst":"" , "sd":""}
+		],
+		"nsiIds":["", ""],
 		"anySlice":""
 	}
 }

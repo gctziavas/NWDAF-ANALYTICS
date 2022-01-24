@@ -1,5 +1,5 @@
 {
-	"event-id":"",
+	"event-id":"NSI_LOAD_LEVEL",
 
 	"ana-req":{
 		"startTs":"",
@@ -43,7 +43,14 @@
 		},
 		"nsiIdInfos":[
 			{"snssai":{"sst":"" , "sd":""},"nsiIds":["",""]},
-			{"snssai":{"sst":"" , "sd":""},"nsiIds":["",""]}
+			{"snssai":"tgt-ue":{
+		"snssais":[
+			{"sst":"eMBB" , "sd":"1"},
+			{"sst":"URLCC" , "sd":"2"}
+		],
+		"nsiIds":["111","222"],
+		"anySlice":"FALSE"
+	}{"sst":"" , "sd":""},"nsiIds":["",""]}
 		],
 		"nwPerfTypes":["",""],
 		"qosRequ":{"5qi":"","gfbrUl":"","gfbrDl":"","resType":"","pdb":"","per":""},
@@ -70,10 +77,10 @@
 
 	"tgt-ue":{
 		"snssais":[
-			{"sst":"" , "sd":""},
-			{"sst":"" , "sd":""}
+			{"sst":"eMBB" , "sd":"1"},
+			{"sst":"URLCC" , "sd":"2"}
 		],
-		"nsiIds":["", ""],
-		"anySlice":""
+		"nsiIds":["111","222"],
+		"anySlice":"FALSE"
 	}
 }

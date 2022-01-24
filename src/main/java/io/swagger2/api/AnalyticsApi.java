@@ -252,8 +252,23 @@ public interface AnalyticsApi {
 //------------------------------------------------tgt-ue----------------------------------------------------------------------------
     		TargetUeInformation targetUe = new TargetUeInformation();
     		Map<String, String> targetUeMap = null;
-    		    		
     		if (tgtUe!=null) {
+    			
+    			String json = supportedFeatures;
+				Object document = Configuration.defaultConfiguration().jsonProvider().parse(json);
+				
+				String snssaisQuerry = "tgt-ue.snssais";
+				ArrayList<String> snssaisStringList = JsonPath.read(document, snssaisQuerry);
+				
+				for(int i=0; i<snssaisStringList.size(); i++) {
+					String sstQuerry = "tgt-ue.snssais["+i+"].sst";
+					String sdQuerry = "tgt-ue.snssais["+i+"].sd";
+					
+					
+				}
+				
+		//		supportedFeatures  = JsonPath.read(document, query);
+    			
 				targetUeMap = new JsonToMap().jsonToMap(tgtUe);
 				if (targetUeMap.get("anyUe") != null) {
 					targetUe.setAnyUe(Boolean.parseBoolean(targetUeMap.get("anyUe")));
